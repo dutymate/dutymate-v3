@@ -1,0 +1,26 @@
+name: Build Backend
+
+on:
+  pull_request:
+    paths:
+      - 'backend/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Copy env file
+        run: echo "${{ secrets.BACKEND_ENV_FILE }}" > .env
+
+      - name: Build
+        run: ./gradlew build --build-cache

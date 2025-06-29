@@ -1,0 +1,36 @@
+name: Deploy Frontend
+
+on:
+  push:
+    branches:
+      - 'release*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: frontend-dist
+          path: frontend/dist
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_FRONTEND_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_FRONTEND_SECRET_KEY }}
+          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+
+      - name: Get CloudFront Distribution ID
+        id: cloudfront
+        run: |
+          export AWS_CLOUDFRONT_DISTRIBUTION_ID=$(aws cloudfront list-distributions --query "DistributionList.Items[?Origins.Items[?DomainName=='${{ secrets.AWS_FRONTEND_BUCKET_NAME }}.s3.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com']].Id" --output text)
+          echo "id=$AWS_CLOUDFRONT_DISTRIBUTION_ID" >> $GITHUB_OUTPUT
+
+      - name: Deploy to S3
+        run: aws s3 sync frontend/dist s3://${{ secrets.AWS_FRONTEND_BUCKET_NAME }} --delete
+      - name: Invalidate CloudFront
+        run: aws cloudfront create-invalidation --distribution-id ${{ steps.cloudfront.outputs.id }} --paths "/*"
