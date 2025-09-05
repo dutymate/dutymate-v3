@@ -61,8 +61,6 @@ public class WardService {
 	private final WardScheduleService wardScheduleService;
 	private final MemberScheduleRepository memberScheduleRepository;
 
-	private static final int MAX_VIRTUAL_NURSE_COUNT = 25;
-	private static final int MAX_NURSE_COUNT = 30;
 	private final ShiftUtil shiftUtil;
 	private final S3Service s3Service;
 
@@ -168,6 +166,13 @@ public class WardService {
 			.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "병동에 속해있지 않은 회원입니다."))
 			.getWard();
 
+		// 병동 최대 간호사 수를 초과하는 경우 예외 처리
+		int wardMemberCnt = ward.getWardMemberList().size(); // 현재 간호사 수
+		if (wardMemberCnt + 1 > ward.getMaxNurseCount()) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+				"병동 간호사 수는 " + ward.getMaxNurseCount() + "명을 초과할 수 없습니다.");
+		}
+
 		// 입장 요청한 멤버 정보 불러오기
 		Member enterMember = memberRepository.findById(enterMemberId)
 			.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "입장 요청한 회원 정보를 찾을 수 없습니다."));
@@ -217,6 +222,13 @@ public class WardService {
 		Ward ward = Optional.ofNullable(member.getWardMember())
 			.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "병동에 속해있지 않은 회원입니다."))
 			.getWard();
+
+		// 병동 최대 간호사 수를 초과하는 경우 예외 처리
+		int wardMemberCnt = ward.getWardMemberList().size(); // 현재 간호사 수
+		if (wardMemberCnt + 1 > ward.getMaxNurseCount()) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+				"병동 간호사 수는 " + ward.getMaxNurseCount() + "명을 초과할 수 없습니다.");
+		}
 
 		// 입장 요청한 멤버 정보 불러오기
 		Member enterMember = memberRepository.findById(enterMemberId)
@@ -449,14 +461,16 @@ public class WardService {
 		// 전체 간호사 수
 		int wardMemberCnt = ward.getWardMemberList().size();
 
-		// 1. 임시 간호사 최대 20명
-		if (wardMemberCnt - syncedNurseCnt + addNurseCnt > MAX_VIRTUAL_NURSE_COUNT) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "임시 간호사 수는 25명을 초과할 수 없습니다.");
+		// 1. 임시 간호사 최대 29명
+		if (wardMemberCnt - syncedNurseCnt + addNurseCnt > ward.getMaxTempNurseCount()) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+				"임시 간호사 수는 " + ward.getMaxTempNurseCount() + "명을 초과할 수 없습니다.");
 		}
 
 		// 2. 병동 간호사 최대 30명
-		if (wardMemberCnt + addNurseCnt > MAX_NURSE_COUNT) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "병동 간호사 수는 30명을 초과할 수 없습니다.");
+		if (wardMemberCnt + addNurseCnt > ward.getMaxNurseCount()) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+				"병동 간호사 수는 " + ward.getMaxNurseCount() + "명을 초과할 수 없습니다.");
 		}
 
 		// 3. 새로운 임시간호사와 WardMember 만들기
