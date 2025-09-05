@@ -57,6 +57,8 @@ public class Ward {
 	private String uuid;
 
 	private Integer tempNurseSeq;
+	private Integer maxNurseCount;
+	private Integer maxTempNurseCount;
 
 	/**
 	 * 엔티티에 저장되기 전에 wardCode와 UUID 자동 생성
@@ -67,6 +69,8 @@ public class Ward {
 
 		this.wardMemberList = new ArrayList<>();
 		this.tempNurseSeq = 0;
+		this.maxNurseCount = 30; // 병동별 최대 간호사 수
+		this.maxTempNurseCount = 29; // 병동별 최대 임시간호사 수
 	}
 
 	// Ward 생성하는 사람을 첫 번째 병동 멤버로 추가
