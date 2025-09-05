@@ -212,6 +212,14 @@ const WardAdminInfo = ({ wardInfo, onAddTempNurse }: WardAdminInfoProps) => {
         isOpen={isHistoryModalOpen}
         onClose={() => setIsHistoryModalOpen(false)}
         onSelectNurse={(nurse) => {
+          const current = wardInfo.nursesTotalCnt ?? 0;
+          if (current + 1 > MAX_TOTAL_NURSES) {
+            toast.warning(
+              `병동 최대 인원(${MAX_TOTAL_NURSES}명)을 초과할 수 없습니다.`
+            );
+            setIsHistoryModalOpen(false); // 토스트 후 모달 닫기
+            return;
+          }
           setSelectedNurse(nurse);
           setIsHistoryModalOpen(false);
         }}
