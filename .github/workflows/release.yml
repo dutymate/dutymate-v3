@@ -1,4 +1,4 @@
-name: Release Pipeline
+name: Release
 
 on:
   push:
@@ -73,7 +73,9 @@ jobs:
         with:
           node-version: 22
       - name: Copy env file
-        run: echo "${{ secrets.FE_ENV_FILE }}" > .env
+        run: |
+          cd frontend
+          echo "${{ secrets.FRONTEND_ENV_FILE }}" > .env
       - name: Install dependencies
         run: |
           cd frontend
