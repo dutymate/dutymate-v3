@@ -461,7 +461,7 @@ public class WardService {
 		// 전체 간호사 수
 		int wardMemberCnt = ward.getWardMemberList().size();
 
-		// 1. 임시 간호사 최대 29명
+		// 1. 임시 간호사 최대 49명
 		if (wardMemberCnt - syncedNurseCnt + addNurseCnt > ward.getMaxTempNurseCount()) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
 				"임시 간호사 수는 " + ward.getMaxTempNurseCount() + "명을 초과할 수 없습니다.");
