@@ -8,6 +8,6 @@ import lombok.Data;
 @Builder
 public class AddNurseCntRequestDto {
 
-	@Max(value = 29, message = "임시 간호사는 최대 29명까지 추가할 수 있습니다.")
+	@Max(value = 49, message = "임시 간호사는 최대 49명까지 추가할 수 있습니다.")
 	private Integer virtualNurseCnt;
 }

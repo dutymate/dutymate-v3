@@ -69,8 +69,8 @@ public class Ward {
 
 		this.wardMemberList = new ArrayList<>();
 		this.tempNurseSeq = 0;
-		this.maxNurseCount = 30; // 병동별 최대 간호사 수
-		this.maxTempNurseCount = 29; // 병동별 최대 임시간호사 수
+		this.maxNurseCount = 50; // 병동별 최대 간호사 수
+		this.maxTempNurseCount = 49; // 병동별 최대 임시간호사 수
 	}
 
 	// Ward 생성하는 사람을 첫 번째 병동 멤버로 추가
