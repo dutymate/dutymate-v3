@@ -1,5 +1,6 @@
 package net.dutymate.api.domain.member.repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,4 +19,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	Boolean existsByEmail(String email);
 
 	List<Member> findByEmailEndingWith(String suffix);
+
+	long countByEmailNotContainingIgnoreCase(String substring);
+
+	long countByCreatedAtBeforeAndEmailNotContainingIgnoreCase(Timestamp timestamp, String substring);
+
 }
