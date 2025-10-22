@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.dutymate.api.domain.admin.dto.AdminStatisticsResponseDto;
+import net.dutymate.api.domain.admin.dto.UserGrowthResponseDto;
 import net.dutymate.api.domain.admin.service.AdminService;
 import net.dutymate.api.domain.member.Member;
 import net.dutymate.api.global.auth.annotation.AdminOnly;
@@ -29,5 +30,11 @@ public class AdminController {
 		@RequestParam(defaultValue = "20") int size) {
 		AdminStatisticsResponseDto statistics = adminService.getAdminStatistics(member, page, size);
 		return ResponseEntity.ok(statistics);
+	}
+
+	@GetMapping("/user-growth")
+	public ResponseEntity<UserGrowthResponseDto> getUserGrowth() {
+		UserGrowthResponseDto userGrowth = adminService.getUserGrowth();
+		return ResponseEntity.ok(userGrowth);
 	}
 }

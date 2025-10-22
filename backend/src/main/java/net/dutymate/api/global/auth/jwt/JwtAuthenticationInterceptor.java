@@ -36,6 +36,10 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
 			return true;
 		}
 
+		if (uri.startsWith("/api/admin/user-growth") && HttpMethod.GET.matches(method)) {
+			return true;
+		}
+
 		// 토큰이 유효하면 Http Request에 memberId 삽입
 		String token = jwtUtil.resolveToken(request.getHeader("Authorization"));
 		if (token != null && jwtUtil.validateToken(token)) {

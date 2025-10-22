@@ -31,4 +31,17 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	// 최근 가입 회원 조회 with fetch join (N+1 방지)
 	@Query("SELECT m FROM Member m LEFT JOIN FETCH m.wardMember wm LEFT JOIN FETCH wm.ward ORDER BY m.createdAt DESC")
 	Page<Member> findAllWithWard(Pageable pageable);
+
+	// 실제 가입자 수 (temp 간호사 제외)
+	@Query("SELECT COUNT(m) FROM Member m WHERE m.email != :tempEmail")
+	long countRealMembers(String tempEmail);
+
+	// 특정 날짜 이전에 가입한 실제 가입자 수 (temp 간호사 제외)
+	@Query("SELECT COUNT(m) FROM Member m WHERE m.email != :tempEmail AND m.createdAt < :timestamp")
+	long countRealMembersBefore(String tempEmail, java.sql.Timestamp timestamp);
+
+	// 특정 기간 사이에 가입한 실제 가입자 수 (temp 간호사 제외)
+	@Query("SELECT COUNT(m) FROM Member m WHERE m.email != :tempEmail "
+		+ "AND m.createdAt >= :startTimestamp AND m.createdAt < :endTimestamp")
+	long countRealMembersBetween(String tempEmail, java.sql.Timestamp startTimestamp, java.sql.Timestamp endTimestamp);
 }

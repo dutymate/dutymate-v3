@@ -27,10 +27,10 @@ public interface WardMemberRepository extends JpaRepository<WardMember, Long> {
 	long countByWardAndMemberRole(Ward ward, Role role);
 
 	// 병동별 Role별 카운트 - 한 방 쿼리 (N+1 방지)
-	@Query("SELECT wm.ward.wardId, wm.member.role, COUNT(wm) " +
-		"FROM WardMember wm " +
-		"WHERE wm.member.role IN ('HN', 'RN') " +
-		"GROUP BY wm.ward.wardId, wm.member.role")
+	@Query("SELECT wm.ward.wardId, wm.member.role, COUNT(wm) "
+		+ "FROM WardMember wm "
+		+ "WHERE wm.member.role IN ('HN', 'RN') "
+		+ "GROUP BY wm.ward.wardId, wm.member.role")
 	List<Object[]> countByWardGroupByRole();
 
 }
