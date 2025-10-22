@@ -244,4 +244,13 @@ public class MemberController {
 		memberService.updateRole(member, editRoleRequestDto);
 		return ResponseEntity.ok().build();
 	}
+
+	@GetMapping("/count")
+	public ResponseEntity<net.dutymate.api.domain.member.dto.MemberCountResponseDto> countMembers(@RequestHeader("X-API-KEY") String apiKey) {
+		if(apiKey == null || !apiKey.equals(apiDemoSecret)) {
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid API Key");
+		}
+		var dto = memberService.membersCount();
+		return ResponseEntity.ok(dto);
+	}
 }
