@@ -74,6 +74,8 @@ public class Member {
 	@Column(nullable = false, updatable = false)
 	private Timestamp createdAt;
 
+	private Timestamp lastLoginAt;
+
 	@Column(columnDefinition = "tinyint(1)", nullable = false)
 	private Boolean isActive;
 
@@ -95,6 +97,9 @@ public class Member {
 
 	@Column(nullable = false)
 	private Integer autoGenCnt;
+
+	@Column(nullable = false)
+	private Integer totalAutoGenUsed;
 
 	private Integer enterYear;
 
@@ -118,6 +123,9 @@ public class Member {
 		this.createdAt = new Timestamp(System.currentTimeMillis());
 		this.isActive = true;
 		this.isVerified = true;        // 신규 회원은 이메일 인증된 상태로 간주
+		if (this.totalAutoGenUsed == null) {
+			this.totalAutoGenUsed = 0;
+		}
 	}
 
 	public void changeAdditionalInfo(Integer grade, Gender gender, Role role) {
@@ -170,6 +178,10 @@ public class Member {
 
 	public void updateAutoGenCnt(int changeNum) {
 		this.autoGenCnt = this.autoGenCnt + changeNum;
+		// 자동생성 횟수가 감소하면 사용 횟수 증가
+		if (changeNum < 0) {
+			this.totalAutoGenUsed = this.totalAutoGenUsed + Math.abs(changeNum);
+		}
 	}
 
 	public void setAutoGenCnt(int autoGenCnt) {
@@ -188,5 +200,9 @@ public class Member {
 
 	public YearMonth enterYearMonth() {
 		return new YearMonth(this.enterYear, this.enterMonth);
+	}
+
+	public void updateLastLogin() {
+		this.lastLoginAt = new Timestamp(System.currentTimeMillis());
 	}
 }

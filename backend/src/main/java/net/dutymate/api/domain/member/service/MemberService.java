@@ -196,6 +196,9 @@ public class MemberService {
 			colorRepository.save(defaultColor);
 		}
 
+		// 마지막 로그인 시간 업데이트
+		member.updateLastLogin();
+
 		// memberId로 AccessToken 생성
 		String accessToken;
 
@@ -238,6 +241,9 @@ public class MemberService {
 			colorRepository.save(defaultColor);
 		}
 
+		// 마지막 로그인 시간 업데이트
+		member.updateLastLogin();
+
 		// memberId로 AccessToken 생성
 		String accessToken = jwtUtil.createToken(member.getMemberId());
 
@@ -265,6 +271,9 @@ public class MemberService {
 
 		// 만약 다른 경로(일반 이메일, KAKAO) 회원가입한 이력이 있는 경우 예외 처리
 		checkAnotherSocialLogin(member, Provider.GOOGLE);
+
+		// 마지막 로그인 시간 업데이트
+		member.updateLastLogin();
 
 		// memberId로 AccessToken 생성
 		String accessToken;
@@ -754,6 +763,9 @@ public class MemberService {
 		String key = DEMO_MEMBER_PREFIX + newMember.getMemberId();
 		redisTemplate.opsForValue().set(key, "demo", demoExpiration, TimeUnit.MILLISECONDS);
 
+		// 마지막 로그인 시간 업데이트
+		newMember.updateLastLogin();
+
 		// Color 테이블에 아직 값이 없으면 기본 컬러값 저장
 		Color defaultColor = Color.of(newMember);
 		newMember.setColor(defaultColor);
@@ -896,6 +908,9 @@ public class MemberService {
 			member.setColor(defaultColor);
 			colorRepository.save(defaultColor);
 		}
+
+		// 마지막 로그인 시간 업데이트
+		member.updateLastLogin();
 
 		// memberId로 모바일용 AccessToken 생성
 		String accessToken = jwtUtil.createMobileToken(member.getMemberId());
