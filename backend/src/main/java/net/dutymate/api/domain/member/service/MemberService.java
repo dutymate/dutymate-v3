@@ -1,6 +1,5 @@
 package net.dutymate.api.domain.member.service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -8,7 +7,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import net.dutymate.api.domain.member.dto.*;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.Cursor;
@@ -32,6 +30,23 @@ import net.dutymate.api.domain.common.utils.YearMonth;
 import net.dutymate.api.domain.member.Gender;
 import net.dutymate.api.domain.member.Member;
 import net.dutymate.api.domain.member.Provider;
+import net.dutymate.api.domain.member.dto.AdditionalInfoRequestDto;
+import net.dutymate.api.domain.member.dto.AdditionalInfoResponseDto;
+import net.dutymate.api.domain.member.dto.CheckPasswordDto;
+import net.dutymate.api.domain.member.dto.EditRoleRequestDto;
+import net.dutymate.api.domain.member.dto.GoogleTokenResponseDto;
+import net.dutymate.api.domain.member.dto.GoogleUserResponseDto;
+import net.dutymate.api.domain.member.dto.KakaoTokenResponseDto;
+import net.dutymate.api.domain.member.dto.KakaoUserResponseDto;
+import net.dutymate.api.domain.member.dto.LoginLog;
+import net.dutymate.api.domain.member.dto.LoginRequestDto;
+import net.dutymate.api.domain.member.dto.LoginResponseDto;
+import net.dutymate.api.domain.member.dto.MypageEditRequestDto;
+import net.dutymate.api.domain.member.dto.MypageResponseDto;
+import net.dutymate.api.domain.member.dto.ProfileImgResponseDto;
+import net.dutymate.api.domain.member.dto.ProfileRequestDto;
+import net.dutymate.api.domain.member.dto.SignUpRequestDto;
+import net.dutymate.api.domain.member.dto.UpdateEmailVerificationRequestDto;
 import net.dutymate.api.domain.member.repository.MemberRepository;
 import net.dutymate.api.domain.member.util.StringGenerator;
 import net.dutymate.api.domain.request.Request;
@@ -920,8 +935,8 @@ public class MemberService {
 		java.sql.Timestamp startOfSevenDaysAgo = java.sql.Timestamp.valueOf(sevenDaysAgo.atStartOfDay());
 		long previousTotal = memberRepository.countByCreatedAtBeforeAndEmailNotContainingIgnoreCase(startOfSevenDaysAgo, TEMP_NURSE_EMAIL);
 		return MemberCountResponseDto.builder()
-			.memberCount(currentTotal)
-			.previousMemberCount(previousTotal)
-			.build();
+				.memberCount(currentTotal)
+				.previousMemberCount(previousTotal)
+				.build();
 	}
 }
