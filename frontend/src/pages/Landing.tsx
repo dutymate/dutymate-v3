@@ -1,13 +1,13 @@
 import { AxiosError } from 'axios';
-import Cookies from 'js-cookie';
-import { useEffect, useState } from 'react';
+// import Cookies from 'js-cookie';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import '@/styles/animations.css';
 
 import { Button } from '@/components/atoms/Button';
-import UpdateNoticeModal from '@/components/organisms/UpdateNoticeModal';
+// import UpdateNoticeModal from '@/components/organisms/UpdateNoticeModal';
 import LandingTemplate from '@/components/templates/LandingTemplate';
 import { SEO } from '@/components/SEO';
 import axiosInstance from '@/lib/axios';
@@ -118,24 +118,24 @@ const Landing = () => {
     }
   };
 
-  const [showNoticeModal, setShowNoticeModal] = useState(false);
+  // const [showNoticeModal, setShowNoticeModal] = useState(false);
 
-  useEffect(() => {
-    const isHiddenToday = Cookies.get('dutyMateNoticeHidden');
+  // useEffect(() => {
+  //   const isHiddenToday = Cookies.get('dutyMateNoticeHidden');
 
-    if (!isHiddenToday) {
-      setShowNoticeModal(true);
-    }
-  }, []);
+  //   if (!isHiddenToday) {
+  //     setShowNoticeModal(true);
+  //   }
+  // }, []);
 
-  const handleCloseModal = () => {
-    setShowNoticeModal(false);
-  };
+  // const handleCloseModal = () => {
+  //   setShowNoticeModal(false);
+  // };
 
-  const handleDoNotShowToday = () => {
-    Cookies.set('dutyMateNoticeHidden', 'true', { expires: 1 }); // 1일 후 자동 삭제
-    setShowNoticeModal(false);
-  };
+  // const handleDoNotShowToday = () => {
+  //   Cookies.set('dutyMateNoticeHidden', 'true', { expires: 1 }); // 1일 후 자동 삭제
+  //   setShowNoticeModal(false);
+  // };
 
   return (
     <>
@@ -144,12 +144,12 @@ const Landing = () => {
         description="병동 관리자와 간호사 모두를 위한 스마트한 근무 일정 관리 서비스, 듀티메이트."
       />
       <div className="min-h-screen flex flex-col">
-        {showNoticeModal && (
+        {/* {showNoticeModal && (
           <UpdateNoticeModal
             onClose={handleCloseModal}
             onDoNotShowToday={handleDoNotShowToday}
           />
-        )}
+        )} */}
         <LandingTemplate showIntroText={true}>
           <div className="flex flex-col items-center gap-4 w-full">
             {/* 모바일: 세로 스택, 데스크탑: 가로 배치 */}
