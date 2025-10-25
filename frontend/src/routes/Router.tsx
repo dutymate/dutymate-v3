@@ -29,7 +29,9 @@ import PrivacyPolicy from '@/pages/PrivacyPolicy';
 import NoticePage from '@/pages/Notice/NoticePage';
 import NoticeDetailPage from '@/pages/Notice/NoticeDetailPage';
 import NoticeWritePage from '@/pages/Notice/NoticeWritePage';
-import AdminRoute from './AdminRoute';
+import AdminDashboard from '@/pages/AdminDashboard';
+import AdminWardList from '@/pages/AdminWardList';
+import AdminWardShift from '@/pages/AdminWardShift';
 
 interface ProtectedRouteProps {
   element: ReactElement;
@@ -87,11 +89,25 @@ const Router = () => {
       <Route path="/notice/:noticeId" element={<NoticeDetailPage />} />
       <Route
         path="/notice/write"
-        element={<AdminRoute element={<NoticeWritePage />} />}
+        element={<ProtectedRoute element={<NoticeWritePage />} />}
       />
       <Route
         path="/notice/:noticeId/edit"
-        element={<AdminRoute element={<NoticeWritePage />} />}
+        element={<ProtectedRoute element={<NoticeWritePage />} />}
+      />
+
+      {/* 관리자 페이지 */}
+      <Route
+        path="/admin/dashboard"
+        element={<ProtectedRoute element={<AdminDashboard />} />}
+      />
+      <Route
+        path="/admin/wards"
+        element={<ProtectedRoute element={<AdminWardList />} />}
+      />
+      <Route
+        path="/admin/wards/:wardId/shift"
+        element={<ProtectedRoute element={<AdminWardShift />} />}
       />
 
       {/* 그룹 초대 링크 - 로그인 필요 */}
