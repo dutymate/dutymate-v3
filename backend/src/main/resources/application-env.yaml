@@ -117,3 +117,6 @@ api:
 # 초대 링크 보내기
 app:
   base-url: ${APP_BASE_URL}
+
+admin:
+  email: ${ADMIN_EMAIL}

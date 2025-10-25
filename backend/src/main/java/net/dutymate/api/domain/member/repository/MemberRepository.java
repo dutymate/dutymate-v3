@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import net.dutymate.api.domain.member.Member;
@@ -18,4 +19,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	Boolean existsByEmail(String email);
 
 	List<Member> findByEmailEndingWith(String suffix);
+
+	@Query("SELECT COUNT(m) FROM Member m WHERE m.email NOT LIKE '%tempEmail@temp.com%'")
+	long countRealUsers();
 }
