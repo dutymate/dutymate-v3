@@ -85,4 +85,12 @@ public class Ward {
 	public void changeTempNurseSeq(Integer tempNurseSeq) {
 		this.tempNurseSeq = tempNurseSeq;
 	}
+
+	public void setMaxNurseCount(int maxNurseCount) {
+		this.maxNurseCount = maxNurseCount;
+	}
+
+	public void setMaxTempNurseCount(int maxTempNurseCount) {
+		this.maxTempNurseCount = maxTempNurseCount;
+	}
 }
