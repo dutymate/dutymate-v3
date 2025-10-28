@@ -51,15 +51,21 @@ public record YearMonth(Integer year, Integer month) {
 	}
 
 	public YearMonth prevYearMonth() {
-		int prevYear = (month == 1) ? year - 1 : year;
-		int prevMonth = (month == 1) ? 12 : month - 1;
-		return new YearMonth(prevYear, prevMonth);
+		return plusYearMonth(-1);
 	}
 
 	public YearMonth nextYearMonth() {
-		int nextYear = (month == 12) ? year + 1 : year;
-		int nextMonth = (month == 12) ? 1 : month + 1;
-		return new YearMonth(nextYear, nextMonth);
+		return plusYearMonth(1);
+	}
+
+	public YearMonth plusYearMonth(int monthsToAdd) {
+		// month는 1~12이므로 내부 계산을 위해 0~11로 변환
+		int base = this.year * 12 + (this.month - 1);
+		int shifted = base + monthsToAdd;
+
+		int newYear  = Math.floorDiv(shifted, 12);
+		int newMonth = Math.floorMod(shifted, 12) + 1; // 다시 1~12로 복원
+		return new YearMonth(newYear, newMonth);
 	}
 
 	// 캐시 키 생성 메서드

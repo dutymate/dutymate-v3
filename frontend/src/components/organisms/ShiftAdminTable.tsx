@@ -947,7 +947,7 @@ const ShiftAdminTable = memo(
         nextYear > maxAllowed.year ||
         (nextYear === maxAllowed.year && nextMonth > maxAllowed.month)
       ) {
-        toast.warning('다음 달까지만 조회할 수 있습니다.');
+        toast.warning('다다음 달까지만 조회할 수 있습니다.');
         return;
       }
 
