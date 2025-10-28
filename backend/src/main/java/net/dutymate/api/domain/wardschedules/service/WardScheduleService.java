@@ -2,7 +2,6 @@ package net.dutymate.api.domain.wardschedules.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -61,9 +60,9 @@ public class WardScheduleService {
 	@Transactional
 	public WardScheduleResponseDto getWardSchedule(Member member, final YearMonth yearMonth, Integer nowIdx) {
 
-		// 조회하려는 달이 (현재 달 + 1달) 안에 포함되지 않는 경우 예외 처리
-		if (!isInNextMonth(yearMonth)) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "근무표는 최대 다음달 까지만 조회가 가능합니다.");
+		// 조회하려는 달이 (현재 달 + 2달) 안에 포함되지 않는 경우 예외 처리
+		if (!isWithinNextTwoMonths(yearMonth)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "근무표는 최대 다다음달 까지만 조회가 가능합니다.");
 		}
 
 		// 이전 연, 월 초기화
@@ -203,10 +202,10 @@ public class WardScheduleService {
 			requests);
 	}
 
-	private boolean isInNextMonth(YearMonth yearMonth) {
-		int serverMonth = Integer.parseInt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMM")));
-		int inputMonth = Integer.parseInt(yearMonth.year() + String.format("%02d", yearMonth.month()));
-		return inputMonth <= serverMonth + 1;
+	private boolean isWithinNextTwoMonths(YearMonth target) {
+		YearMonth now = YearMonth.nowYearMonth();
+		YearMonth limit = now.plusYearMonth(2); // 2개월 뒤 제한
+		return !limit.isBefore(target);
 	}
 
 	@Transactional
