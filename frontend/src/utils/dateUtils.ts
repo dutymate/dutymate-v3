@@ -175,14 +175,14 @@ export const isToday = (year: number, month: number, day: number): boolean => {
 };
 
 // 근무표 생성이 가능한 최대 월을 계산합니다.
-// 현재 달의 다음 달까지만 근무표 생성이 가능합니다.
-// 예: 현재가 3월이면 4월까지만 근무표 생성 가능
+// 현재 달의 다다음 달까지만 근무표 생성이 가능합니다.
+// 예: 현재가 3월이면 5월까지만 근무표 생성 가능
 export const getMaxAllowedMonth = () => {
   const today = new Date();
-  const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1);
+  const afterTwoMonth = new Date(today.getFullYear(), today.getMonth() + 2);
   return {
-    year: nextMonth.getFullYear(),
-    month: nextMonth.getMonth() + 1,
+    year: afterTwoMonth.getFullYear(),
+    month: afterTwoMonth.getMonth() + 1,
   };
 };
 
