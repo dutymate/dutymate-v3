@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 import PageLoadingSpinner from '@/components/atoms/Loadingspinner';
 import ChannelTalkLoader from '@/components/organisms/ChannelTalkLoader';
-import SurveyProvider from '@/components/organisms/SurveyProvider';
+// import SurveyProvider from '@/components/organisms/SurveyProvider';
 import Router from '@/routes/Router';
 import { isMobileApp } from '@/lib/mobileApp';
 
@@ -35,7 +35,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <SurveyProvider>
+      {/* <SurveyProvider> */}
         {!isMobileApp() && <ChannelTalkLoader />}
         <PageLoadingSpinner />
         <Router />
@@ -54,7 +54,7 @@ function App() {
           transition={Slide}
           className="custom-toast-container"
         />
-      </SurveyProvider>
+      {/* </SurveyProvider> */}
     </BrowserRouter>
   );
 }
