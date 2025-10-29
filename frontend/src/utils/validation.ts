@@ -1,8 +1,8 @@
 export const validateName = (
   name: string
 ): { isValid: boolean; message: string } => {
-  // 특수문자 검사를 위한 정규식
-  const specialCharRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]+/;
+  // 한글/영문 + 공백 허용
+  const nameRegex = /^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ0-9 ]*$/;
 
   // 금지된 이름 목록
   const forbiddenNames = [
@@ -47,6 +47,12 @@ export const validateName = (
     '공식',
     '테스트',
     '게스트',
+
+    // 이름, 닉네임 관련
+    'name',
+    'nickname',
+    '이름',
+    '닉네임',
   ];
 
   // 대소문자 구분 없이 비교하기 위해 소문자로 변환
@@ -60,10 +66,10 @@ export const validateName = (
     };
   }
 
-  if (specialCharRegex.test(name)) {
+  if (!nameRegex.test(name)) {
     return {
       isValid: false,
-      message: '특수문자는 사용할 수 없습니다.',
+      message: '이름은 한글 또는 영문만 입력 가능합니다.',
     };
   }
 
@@ -76,8 +82,8 @@ export const validateName = (
 export const validateNickname = (
   nickname: string
 ): { isValid: boolean; message: string } => {
-  // 닉네임은 () 를 제외한 특수문자 검사를 위한 정규식
-  const specialCharRegex = /[!@#$%^&*_+\-=\[\]{};':"\\|,.<>/?]+/;
+  // 한글/영문만 허용 (숫자/공백/특수문자 모두 불가)
+  const nicknameRegex = /^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ0-9 ]*$/;
 
   // 금지된 닉네임 목록 (이름과 동일한 목록 사용)
   const forbiddenNicknames = [
@@ -122,6 +128,12 @@ export const validateNickname = (
     '공식',
     '테스트',
     '게스트',
+
+    // 이름, 닉네임 관련
+    'name',
+    'nickname',
+    '이름',
+    '닉네임',
   ];
 
   // 대소문자 구분 없이 비교하기 위해 소문자로 변환
@@ -137,10 +149,10 @@ export const validateNickname = (
     };
   }
 
-  if (specialCharRegex.test(nickname)) {
+  if (!nicknameRegex.test(nickname)) {
     return {
       isValid: false,
-      message: '() 외의 특수문자는 사용할 수 없습니다.',
+      message: '닉네임은 한글 또는 영문만 입력 가능합니다.',
     };
   }
 
