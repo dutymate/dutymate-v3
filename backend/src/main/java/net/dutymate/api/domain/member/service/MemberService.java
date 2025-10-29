@@ -89,6 +89,7 @@ public class MemberService {
 	private static final Integer DEMO_AUTO_GEN_CNT = 1;
 	private static final Integer DEFAULT_AUTO_GEN_CNT = 1;
 	private static final Integer DEMO_EMAIL_NAME_LENGTH = 15;
+	private static final Integer AUTO_GEN_CNT_PER_MONTH = 100;
 	private final MemberRepository memberRepository;
 	private final JwtUtil jwtUtil;
 	private final WardMemberRepository wardMemberRepository;
@@ -927,5 +928,10 @@ public class MemberService {
 
 		memberRepository.save(newMember);
 		return newMember;
+	}
+
+	@Transactional
+	public void increaseAutoGenCntAll() {
+		memberRepository.updateAutoCnt(AUTO_GEN_CNT_PER_MONTH, Role.HN, "%" + DEMO_EMAIL_SUFFIX);
 	}
 }
