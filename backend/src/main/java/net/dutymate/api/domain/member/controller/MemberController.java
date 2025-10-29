@@ -51,7 +51,7 @@ public class MemberController {
 	private final EmailService emailService;
 
 	@Value("${api.secret.key}")
-	private String apiDemoSecret;
+	private String apiSecretKey;
 
 	@PostMapping
 	public ResponseEntity<?> signUp(@Valid @RequestBody SignUpRequestDto signUpRequestDto) {
@@ -183,7 +183,7 @@ public class MemberController {
 
 	@DeleteMapping("/demo")
 	public ResponseEntity<?> deleteDemoMember(@RequestHeader(value = "X-API-KEY", required = false) String apiKey) {
-		if (apiKey == null || !apiKey.equals(apiDemoSecret)) {
+		if (apiKey == null || !apiKey.equals(apiSecretKey)) {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid API Key");
 		}
 		memberService.deleteDemoMember();
@@ -242,6 +242,15 @@ public class MemberController {
 	@PutMapping("/role")
 	public ResponseEntity<?> updateRole(@Auth Member member, @RequestBody EditRoleRequestDto editRoleRequestDto) {
 		memberService.updateRole(member, editRoleRequestDto);
+		return ResponseEntity.ok().build();
+	}
+
+	@PutMapping("/auto-gen-cnt")
+	public ResponseEntity<?> increaseAutoGenCnt(@RequestHeader(value = "X-API-KEY", required = false) String apiKey) {
+		if (apiKey == null || !apiKey.equals(apiSecretKey)) {
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid API Key");
+		}
+		memberService.increaseAutoGenCntAll();
 		return ResponseEntity.ok().build();
 	}
 }

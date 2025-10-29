@@ -28,7 +28,8 @@ public class WebConfig implements WebMvcConfigurer {
 		"/api/member/demo",
 		"/api/news",
 		"/api/holiday/update",
-		"/api/log/**"
+		"/api/log/**",
+		"/api/member/auto-gen-cnt"
 	};
 
 	@Override
