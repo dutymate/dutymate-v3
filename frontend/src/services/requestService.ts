@@ -80,9 +80,7 @@ export const requestService = {
       })
       .catch((error) => {
         if (error.code === 'ERR_NETWORK') {
-          console.error(
-            '서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.'
-          );
+          console.error('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
           throw new Error('서버 연결 실패');
         }
         if (error.response) {
@@ -107,9 +105,7 @@ export const requestService = {
   getPendingRequestCount: async () => {
     try {
       const requests = await requestService.getWardRequests();
-      return requests.filter(
-        (request: WardRequest) => request.status === 'HOLD'
-      ).length;
+      return requests.filter((request: WardRequest) => request.status === 'HOLD').length;
     } catch (error) {
       console.error('Failed to get pending request count:', error);
       return 0;
@@ -128,9 +124,7 @@ export const requestService = {
       })
       .catch((error) => {
         if (error.code === 'ERR_NETWORK') {
-          console.error(
-            '서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.'
-          );
+          console.error('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
           throw new Error('서버 연결 실패');
         }
         if (error.response) {
@@ -159,9 +153,7 @@ export const requestService = {
       })
       .catch((error) => {
         if (error.code === 'ERR_NETWORK') {
-          console.error(
-            '서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.'
-          );
+          console.error('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
           throw new Error('서버 연결 실패');
         }
         if (error.response) {
@@ -191,9 +183,7 @@ export const requestService = {
       })
       .catch((error) => {
         if (error.code === 'ERR_NETWORK') {
-          console.error(
-            '서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.'
-          );
+          console.error('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
           throw new Error('서버 연결 실패');
         }
         if (error.response) {
@@ -222,9 +212,7 @@ export const requestService = {
       })
       .catch((error) => {
         if (error.code === 'ERR_NETWORK') {
-          console.error(
-            '서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.'
-          );
+          console.error('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
           throw new Error('서버 연결 실패');
         }
         if (error.response) {
@@ -253,9 +241,7 @@ export const requestService = {
       })
       .catch((error) => {
         if (error.code === 'ERR_NETWORK') {
-          console.error(
-            '서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.'
-          );
+          console.error('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
           throw new Error('서버 연결 실패');
         }
         if (error.response) {

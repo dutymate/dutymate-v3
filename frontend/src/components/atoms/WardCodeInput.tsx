@@ -50,10 +50,7 @@ export const WardCodeInput = ({
     }
   };
 
-  const handleKeyDown = (
-    index: number,
-    e: React.KeyboardEvent<HTMLInputElement>
-  ) => {
+  const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Backspace' && !values[index] && index > 0) {
       // 현재 칸이 비어있고 Backspace를 누르면 이전 칸으로 이동
       inputRefs.current[index - 1]?.focus();
@@ -123,9 +120,7 @@ export const WardCodeInput = ({
           영문자와 숫자만 입력 가능합니다.
         </p>
       )}
-      {error && (
-        <p className="text-[0.875rem] text-red-600 sm:text-[1rem]">{error}</p>
-      )}
+      {error && <p className="text-[0.875rem] text-red-600 sm:text-[1rem]">{error}</p>}
     </div>
   );
 };

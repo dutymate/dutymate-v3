@@ -1,11 +1,11 @@
-//공지사항 목록
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FaChevronLeft } from 'react-icons/fa';
-import axiosInstance from '@/lib/axios';
-import { useUserAuthStore } from '../../stores/userAuthStore';
 // import { Button } from '@/components/atoms/Button';
 import { SEO } from '@/components/SEO';
+import axiosInstance from '@/lib/axios';
+//공지사항 목록
+import { useEffect, useState } from 'react';
+import { FaChevronLeft } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { useUserAuthStore } from '../../stores/userAuthStore';
 
 interface Notice {
   noticeId: number;
@@ -88,9 +88,7 @@ const NoticePage = () => {
         // 중요 공지사항 먼저, 이후 작성일 내림차순 정렬
         if (a.isPinned && !b.isPinned) return -1;
         if (!a.isPinned && b.isPinned) return 1;
-        return (
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
       });
       setNotices(sortedNotices);
       setLoading(false);
@@ -99,10 +97,7 @@ const NoticePage = () => {
 
   // 안전한 페이지네이션 계산
   const safeNotices = Array.isArray(notices) ? notices : [];
-  const totalPages = Math.max(
-    1,
-    Math.ceil(safeNotices.length / NOTICES_PER_PAGE)
-  );
+  const totalPages = Math.max(1, Math.ceil(safeNotices.length / NOTICES_PER_PAGE));
 
   // 현재 페이지가 유효한지 확인하고 필요한 경우 조정
   useEffect(() => {
@@ -138,9 +133,7 @@ const NoticePage = () => {
   const token = useUserAuthStore((state) => state.userInfo?.token);
   const email = useUserAuthStore((state) => state.userInfo?.email);
   if (loading) {
-    return (
-      <div className="container mx-auto px-4 py-2 text-center">로딩 중...</div>
-    );
+    return <div className="container mx-auto px-4 py-2 text-center">로딩 중...</div>;
   }
 
   return (
@@ -160,9 +153,7 @@ const NoticePage = () => {
             >
               <FaChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
-            <h1 className="text-lg sm:text-2xl font-bold text-gray-800 mx-auto">
-              공지사항
-            </h1>
+            <h1 className="text-lg sm:text-2xl font-bold text-gray-800 mx-auto">공지사항</h1>
             <div className="absolute right-0 top-1/2 -translate-y-1/2 flex gap-2">
               {/* {isAdmin && (
                 // <Button
@@ -236,23 +227,21 @@ const NoticePage = () => {
                 lg:border-0 lg:shadow-none lg:rounded-none lg:py-4"
             >
               <div className="flex gap-1">
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                  (page) => (
-                    <button
-                      key={page}
-                      className={`min-w-[2rem] h-8 rounded-full flex items-center justify-center text-xs font-semibold border transition-colors px-0.5 sm:text-sm sm:min-w-[2.5rem] sm:h-8
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    className={`min-w-[2rem] h-8 rounded-full flex items-center justify-center text-xs font-semibold border transition-colors px-0.5 sm:text-sm sm:min-w-[2.5rem] sm:h-8
                         ${
                           currentPage === page
                             ? 'bg-primary text-white border-primary'
                             : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
                         }
                       `}
-                      onClick={() => handlePageChange(page)}
-                    >
-                      {page}
-                    </button>
-                  )
-                )}
+                    onClick={() => handlePageChange(page)}
+                  >
+                    {page}
+                  </button>
+                ))}
               </div>
             </div>
           )}

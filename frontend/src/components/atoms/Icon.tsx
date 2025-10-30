@@ -12,11 +12,7 @@ import { FaCrown, FaDoorOpen, FaHospital, FaUserCircle } from 'react-icons/fa';
 import { FaChevronDown, FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 import { GrPowerReset, GrUndo } from 'react-icons/gr';
 import { HiDownload } from 'react-icons/hi';
-import {
-  HiExclamationCircle,
-  HiMagnifyingGlass,
-  HiOutlineUsers,
-} from 'react-icons/hi2';
+import { HiExclamationCircle, HiMagnifyingGlass, HiOutlineUsers } from 'react-icons/hi2';
 import { IoIosChatboxes, IoMdMenu } from 'react-icons/io';
 import { IoCloseOutline, IoFemale, IoMale } from 'react-icons/io5';
 import {
@@ -94,12 +90,7 @@ interface IconProps {
   onClick?: () => void;
 }
 
-export const Icon = ({
-  name,
-  className = '',
-  size = 24,
-  onClick,
-}: IconProps) => {
+export const Icon = ({ name, className = '', size = 24, onClick }: IconProps) => {
   const IconComponent = iconComponents[name];
 
   if (!IconComponent) {

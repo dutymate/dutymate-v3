@@ -41,10 +41,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
@@ -122,15 +119,13 @@ export const Dropdown: React.FC<DropdownProps> = ({
         disabled={disabled}
       >
         <div className="flex items-center gap-2">
-          {variant === 'skill' &&
-            value &&
-            ICONS.skill[value as keyof typeof ICONS.skill] && (
-              <Icon
-                name={ICONS.skill[value as keyof typeof ICONS.skill]}
-                size={16}
-                className="text-primary"
-              />
-            )}
+          {variant === 'skill' && value && ICONS.skill[value as keyof typeof ICONS.skill] && (
+            <Icon
+              name={ICONS.skill[value as keyof typeof ICONS.skill]}
+              size={16}
+              className="text-primary"
+            />
+          )}
           {variant === 'authority' ? (
             <Icon name="dots" size={20} className="text-primary" />
           ) : (
@@ -175,18 +170,13 @@ export const Dropdown: React.FC<DropdownProps> = ({
                     setIsOpen(false);
                   }}
                 >
-                  {variant === 'skill' &&
-                    ICONS.skill[option as keyof typeof ICONS.skill] && (
-                      <Icon
-                        name={ICONS.skill[option as keyof typeof ICONS.skill]}
-                        size={16}
-                        className={
-                          value === option
-                            ? 'text-primary'
-                            : 'text-base-foreground'
-                        }
-                      />
-                    )}
+                  {variant === 'skill' && ICONS.skill[option as keyof typeof ICONS.skill] && (
+                    <Icon
+                      name={ICONS.skill[option as keyof typeof ICONS.skill]}
+                      size={16}
+                      className={value === option ? 'text-primary' : 'text-base-foreground'}
+                    />
+                  )}
                   {option}
                 </button>
               </li>

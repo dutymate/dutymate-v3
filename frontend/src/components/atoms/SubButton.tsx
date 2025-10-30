@@ -25,9 +25,7 @@ export const SubButton = ({
     ? 'bg-primary text-white hover:bg-primary-dark'
     : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300';
 
-  const disabledClasses = disabled
-    ? 'opacity-50 bg-gray-100 text-gray-400 border-gray-200'
-    : '';
+  const disabledClasses = disabled ? 'opacity-50 bg-gray-100 text-gray-400 border-gray-200' : '';
 
   return (
     <button
@@ -36,11 +34,7 @@ export const SubButton = ({
       disabled={disabled}
       className={`${baseClasses} ${activeClasses} ${disabledClasses}`}
     >
-      <Icon
-        name={type}
-        size={16}
-        className={active ? 'text-white' : 'text-gray-500'}
-      />
+      <Icon name={type} size={16} className={active ? 'text-white' : 'text-gray-500'} />
       {label}
     </button>
   );

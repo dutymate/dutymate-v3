@@ -184,9 +184,7 @@ const Profile = () => {
 
           {/* 회사명과 사이트 주소 */}
           <div className="flex flex-col gap-y-1 px-4">
-            <span className="text-xs font-bold text-gray-600">
-              (주)듀티메이트
-            </span>
+            <span className="text-xs font-bold text-gray-600">(주)듀티메이트</span>
             <span className="text-xs text-gray-400">
               <Link to="/privacy-policy">개인정보처리방침</Link>
             </span>

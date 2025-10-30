@@ -1,25 +1,21 @@
 import { DutyBadgeKor } from '@/components/atoms/DutyBadgeKor';
 import ScheduleEditModal from '@/components/organisms/ScheduleEditModal';
-import {
-  convertDutyTypeSafe,
-  getDutyColorForCode,
-  getDutyColors,
-} from '@/utils/dutyUtils';
-import { useEffect, useState } from 'react';
-import { IoMdClose } from 'react-icons/io';
-import { IoChevronBack, IoChevronForward, IoAdd } from 'react-icons/io5';
 import type { ScheduleType } from '@/services/calendarService';
 import {
   CalendarCreateRequest,
   createCalendar,
+  deleteCalendar,
+  fetchSchedules,
   getCalendarById,
   updateCalendar,
-  fetchSchedules,
-  deleteCalendar,
 } from '@/services/calendarService';
-import { toast } from 'react-toastify';
 import { wardService } from '@/services/wardService';
 import { useUserAuthStore } from '@/stores/userAuthStore';
+import { convertDutyTypeSafe, getDutyColorForCode, getDutyColors } from '@/utils/dutyUtils';
+import { useEffect, useState } from 'react';
+import { IoMdClose } from 'react-icons/io';
+import { IoAdd, IoChevronBack, IoChevronForward } from 'react-icons/io5';
+import { toast } from 'react-toastify';
 // import { dutyService } from '@/services/dutyService';
 import JoinWardGuideModal from './JoinWardGuideModal';
 import ShiftColorPickerModal from './ShiftColorPickerModal';
@@ -53,19 +49,14 @@ interface TodayShiftModalProps {
   onDateChange: (newDate: Date) => void;
   loading?: boolean;
   schedulesByDate: Record<string, ScheduleType[]>;
-  setSchedulesByDate: React.Dispatch<
-    React.SetStateAction<Record<string, ScheduleType[]>>
-  >;
+  setSchedulesByDate: React.Dispatch<React.SetStateAction<Record<string, ScheduleType[]>>>;
   activeTab: 'status' | 'calendar';
   onTabChange: (tab: 'status' | 'calendar') => void;
   selectedDutyType: 'day' | 'off' | 'evening' | 'night' | 'mid';
   onDutyTypeChange: (type: 'day' | 'off' | 'evening' | 'night' | 'mid') => void;
   fetchAllSchedulesForMonth?: (year: number, month: number) => Promise<void>;
   refreshMyDutyData?: () => Promise<void>;
-  dutyColors?: Record<
-    'day' | 'evening' | 'night' | 'off' | 'mid',
-    { bg: string; text: string }
-  >;
+  dutyColors?: Record<'day' | 'evening' | 'night' | 'off' | 'mid', { bg: string; text: string }>;
 }
 
 const colorClassMap: Record<string, string> = {
@@ -98,12 +89,8 @@ const TodayShiftModal = ({
   if (!date) return null;
 
   const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
-  const [scheduleModalMode, setScheduleModalMode] = useState<
-    'create' | 'view' | 'edit'
-  >('create');
-  const [selectedSchedule, setSelectedSchedule] = useState<ScheduleType | null>(
-    null
-  );
+  const [scheduleModalMode, setScheduleModalMode] = useState<'create' | 'view' | 'edit'>('create');
+  const [selectedSchedule, setSelectedSchedule] = useState<ScheduleType | null>(null);
   const [isEnteringWard, setIsEnteringWard] = useState(false);
   const { userInfo, setUserInfo } = useUserAuthStore();
 
@@ -293,8 +280,7 @@ const TodayShiftModal = ({
   const sortedSchedules = [
     ...schedules.filter((s) => s.isAllDay),
     ...[...schedules.filter((s) => !s.isAllDay)].sort(
-      (a, b) =>
-        parseTimeString(a.startTime ?? '') - parseTimeString(b.startTime ?? '')
+      (a, b) => parseTimeString(a.startTime ?? '') - parseTimeString(b.startTime ?? '')
     ),
   ];
 
@@ -323,9 +309,7 @@ const TodayShiftModal = ({
       const period = hour < 12 ? '오전' : '오후';
       if (hour === 0) hour = 12;
       else if (hour > 12) hour -= 12;
-      return `${period} ${hour.toString().padStart(2, '0')}:${minute
-        .toString()
-        .padStart(2, '0')}`;
+      return `${period} ${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
     }
     return timeStr;
   }
@@ -461,10 +445,7 @@ const TodayShiftModal = ({
       } flex flex-col relative`}
     >
       {isMobile && (
-        <button
-          onClick={onClose}
-          className="absolute top-[0.75rem] right-[0.75rem] z-20"
-        >
+        <button onClick={onClose} className="absolute top-[0.75rem] right-[0.75rem] z-20">
           <IoMdClose className="w-5 h-5 text-gray-600" />
         </button>
       )}
@@ -521,18 +502,13 @@ const TodayShiftModal = ({
               </span>{' '}
               입니다!
             </p>
-            <div
-              className="h-[3px] w-full"
-              style={{ backgroundColor: localDutyColors[duty].bg }}
-            />
+            <div className="h-[3px] w-full" style={{ backgroundColor: localDutyColors[duty].bg }} />
           </div>
         )}
       </div>
 
       {/* 탭별 내용 분기 */}
-      <div
-        className={`${isMobile ? 'flex-1 flex flex-col min-h-0' : 'flex flex-col min-h-0'}`}
-      >
+      <div className={`${isMobile ? 'flex-1 flex flex-col min-h-0' : 'flex flex-col min-h-0'}`}>
         {activeTab === 'status' ? (
           <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar">
             {!dutyData?.otherShifts ? (
@@ -579,14 +555,8 @@ const TodayShiftModal = ({
                           <DutyBadgeKor
                             type={convertDutyTypeSafe(nurse.shift)}
                             size="xxs"
-                            bgColor={
-                              getDutyColorForCode(nurse.shift, localDutyColors)
-                                .bg
-                            }
-                            textColor={
-                              getDutyColorForCode(nurse.shift, localDutyColors)
-                                .text
-                            }
+                            bgColor={getDutyColorForCode(nurse.shift, localDutyColors).bg}
+                            textColor={getDutyColorForCode(nurse.shift, localDutyColors).text}
                           />
                         </div>
                       ) : (
@@ -672,23 +642,14 @@ const TodayShiftModal = ({
                 <div
                   key={schedule.calendarId || Math.random()}
                   className="flex items-start gap-1.5 cursor-pointer rounded-lg p-0.5 hover:bg-gray-50 group"
-                  onClick={() =>
-                    schedule.calendarId &&
-                    handleScheduleClick(schedule.calendarId)
-                  }
-                  style={
-                    !schedule.calendarId
-                      ? { opacity: 0.5, pointerEvents: 'none' }
-                      : {}
-                  }
+                  onClick={() => schedule.calendarId && handleScheduleClick(schedule.calendarId)}
+                  style={!schedule.calendarId ? { opacity: 0.5, pointerEvents: 'none' } : {}}
                 >
                   {/* 색상 동그라미 */}
                   <span
                     className={`${
                       isMobile ? 'w-2.5 h-2.5 mt-1.5' : 'w-3 h-3 mt-2'
-                    } rounded-full flex-shrink-0 ${
-                      colorClassMap[schedule.color] || 'bg-gray-300'
-                    }`}
+                    } rounded-full flex-shrink-0 ${colorClassMap[schedule.color] || 'bg-gray-300'}`}
                   />
                   {/* 시간 or 종일 */}
                   <div
@@ -707,18 +668,10 @@ const TodayShiftModal = ({
                       </span>
                     ) : (
                       <>
-                        <span
-                          className={`${
-                            isMobile ? 'text-[10px]' : 'text-xs'
-                          } text-gray-500`}
-                        >
+                        <span className={`${isMobile ? 'text-[10px]' : 'text-xs'} text-gray-500`}>
                           {formatTimeForDisplay(schedule.startTime ?? '')}
                         </span>
-                        <span
-                          className={`${
-                            isMobile ? 'text-[10px]' : 'text-xs'
-                          } text-gray-400`}
-                        >
+                        <span className={`${isMobile ? 'text-[10px]' : 'text-xs'} text-gray-400`}>
                           {formatTimeForDisplay(schedule.endTime ?? '')}
                         </span>
                       </>
@@ -732,9 +685,7 @@ const TodayShiftModal = ({
                   >
                     <div className="truncate">{schedule.title}</div>
                     {isMobile && schedule.place && (
-                      <div className="text-[10px] text-gray-500 truncate">
-                        {schedule.place}
-                      </div>
+                      <div className="text-[10px] text-gray-500 truncate">{schedule.place}</div>
                     )}
                   </div>
                 </div>
@@ -791,11 +742,7 @@ const TodayShiftModal = ({
           onDelete={handleDelete}
           currentScheduleCount={schedules.length}
           setSchedulesByDate={setSchedulesByDate}
-          date={
-            date
-              ? date.toISOString().slice(0, 10)
-              : new Date().toISOString().slice(0, 10)
-          }
+          date={date ? date.toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10)}
         />
       )}
     </div>

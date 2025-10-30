@@ -1,7 +1,7 @@
+import { SEO } from '@/components/SEO';
 import PageLoadingSpinner from '@/components/atoms/Loadingspinner';
 import EditGroupModal from '@/components/organisms/Group/EditGroupModal';
 import GroupLayout from '@/components/organisms/Group/GroupLayout';
-import { SEO } from '@/components/SEO';
 import { GroupListResponse, groupService } from '@/services/groupService';
 import { useLoadingStore } from '@/stores/loadingStore';
 import { Group } from '@/types/group';
@@ -79,14 +79,8 @@ const NurseGroupPage = () => {
 
   return (
     <>
-      <SEO
-        title="그룹 | Dutymate"
-        description="동료 간호사들과 듀티표를 공유하는 공간입니다."
-      />
-      <GroupLayout
-        title="나의 모임"
-        subtitle="그룹을 만들어 친구들끼리 듀티표를 공유해보세요"
-      >
+      <SEO title="그룹 | Dutymate" description="동료 간호사들과 듀티표를 공유하는 공간입니다." />
+      <GroupLayout title="나의 모임" subtitle="그룹을 만들어 친구들끼리 듀티표를 공유해보세요">
         {/* 그룹 목록 화면 */}
         <div className="space-y-3 px-4 lg:px-0">
           {loading ? (
@@ -111,9 +105,7 @@ const NurseGroupPage = () => {
                       <FaUserFriends className="mr-1" /> {g.groupMemberCount}
                     </span>
                   </div>
-                  <div className="text-gray-500 text-sm">
-                    {g.groupDescription}
-                  </div>
+                  <div className="text-gray-500 text-sm">{g.groupDescription}</div>
                 </div>
                 {g.groupImg && (
                   <img

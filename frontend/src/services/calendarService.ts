@@ -24,22 +24,17 @@ export type CalendarCreateRequest = {
 };
 
 //캘린더 상세 조회하기 (ㅇㅇ)
-export const getCalendarById = (calendarId: number) =>
-  axiosInstance.get(`${API}/${calendarId}`);
+export const getCalendarById = (calendarId: number) => axiosInstance.get(`${API}/${calendarId}`);
 
 //캘린더 날짜별 조회하기 ()
-export const getCalendarsByDate = (date: string) =>
-  axiosInstance.get(`${API}?date=${date}`);
+export const getCalendarsByDate = (date: string) => axiosInstance.get(`${API}?date=${date}`);
 
 //캘린더 생성하기 (o)
-export const createCalendar = (data: CalendarCreateRequest) =>
-  axiosInstance.post(API, data);
+export const createCalendar = (data: CalendarCreateRequest) => axiosInstance.post(API, data);
 
 //캘린더 수정하기
-export const updateCalendar = (
-  calendarId: number,
-  data: CalendarCreateRequest
-) => axiosInstance.put(`${API}/${calendarId}`, data);
+export const updateCalendar = (calendarId: number, data: CalendarCreateRequest) =>
+  axiosInstance.put(`${API}/${calendarId}`, data);
 
 //캘린더 삭제하기
 export const deleteCalendar = (calendarId: number) => {
@@ -54,17 +49,11 @@ export const deleteCalendar = (calendarId: number) => {
 export const fetchSchedules = async (date: Date): Promise<ScheduleType[]> => {
   try {
     const dateKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-    const response = await axiosInstance.get(
-      `/duty/my/calendar?date=${dateKey}`
-    );
+    const response = await axiosInstance.get(`/duty/my/calendar?date=${dateKey}`);
     // response.data가 배열이면 바로 반환, success/data 구조면 data.data 반환
     if (Array.isArray(response.data)) {
       return response.data;
-    } else if (
-      response.data &&
-      response.data.success &&
-      Array.isArray(response.data.data)
-    ) {
+    } else if (response.data && response.data.success && Array.isArray(response.data.data)) {
       return response.data.data;
     } else {
       throw new Error('Invalid response format');

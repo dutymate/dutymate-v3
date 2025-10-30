@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import { FaTrashCan } from 'react-icons/fa6';
+import { toast } from 'react-toastify';
 
 import { Button } from '@/components/atoms/Button';
 import DutyBadgeEng from '@/components/atoms/DutyBadgeEng';
@@ -22,9 +22,7 @@ interface MyRequest {
 
 const ReqShiftModal = ({ onClose }: ReqShiftModalProps) => {
   const [selectedDate, setSelectedDate] = useState('');
-  const [selectedDuty, setSelectedDuty] = useState<
-    'D' | 'E' | 'N' | 'O' | null
-  >(null);
+  const [selectedDuty, setSelectedDuty] = useState<'D' | 'E' | 'N' | 'O' | null>(null);
   const [memo, setMemo] = useState('');
   const [activeTab, setActiveTab] = useState(0);
   const [requests, setRequests] = useState<MyRequest[]>([]);
@@ -127,12 +125,8 @@ const ReqShiftModal = ({ onClose }: ReqShiftModalProps) => {
           {/* 근무 날짜 */}
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <label className="text-sm font-medium text-gray-700">
-                근무 날짜
-              </label>
-              <span className="text-xs text-gray-400">
-                요청 보낼 날짜를 선택해주세요.
-              </span>
+              <label className="text-sm font-medium text-gray-700">근무 날짜</label>
+              <span className="text-xs text-gray-400">요청 보낼 날짜를 선택해주세요.</span>
             </div>
             <DateInput
               id="req-date"
@@ -145,9 +139,7 @@ const ReqShiftModal = ({ onClose }: ReqShiftModalProps) => {
 
           {/* 근무 유형 */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              근무 유형
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">근무 유형</label>
             <div className="flex gap-2">
               {(['D', 'E', 'N', 'O'] as const).map((duty) => (
                 <DutyBadgeEng
@@ -198,33 +190,21 @@ const ReqShiftModal = ({ onClose }: ReqShiftModalProps) => {
         <div>
           <div className="overflow-y-auto custom-scrollbar max-h-[20rem] pr-2">
             {requests.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">
-                요청 내역이 없습니다.
-              </div>
+              <div className="text-center py-8 text-gray-500">요청 내역이 없습니다.</div>
             ) : (
               requests.map((request, index) => (
                 <div key={index} className="border-b border-gray-100 pb-4 mb-4">
                   <div className="flex items-center gap-4">
-                    <DutyBadgeEng
-                      type={request.shift}
-                      variant="outline"
-                      size="md"
-                    />
+                    <DutyBadgeEng type={request.shift} variant="outline" size="md" />
                     <div className="flex-1">
                       <div className="flex justify-between items-center mb-2">
-                        <span className="text-sm font-medium">
-                          {request.date}
-                        </span>
+                        <span className="text-sm font-medium">{request.date}</span>
                       </div>
 
-                      <span className="text-sm text-gray-600">
-                        {request.memo}
-                      </span>
+                      <span className="text-sm text-gray-600">{request.memo}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span
-                        className={`text-sm ${getStatusColor(request.status)} my-auto`}
-                      >
+                      <span className={`text-sm ${getStatusColor(request.status)} my-auto`}>
                         {getStatusText(request.status)}
                       </span>
                       {request.status === 'HOLD' && (

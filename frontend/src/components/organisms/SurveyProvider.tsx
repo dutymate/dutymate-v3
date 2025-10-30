@@ -1,5 +1,5 @@
-import { useState, useEffect, ReactNode } from 'react';
 import Cookies from 'js-cookie';
+import { ReactNode, useEffect, useState } from 'react';
 import SurveyModal from './SurveyModal';
 
 // 설문 관련 상수 정의

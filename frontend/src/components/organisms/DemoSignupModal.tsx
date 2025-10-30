@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
 import useUserAuthStore from '@/stores/userAuthStore';
+import { useEffect } from 'react';
 
 interface DemoSignupModalProps {
   isOpen: boolean;
@@ -14,12 +14,7 @@ const formatTime = (sec: number) => {
   return `${m}:${s}`;
 };
 
-const DemoSignupModal = ({
-  isOpen,
-  onClose,
-  onSignup,
-  onContinue,
-}: DemoSignupModalProps) => {
+const DemoSignupModal = ({ isOpen, onClose, onSignup, onContinue }: DemoSignupModalProps) => {
   const { userInfo, timeLeft, isTimeout } = useUserAuthStore();
   const isDemo = userInfo?.isDemo;
 
@@ -47,16 +42,12 @@ const DemoSignupModal = ({
       >
         <div className="p-6">
           {/* 제목 */}
-          <h2 className="text-lg font-bold text-gray mb-4">
-            자동 생성 사용 가능 횟수가 부족해요
-          </h2>
+          <h2 className="text-lg font-bold text-gray mb-4">자동 생성 사용 가능 횟수가 부족해요</h2>
 
           {/* 설명 */}
           <div className="text-mid text-gray-700 mb-8">
             남은 체험판 사용 가능 시간은{' '}
-            <span className="text-primary font-bold">
-              {formatTime(timeLeft)}
-            </span>
+            <span className="text-primary font-bold">{formatTime(timeLeft)}</span>
             입니다.
           </div>
 

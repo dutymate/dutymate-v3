@@ -1,5 +1,5 @@
-import { toast } from 'react-toastify';
 import CustomButton from '@/components/atoms/CustomButton';
+import { toast } from 'react-toastify';
 import EnterWardForm from './EnterWardForm';
 import WaitingForApproval from './WaitingForApproval';
 
@@ -37,25 +37,18 @@ const JoinWardGuideModal = ({
             ) : (
               <div className="w-full max-w-[20rem] mx-auto flex flex-col items-center justify-center">
                 <div className="text-center mb-4">
-                  <h2 className="text-xl font-bold text-primary mt-1">
-                    병동 입장하기
-                  </h2>
+                  <h2 className="text-xl font-bold text-primary mt-1">병동 입장하기</h2>
                   <p className="text-gray-600 text-sm sm:text-base mt-3 -mb-3 leading-[1.7] sm:leading-relaxed tracking-tight break-keep text-center">
-                    <span className="text-primary-dark font-semibold">
-                      병동 코드
-                    </span>
-                    는 관리자에게 전달받은 6자리 숫자입니다. 입력하시면 병동
-                    입장을 요청할 수 있어요. <br className="hidden sm:block" />
+                    <span className="text-primary-dark font-semibold">병동 코드</span>는 관리자에게
+                    전달받은 6자리 숫자입니다. 입력하시면 병동 입장을 요청할 수 있어요.{' '}
+                    <br className="hidden sm:block" />
                     코드가 없다면 관리자에게 문의해주세요.
                   </p>
                 </div>
 
                 <div className="bg-white rounded-lg p-3 shadow-sm w-full">
                   <div className="p-2">
-                    <EnterWardForm
-                      onSubmit={onSubmit}
-                      onCancel={() => setIsEnteringWard(false)}
-                    />
+                    <EnterWardForm onSubmit={onSubmit} onCancel={() => setIsEnteringWard(false)} />
                   </div>
                 </div>
               </div>
@@ -118,10 +111,8 @@ const JoinWardGuideModal = ({
             <p className="text-gray-600 mb-3 text-sm sm:text-base leading-relaxed">
               병동에 입장하여 동료들과 함께
               <br />
-              <span className="text-primary-dark font-semibold">
-                듀티메이트
-              </span>
-              의 모든 기능을 활용해보세요.
+              <span className="text-primary-dark font-semibold">듀티메이트</span>의 모든 기능을
+              활용해보세요.
               <br />
               근무 교대와 일정 관리가 훨씬 쉬워집니다.
             </p>

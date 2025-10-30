@@ -18,9 +18,7 @@ interface PaymentModalProps {
 }
 
 const PaymentModal = ({ isOpen, onClose, onSubscribe }: PaymentModalProps) => {
-  const [selectedPlan, setSelectedPlan] = useState<
-    'monthly' | 'quarterly' | 'yearly' | null
-  >(null);
+  const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'quarterly' | 'yearly' | null>(null);
   const [autoGenCnt] = useState(100); // 기본값 설정
   const [isMobile, setIsMobile] = useState(false);
 
@@ -52,8 +50,7 @@ const PaymentModal = ({ isOpen, onClose, onSubscribe }: PaymentModalProps) => {
         event_id: `subscribe_${planType}_${isMobile ? 'mobile' : 'desktop'}`,
         subscription_plan: planType,
         subscription_view: isMobile ? 'mobile' : 'desktop',
-        subscription_duration:
-          planType === 'monthly' ? '1' : planType === 'quarterly' ? '3' : '12',
+        subscription_duration: planType === 'monthly' ? '1' : planType === 'quarterly' ? '3' : '12',
       });
 
       // GA4 직접 이벤트 전송 (gtag 함수 사용)
@@ -166,15 +163,12 @@ const PaymentModal = ({ isOpen, onClose, onSubscribe }: PaymentModalProps) => {
               <span className="font-medium">얼리버드 특별 혜택</span>
             </div>
             <div className="text-xl md:text-2xl font-bold text-base-foreground mb-2">
-              지금 구독하면{' '}
-              <span className="text-primary-dark">
-                자동 생성 기능 1개월 무료
-              </span>
+              지금 구독하면 <span className="text-primary-dark">자동 생성 기능 1개월 무료</span>
             </div>
             {!isMobile && (
               <div className="text-center text-base-foreground/80 max-w-2xl">
-                초기 구독자에게만 제공되는 특별 혜택으로, 병동 단위 결제로
-                간호사 전원이 이용할 수 있습니다.
+                초기 구독자에게만 제공되는 특별 혜택으로, 병동 단위 결제로 간호사 전원이 이용할 수
+                있습니다.
                 <span className="block mt-1 text-sm">
                   * 정식 출시 후에는 혜택이 제공되지 않습니다.
                 </span>
@@ -202,9 +196,7 @@ const PaymentModal = ({ isOpen, onClose, onSubscribe }: PaymentModalProps) => {
                     </div>
                   )}
                   <div className="p-6">
-                    <div className="text-lg text-center font-bold mb-3">
-                      {plan.title}
-                    </div>
+                    <div className="text-lg text-center font-bold mb-3">{plan.title}</div>
                     <div className="flex flex-col items-center mb-2">
                       <div className="text-sm mb-1 line-through text-base-foreground/60">
                         {plan.beforePrice}
@@ -213,20 +205,14 @@ const PaymentModal = ({ isOpen, onClose, onSubscribe }: PaymentModalProps) => {
                       <div className="flex items-end gap-1">
                         <span
                           className={`text-3xl font-bold ${
-                            plan.type === 'quarterly'
-                              ? 'text-primary-dark'
-                              : 'text-base-foreground'
+                            plan.type === 'quarterly' ? 'text-primary-dark' : 'text-base-foreground'
                           }`}
                         >
                           {plan.price}
                         </span>
-                        <span className="text-base mb-1 font-medium">
-                          {plan.period}
-                        </span>
+                        <span className="text-base mb-1 font-medium">{plan.period}</span>
                       </div>
-                      <div className="text-xs text-base-foreground/70 mt-1">
-                        {plan.billingText}
-                      </div>
+                      <div className="text-xs text-base-foreground/70 mt-1">{plan.billingText}</div>
                     </div>
                   </div>
 
@@ -240,17 +226,11 @@ const PaymentModal = ({ isOpen, onClose, onSubscribe }: PaymentModalProps) => {
                         } 
 												transition-colors duration-300`}
                       onClick={() =>
-                        handleSubscribe(
-                          plan.type as 'monthly' | 'quarterly' | 'yearly'
-                        )
+                        handleSubscribe(plan.type as 'monthly' | 'quarterly' | 'yearly')
                       }
                       data-subscription-plan={plan.type}
                       data-subscription-duration={
-                        plan.type === 'monthly'
-                          ? '1'
-                          : plan.type === 'quarterly'
-                            ? '3'
-                            : '12'
+                        plan.type === 'monthly' ? '1' : plan.type === 'quarterly' ? '3' : '12'
                       }
                       id={`subscribe-${plan.type}-desktop`}
                     >
@@ -298,16 +278,11 @@ const PaymentModal = ({ isOpen, onClose, onSubscribe }: PaymentModalProps) => {
                   <div className="flex flex-row">
                     {/* 왼쪽: 타이틀과 혜택 */}
                     <div className="flex-1 p-3">
-                      <div className="font-bold text-base mb-2">
-                        {plan.title}
-                      </div>
+                      <div className="font-bold text-base mb-2">{plan.title}</div>
 
                       <ul className="space-y-1">
                         {plan.features.map((feature, index) => (
-                          <li
-                            key={index}
-                            className="flex items-start gap-1 text-xs"
-                          >
+                          <li key={index} className="flex items-start gap-1 text-xs">
                             <FaCheckCircle className="h-3 w-3 mt-0.5 shrink-0 text-primary" />
                             <span>{feature}</span>
                           </li>
@@ -333,31 +308,21 @@ const PaymentModal = ({ isOpen, onClose, onSubscribe }: PaymentModalProps) => {
                           >
                             {plan.price}
                           </span>
-                          <span className="text-sm font-medium">
-                            {plan.period}
-                          </span>
+                          <span className="text-sm font-medium">{plan.period}</span>
                         </div>
 
-                        <div className="text-xs text-base-foreground/70">
-                          {plan.billingText}
-                        </div>
+                        <div className="text-xs text-base-foreground/70">{plan.billingText}</div>
                       </div>
 
                       <button
                         className={`w-full h-10 rounded-lg text-center font-medium text-xs
 													${plan.popular ? 'bg-primary text-white' : 'bg-[#666666] text-white'}`}
                         onClick={() =>
-                          handleSubscribe(
-                            plan.type as 'monthly' | 'quarterly' | 'yearly'
-                          )
+                          handleSubscribe(plan.type as 'monthly' | 'quarterly' | 'yearly')
                         }
                         data-subscription-plan={plan.type}
                         data-subscription-duration={
-                          plan.type === 'monthly'
-                            ? '1'
-                            : plan.type === 'quarterly'
-                              ? '3'
-                              : '12'
+                          plan.type === 'monthly' ? '1' : plan.type === 'quarterly' ? '3' : '12'
                         }
                         id={`subscribe-${plan.type}-mobile`}
                       >
@@ -379,8 +344,7 @@ const PaymentModal = ({ isOpen, onClose, onSubscribe }: PaymentModalProps) => {
           )}
 
           <div className="mt-4 md:mt-8 text-center text-sm text-base-foreground/60">
-            구독은 언제든지 취소할 수 있으며, 구독 기간 동안 모든 기능을
-            이용하실 수 있습니다.
+            구독은 언제든지 취소할 수 있으며, 구독 기간 동안 모든 기능을 이용하실 수 있습니다.
           </div>
         </div>
       </div>

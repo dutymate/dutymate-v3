@@ -1,5 +1,5 @@
-import { RefObject, useCallback, useEffect, useState } from 'react';
 import { throttle } from 'lodash';
+import { RefObject, useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 interface ViolationMessageProps {

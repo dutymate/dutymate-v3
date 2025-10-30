@@ -3,10 +3,7 @@ interface CommunityCategoriesProps {
   selectedCategory: string | null;
 }
 
-const CommunityCategories = ({
-  onCategorySelect,
-  selectedCategory,
-}: CommunityCategoriesProps) => {
+const CommunityCategories = ({ onCategorySelect, selectedCategory }: CommunityCategoriesProps) => {
   const categories = [
     { key: 'ALL', value: '전체글' },
     { key: 'DAILY', value: '일상글' },

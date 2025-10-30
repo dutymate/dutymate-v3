@@ -6,8 +6,7 @@ import TimeOut from '@/components/organisms/TimeOut';
 import useUserAuthStore from '@/stores/userAuthStore';
 
 const DemoTimer = () => {
-  const { userInfo, setTimeout, isTimeout, timeLeft, setTimeLeft } =
-    useUserAuthStore();
+  const { userInfo, setTimeout, isTimeout, timeLeft, setTimeLeft } = useUserAuthStore();
   const isDemo = userInfo?.isDemo;
   const navigate = useNavigate();
   // const [showTimeOut, setShowTimeOut] = useState<boolean>(false);

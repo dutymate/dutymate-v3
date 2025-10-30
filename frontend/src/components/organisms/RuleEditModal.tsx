@@ -3,8 +3,8 @@ import { toast } from 'react-toastify';
 
 import { Button } from '@/components/atoms/Button';
 import { ruleService } from '@/services/ruleService';
-import useWardStore from '@/stores/wardStore';
 import { ShiftValues } from '@/services/wardService';
+import useWardStore from '@/stores/wardStore';
 
 interface RuleEditModalProps {
   onClose: () => void;
@@ -61,17 +61,13 @@ const RuleEditModal = ({
 
   // M 근무(shiftFlags & 8) 간호사 수 계산 - 비트마스킹으로 M 비트가 설정되었는지 확인
   const mShiftNursesCount =
-    wardInfo?.nurses?.filter(
-      (nurse) => (nurse.shiftFlags & ShiftValues.M) === ShiftValues.M
-    )?.length || 0;
+    wardInfo?.nurses?.filter((nurse) => (nurse.shiftFlags & ShiftValues.M) === ShiftValues.M)
+      ?.length || 0;
 
   // 외부 클릭 감지
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
-      ) {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
       }
     };
 
@@ -140,18 +136,14 @@ const RuleEditModal = ({
       if (error.response) {
         switch (error.response.status) {
           case 400:
-            toast.error(
-              '유효하지 않은 입력 값이 제공되어 규칙 수정을 실패했습니다'
-            );
+            toast.error('유효하지 않은 입력 값이 제공되어 규칙 수정을 실패했습니다');
             break;
           case 401:
             toast.error('로그인 토큰이 만료되었습니다');
             window.location.href = '/login';
             break;
           case 404:
-            toast.error(
-              '병동 ID에 해당하는 규칙이 존재하지 않아 수정을 할 수 없습니다'
-            );
+            toast.error('병동 ID에 해당하는 규칙이 존재하지 않아 수정을 할 수 없습니다');
             break;
           default:
             toast.error('규칙 저장에 실패했습니다');
@@ -181,13 +173,8 @@ const RuleEditModal = ({
       >
         {/* 헤더 */}
         <div className="flex rounded-t-xl justify-between bg-primary-bg items-center px-[1rem] py-[0.25rem] border-b">
-          <h2 className="text-sm font-medium text-primary-dark">
-            병동 규칙 설정
-          </h2>
-          <button
-            onClick={onClose}
-            className="text-primary hover:text-primary/80"
-          >
+          <h2 className="text-sm font-medium text-primary-dark">병동 규칙 설정</h2>
+          <button onClick={onClose} className="text-primary hover:text-primary/80">
             <span className="text-lg">×</span>
           </button>
         </div>
@@ -226,34 +213,25 @@ const RuleEditModal = ({
                     <div className="bg-gray-50 rounded-md p-2 space-y-3">
                       {/* 평일 근무자 수 */}
                       <div className="flex items-center justify-between py-[0.1rem]">
-                        <span className="text-sm text-foreground">
-                          평일 근무자 수
-                        </span>
+                        <span className="text-sm text-foreground">평일 근무자 수</span>
                         <div className="flex items-center gap-2">
                           {/* M 전담 근무자 수 표시 (읽기 전용) */}
                           <div className="flex items-center gap-2">
-                            <span className="text-sm font-medium text-duty-mid">
-                              M
-                            </span>
+                            <span className="text-sm font-medium text-duty-mid">M</span>
                             <div className="relative group">
                               <div className="appearance-none border rounded px-2 py-0.5 text-sm bg-gray-100 w-[1.5rem] text-foreground text-center">
                                 {mShiftNursesCount}
                               </div>
                               <div className="absolute left-1/2 -translate-x-1/2 top-full mt-1 px-3 py-1 bg-gray-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity z-50">
-                                전담 근무는 병동 관리 페이지에서만 설정
-                                가능합니다
+                                전담 근무는 병동 관리 페이지에서만 설정 가능합니다
                               </div>
                             </div>
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className="text-sm font-medium text-duty-day">
-                              D
-                            </span>
+                            <span className="text-sm font-medium text-duty-day">D</span>
                             <select
                               value={rules.wdayDCnt}
-                              onChange={(e) =>
-                                handleChange('wdayDCnt', Number(e.target.value))
-                              }
+                              onChange={(e) => handleChange('wdayDCnt', Number(e.target.value))}
                               className="
                               appearance-none
                               border rounded
@@ -272,25 +250,17 @@ const RuleEditModal = ({
                             "
                             >
                               {[...Array(6)].map((_, i) => (
-                                <option
-                                  key={i}
-                                  value={i}
-                                  className="text-center"
-                                >
+                                <option key={i} value={i} className="text-center">
                                   {i}
                                 </option>
                               ))}
                             </select>
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className="text-sm font-medium text-duty-evening">
-                              E
-                            </span>
+                            <span className="text-sm font-medium text-duty-evening">E</span>
                             <select
                               value={rules.wdayECnt}
-                              onChange={(e) =>
-                                handleChange('wdayECnt', Number(e.target.value))
-                              }
+                              onChange={(e) => handleChange('wdayECnt', Number(e.target.value))}
                               className="
                               appearance-none
                               border rounded
@@ -309,25 +279,17 @@ const RuleEditModal = ({
                             "
                             >
                               {[...Array(6)].map((_, i) => (
-                                <option
-                                  key={i}
-                                  value={i}
-                                  className="text-center"
-                                >
+                                <option key={i} value={i} className="text-center">
                                   {i}
                                 </option>
                               ))}
                             </select>
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className="text-sm font-medium text-duty-night">
-                              N
-                            </span>
+                            <span className="text-sm font-medium text-duty-night">N</span>
                             <select
                               value={rules.wdayNCnt}
-                              onChange={(e) =>
-                                handleChange('wdayNCnt', Number(e.target.value))
-                              }
+                              onChange={(e) => handleChange('wdayNCnt', Number(e.target.value))}
                               className="
                               appearance-none
                               border rounded
@@ -346,11 +308,7 @@ const RuleEditModal = ({
                             "
                             >
                               {[...Array(6)].map((_, i) => (
-                                <option
-                                  key={i}
-                                  value={i}
-                                  className="text-center"
-                                >
+                                <option key={i} value={i} className="text-center">
                                   {i}
                                 </option>
                               ))}
@@ -361,19 +319,13 @@ const RuleEditModal = ({
 
                       {/* 주말 근무자 수 */}
                       <div className="flex items-center justify-between py-[0.1rem]">
-                        <span className="text-sm text-foreground">
-                          주말 근무자 수
-                        </span>
+                        <span className="text-sm text-foreground">주말 근무자 수</span>
                         <div className="flex items-center gap-2">
                           <div className="flex items-center gap-2">
-                            <span className="text-sm font-medium text-duty-day">
-                              D
-                            </span>
+                            <span className="text-sm font-medium text-duty-day">D</span>
                             <select
                               value={rules.wendDCnt}
-                              onChange={(e) =>
-                                handleChange('wendDCnt', Number(e.target.value))
-                              }
+                              onChange={(e) => handleChange('wendDCnt', Number(e.target.value))}
                               className="
                               appearance-none
                               border rounded
@@ -392,25 +344,17 @@ const RuleEditModal = ({
                             "
                             >
                               {[...Array(6)].map((_, i) => (
-                                <option
-                                  key={i}
-                                  value={i}
-                                  className="text-center"
-                                >
+                                <option key={i} value={i} className="text-center">
                                   {i}
                                 </option>
                               ))}
                             </select>
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className="text-sm font-medium text-duty-evening">
-                              E
-                            </span>
+                            <span className="text-sm font-medium text-duty-evening">E</span>
                             <select
                               value={rules.wendECnt}
-                              onChange={(e) =>
-                                handleChange('wendECnt', Number(e.target.value))
-                              }
+                              onChange={(e) => handleChange('wendECnt', Number(e.target.value))}
                               className="
                               appearance-none
                               border rounded
@@ -429,25 +373,17 @@ const RuleEditModal = ({
                             "
                             >
                               {[...Array(6)].map((_, i) => (
-                                <option
-                                  key={i}
-                                  value={i}
-                                  className="text-center"
-                                >
+                                <option key={i} value={i} className="text-center">
                                   {i}
                                 </option>
                               ))}
                             </select>
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className="text-sm font-medium text-duty-night">
-                              N
-                            </span>
+                            <span className="text-sm font-medium text-duty-night">N</span>
                             <select
                               value={rules.wendNCnt}
-                              onChange={(e) =>
-                                handleChange('wendNCnt', Number(e.target.value))
-                              }
+                              onChange={(e) => handleChange('wendNCnt', Number(e.target.value))}
                               className="
                               appearance-none
                               border rounded
@@ -466,11 +402,7 @@ const RuleEditModal = ({
                             "
                             >
                               {[...Array(6)].map((_, i) => (
-                                <option
-                                  key={i}
-                                  value={i}
-                                  className="text-center"
-                                >
+                                <option key={i} value={i} className="text-center">
                                   {i}
                                 </option>
                               ))}
@@ -504,15 +436,11 @@ const RuleEditModal = ({
                     <div className="bg-gray-50 rounded-md p-2 space-y-2">
                       {/* 연속 근무 수 최대 */}
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-foreground">
-                          연속 근무 수 최대
-                        </span>
+                        <span className="text-sm text-foreground">연속 근무 수 최대</span>
                         <div className="flex items-center gap-1.5">
                           <select
                             value={rules.maxShift}
-                            onChange={(e) =>
-                              handleChange('maxShift', Number(e.target.value))
-                            }
+                            onChange={(e) => handleChange('maxShift', Number(e.target.value))}
                             className="
                               appearance-none
                               border rounded
@@ -530,23 +458,14 @@ const RuleEditModal = ({
                           "
                           >
                             {[...Array(4)].map((_, i) => (
-                              <option
-                                key={i + 3}
-                                value={i + 3}
-                                className="text-center"
-                              >
+                              <option key={i + 3} value={i + 3} className="text-center">
                                 {i + 3}일 이하
                               </option>
                             ))}
                           </select>
                           <select
                             value={rules.prioMaxShift}
-                            onChange={(e) =>
-                              handleChange(
-                                'prioMaxShift',
-                                Number(e.target.value)
-                              )
-                            }
+                            onChange={(e) => handleChange('prioMaxShift', Number(e.target.value))}
                             className={`
                             appearance-none
                             border rounded
@@ -592,15 +511,11 @@ const RuleEditModal = ({
 
                       {/* 나이트 연속 근무 수 최대 */}
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-foreground">
-                          나이트 연속 최대
-                        </span>
+                        <span className="text-sm text-foreground">나이트 연속 최대</span>
                         <div className="flex items-center gap-1.5">
                           <select
                             value={rules.maxN}
-                            onChange={(e) =>
-                              handleChange('maxN', Number(e.target.value))
-                            }
+                            onChange={(e) => handleChange('maxN', Number(e.target.value))}
                             className="
                             appearance-none
                             border rounded
@@ -618,20 +533,14 @@ const RuleEditModal = ({
                           "
                           >
                             {[...Array(6)].map((_, i) => (
-                              <option
-                                key={i + 2}
-                                value={i + 2}
-                                className="text-center"
-                              >
+                              <option key={i + 2} value={i + 2} className="text-center">
                                 {i + 2}일 이하
                               </option>
                             ))}
                           </select>
                           <select
                             value={rules.prioMaxN}
-                            onChange={(e) =>
-                              handleChange('prioMaxN', Number(e.target.value))
-                            }
+                            onChange={(e) => handleChange('prioMaxN', Number(e.target.value))}
                             className={`
                             appearance-none
                             border rounded
@@ -677,15 +586,11 @@ const RuleEditModal = ({
 
                       {/* 나이트 연속 근무 수 최소 */}
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-foreground">
-                          나이트 연속 최소
-                        </span>
+                        <span className="text-sm text-foreground">나이트 연속 최소</span>
                         <div className="flex items-center gap-1.5">
                           <select
                             value={rules.minN}
-                            onChange={(e) =>
-                              handleChange('minN', Number(e.target.value))
-                            }
+                            onChange={(e) => handleChange('minN', Number(e.target.value))}
                             className="
                             appearance-none
                             border rounded
@@ -710,9 +615,7 @@ const RuleEditModal = ({
                           </select>
                           <select
                             value={rules.prioMinN}
-                            onChange={(e) =>
-                              handleChange('prioMinN', Number(e.target.value))
-                            }
+                            onChange={(e) => handleChange('prioMinN', Number(e.target.value))}
                             className={`
                             appearance-none
                             border rounded
@@ -760,12 +663,7 @@ const RuleEditModal = ({
 
                   {/* 저장 버튼 */}
                   <div className="flex justify-end gap-[0.25rem] mt-[1rem]">
-                    <Button
-                      size="xs"
-                      color="muted"
-                      onClick={onClose}
-                      disabled={isSubmitting}
-                    >
+                    <Button size="xs" color="muted" onClick={onClose} disabled={isSubmitting}>
                       취소
                     </Button>
                     <Button

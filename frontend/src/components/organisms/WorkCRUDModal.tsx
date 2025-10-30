@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
 import { DutyBadgeKor } from '@/components/atoms/DutyBadgeKor';
-import { getDutyColors } from '@/utils/dutyUtils';
+import { MyDuty, dutyService } from '@/services/dutyService';
 import { useUserAuthStore } from '@/stores/userAuthStore';
-import { dutyService, MyDuty } from '@/services/dutyService';
-import { toast } from 'react-toastify';
+import { getDutyColors } from '@/utils/dutyUtils';
+import React, { useState, useEffect, useRef } from 'react';
 import { FaArrowRightArrowLeft } from 'react-icons/fa6';
+import { toast } from 'react-toastify';
 
 interface WorkCRUDModalProps {
   open: boolean;
@@ -102,9 +102,7 @@ const WorkCRUDModal = ({
 
     // 데스크톱에서는 고정된 위치에 표시
     const calendarWidth =
-      document
-        .querySelector('.calendar-modal-container')
-        ?.getBoundingClientRect().width || 0;
+      document.querySelector('.calendar-modal-container')?.getBoundingClientRect().width || 0;
     const screenWidth = window.innerWidth;
 
     // 캘린더 컴포넌트가 있으면 오른쪽에 배치, 없으면 화면 중앙
@@ -174,13 +172,7 @@ const WorkCRUDModal = ({
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (
-      isMobile ||
-      !initialTouchRef.current ||
-      !modalRef.current ||
-      !isDraggingRef.current
-    )
-      return;
+    if (isMobile || !initialTouchRef.current || !modalRef.current || !isDraggingRef.current) return;
 
     const touch = e.touches[0];
     const dx = touch.clientX - initialTouchRef.current.x;

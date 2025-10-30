@@ -2,10 +2,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { Button } from '@/components/atoms/Button';
-import {
-  PasswordUpdateRequest,
-  profileService,
-} from '@/services/profileService';
+import { PasswordUpdateRequest, profileService } from '@/services/profileService';
 import useUserAuthStore from '@/stores/userAuthStore';
 
 const MypagePassword = () => {
@@ -47,15 +44,11 @@ const MypagePassword = () => {
 
   return (
     <div className="bg-white rounded-lg shadow-md p-[1rem]">
-      <h2 className="text-base font-semibold text-gray-900 mb-[1rem]">
-        비밀번호 변경
-      </h2>
+      <h2 className="text-base font-semibold text-gray-900 mb-[1rem]">비밀번호 변경</h2>
       <div className="space-y-[1rem]">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-[0.75rem]">
           <div className="flex flex-col">
-            <span className="text-sm text-gray-600 mb-[0.5rem]">
-              현재 비밀번호
-            </span>
+            <span className="text-sm text-gray-600 mb-[0.5rem]">현재 비밀번호</span>
             <input
               type="password"
               name="currentPassword"
@@ -66,9 +59,7 @@ const MypagePassword = () => {
             />
           </div>
           <div className="flex flex-col">
-            <span className="text-sm text-gray-600 mb-[0.5rem]">
-              새로운 비밀번호
-            </span>
+            <span className="text-sm text-gray-600 mb-[0.5rem]">새로운 비밀번호</span>
             <input
               type="password"
               name="newPassword"
@@ -79,9 +70,7 @@ const MypagePassword = () => {
             />
           </div>
           <div className="flex flex-col">
-            <span className="text-sm text-gray-600 mb-[0.5rem]">
-              비밀번호 확인
-            </span>
+            <span className="text-sm text-gray-600 mb-[0.5rem]">비밀번호 확인</span>
             <input
               type="password"
               name="newPasswordConfirm"

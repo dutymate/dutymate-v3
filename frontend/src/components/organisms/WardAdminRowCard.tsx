@@ -2,9 +2,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import { Dropdown } from '@/components/atoms/Dropdown';
 import DutyBadgeEng from '@/components/atoms/DutyBadgeEng';
 import DutyTooltip from '@/components/atoms/DutyTooltip';
-import { Dropdown } from '@/components/atoms/Dropdown';
 import { Icon, IconName } from '@/components/atoms/Icon';
 import RemoveNurseConfirmModal from '@/components/organisms/RemoveNurseConfirmModal';
 import { Nurse, ShiftValues } from '@/services/wardService';
@@ -18,32 +18,20 @@ interface WardAdminRowCardProps {
   onSelect?: (memberId: number) => void;
   useCustomDutyLabels?: boolean;
 }
-const WardAdminRowCard = ({
-  nurse,
-  onUpdate,
-  isSelected,
-  onSelect,
-}: WardAdminRowCardProps) => {
+const WardAdminRowCard = ({ nurse, onUpdate, isSelected, onSelect }: WardAdminRowCardProps) => {
   if (!nurse) {
     return null;
   }
 
-  const [openWorkIntensityDropdown, setOpenWorkIntensityDropdown] =
-    useState(false);
+  const [openWorkIntensityDropdown, setOpenWorkIntensityDropdown] = useState(false);
   const [isEditingMemo, setIsEditingMemo] = useState(false);
   const [memo, setMemo] = useState(nurse.memo ?? '');
   const memoInputRef = useRef<HTMLInputElement>(null);
-  const { removeNurses, updateVirtualNurseName, updateVirtualNurseInfo } =
-    useWardStore();
-  const [dropdownPosition, setDropdownPosition] = useState<'top' | 'bottom'>(
-    'bottom'
-  );
+  const { removeNurses, updateVirtualNurseName, updateVirtualNurseInfo } = useWardStore();
+  const [dropdownPosition, setDropdownPosition] = useState<'top' | 'bottom'>('bottom');
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024); // 모바일 환경 감지 (lg breakpoint)
-  const [removeTarget, setRemoveTarget] = useState<'SELF' | 'HN' | 'RN' | null>(
-    null
-  );
-  const [isRemoveAdminConfirmModalOpen, setIsRemoveAdminConfirmModalOpen] =
-    useState(false);
+  const [removeTarget, setRemoveTarget] = useState<'SELF' | 'HN' | 'RN' | null>(null);
+  const [isRemoveAdminConfirmModalOpen, setIsRemoveAdminConfirmModalOpen] = useState(false);
   const authorityDropdownRef = useRef<HTMLDivElement>(null);
   const skillButtonRef = useRef<HTMLButtonElement>(null);
   const skillDropdownRef = useRef<HTMLDivElement>(null);
@@ -76,24 +64,21 @@ const WardAdminRowCard = ({
     // console.log("Nurse data:", nurse);
   }, [nurse]);
 
-  const updateDropdownPosition = useCallback(
-    (buttonRef: React.RefObject<HTMLElement>) => {
-      if (!buttonRef.current || !containerRef.current) return;
+  const updateDropdownPosition = useCallback((buttonRef: React.RefObject<HTMLElement>) => {
+    if (!buttonRef.current || !containerRef.current) return;
 
-      const buttonRect = buttonRef.current.getBoundingClientRect();
-      // const containerRect = containerRef.current.getBoundingClientRect();
-      const scrollableParent = getScrollableParent(containerRef.current);
-      const scrollableRect = scrollableParent.getBoundingClientRect();
+    const buttonRect = buttonRef.current.getBoundingClientRect();
+    // const containerRect = containerRef.current.getBoundingClientRect();
+    const scrollableParent = getScrollableParent(containerRef.current);
+    const scrollableRect = scrollableParent.getBoundingClientRect();
 
-      // Calculate space below within the scrollable container
-      const spaceBelow = scrollableRect.bottom - buttonRect.bottom;
-      const spaceAbove = buttonRect.top - scrollableRect.top;
+    // Calculate space below within the scrollable container
+    const spaceBelow = scrollableRect.bottom - buttonRect.bottom;
+    const spaceAbove = buttonRect.top - scrollableRect.top;
 
-      // Use the larger space, with a preference for below if equal
-      setDropdownPosition(spaceBelow >= spaceAbove ? 'bottom' : 'top');
-    },
-    []
-  );
+    // Use the larger space, with a preference for below if equal
+    setDropdownPosition(spaceBelow >= spaceAbove ? 'bottom' : 'top');
+  }, []);
 
   // Helper function to find the nearest scrollable parent
   const getScrollableParent = (element: HTMLElement): HTMLElement => {
@@ -113,8 +98,7 @@ const WardAdminRowCard = ({
 
   // Update authority dropdown position
   useEffect(() => {
-    const handlePositionUpdate = () =>
-      updateDropdownPosition(authorityDropdownRef);
+    const handlePositionUpdate = () => updateDropdownPosition(authorityDropdownRef);
 
     handlePositionUpdate();
     window.addEventListener('scroll', handlePositionUpdate, true); // Use capture phase
@@ -142,8 +126,7 @@ const WardAdminRowCard = ({
 
   // Add workIntensity dropdown position update
   useEffect(() => {
-    const handlePositionUpdate = () =>
-      updateDropdownPosition(workIntensityButtonRef);
+    const handlePositionUpdate = () => updateDropdownPosition(workIntensityButtonRef);
 
     handlePositionUpdate();
     window.addEventListener('scroll', handlePositionUpdate, true);
@@ -173,16 +156,10 @@ const WardAdminRowCard = ({
       ) {
         setOpenWorkIntensityDropdown(false);
       }
-      if (
-        genderDropdownRef.current &&
-        !genderDropdownRef.current.contains(event.target as Node)
-      ) {
+      if (genderDropdownRef.current && !genderDropdownRef.current.contains(event.target as Node)) {
         setIsGenderDropdownOpen(false);
       }
-      if (
-        gradeDropdownRef.current &&
-        !gradeDropdownRef.current.contains(event.target as Node)
-      ) {
+      if (gradeDropdownRef.current && !gradeDropdownRef.current.contains(event.target as Node)) {
         setIsGradeDropdownOpen(false);
       }
     };
@@ -197,9 +174,7 @@ const WardAdminRowCard = ({
     { value: 'LOW' as 'LOW', icon: 'low' as const, label: '낮음' },
   ];
 
-  const getWorkIntensityIcon = (
-    intensity: 'HIGH' | 'MEDIUM' | 'LOW'
-  ): IconName => {
+  const getWorkIntensityIcon = (intensity: 'HIGH' | 'MEDIUM' | 'LOW'): IconName => {
     switch (intensity) {
       case 'HIGH':
         return 'high';
@@ -212,9 +187,7 @@ const WardAdminRowCard = ({
     }
   };
 
-  const handleWorkIntensityChange = (
-    workIntensity: 'HIGH' | 'MEDIUM' | 'LOW'
-  ) => {
+  const handleWorkIntensityChange = (workIntensity: 'HIGH' | 'MEDIUM' | 'LOW') => {
     onUpdate(nurse.memberId, {
       workIntensity,
       shiftFlags: nurse.shiftFlags || null,
@@ -234,8 +207,7 @@ const WardAdminRowCard = ({
     const mShiftValue = ShiftValues.M;
 
     // 현재 D, E, N이 모두 선택되어 있는지 확인
-    const allDENSelected =
-      (nurse.shiftFlags & DEN_COMBINATION) === DEN_COMBINATION;
+    const allDENSelected = (nurse.shiftFlags & DEN_COMBINATION) === DEN_COMBINATION;
 
     if (allDENSelected) {
       // 이미 모두 선택되어 있으면 모두 해제 (단, 최소 하나는 남겨야 함)
@@ -452,9 +424,7 @@ const WardAdminRowCard = ({
                 className="mx-1"
                 style={{
                   visibility:
-                    userAuthStore.userInfo?.memberId === nurse.memberId
-                      ? 'hidden'
-                      : 'visible',
+                    userAuthStore.userInfo?.memberId === nurse.memberId ? 'hidden' : 'visible',
                 }}
               />
               <div className="flex items-center gap-3 w-[7rem] pl-[0.5rem] group relative">
@@ -479,9 +449,7 @@ const WardAdminRowCard = ({
                       />
                     ) : (
                       <div className="flex items-center w-full overflow-hidden">
-                        <span className="w-0 flex-1 truncate text-duty-off">
-                          {name}
-                        </span>
+                        <span className="w-0 flex-1 truncate text-duty-off">{name}</span>
                         <button
                           onClick={() => setIsEditingName(true)}
                           className="opacity-0 group-hover:opacity-100 transition-opacity ml-[0.25rem]"
@@ -499,11 +467,7 @@ const WardAdminRowCard = ({
                 {nurse.isSynced && (
                   <div className="flex items-center gap-1 w-full">
                     {nurse.role === 'HN' && (
-                      <Icon
-                        name="crown"
-                        size={16}
-                        className="text-yellow-500 flex-shrink-0"
-                      />
+                      <Icon name="crown" size={16} className="text-yellow-500 flex-shrink-0" />
                     )}
                     <span className="w-0 flex-1 truncate">{nurse.name}</span>
                   </div>
@@ -511,10 +475,7 @@ const WardAdminRowCard = ({
               </div>
               <div className="relative" ref={genderDropdownRef}>
                 <button
-                  onClick={() =>
-                    !nurse.isSynced &&
-                    setIsGenderDropdownOpen(!isGenderDropdownOpen)
-                  }
+                  onClick={() => !nurse.isSynced && setIsGenderDropdownOpen(!isGenderDropdownOpen)}
                   className={`flex items-center gap-[0.25rem] w-[3.75rem] p-[0.25rem] rounded ${
                     !nurse.isSynced ? 'hover:bg-gray-50' : 'cursor-not-allowed'
                   }`}
@@ -532,22 +493,14 @@ const WardAdminRowCard = ({
                       onClick={() => handleGenderChange('F')}
                       className="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 whitespace-nowrap"
                     >
-                      <Icon
-                        name="female"
-                        size={16}
-                        className="text-gray-500 flex-shrink-0"
-                      />
+                      <Icon name="female" size={16} className="text-gray-500 flex-shrink-0" />
                       <span className="flex-shrink-0">여자</span>
                     </button>
                     <button
                       onClick={() => handleGenderChange('M')}
                       className="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 whitespace-nowrap"
                     >
-                      <Icon
-                        name="male"
-                        size={16}
-                        className="text-gray-500 flex-shrink-0"
-                      />
+                      <Icon name="male" size={16} className="text-gray-500 flex-shrink-0" />
                       <span className="flex-shrink-0">남자</span>
                     </button>
                   </div>
@@ -555,20 +508,13 @@ const WardAdminRowCard = ({
               </div>
               <div className="relative" ref={gradeDropdownRef}>
                 <button
-                  onClick={() =>
-                    !nurse.isSynced &&
-                    setIsGradeDropdownOpen(!isGradeDropdownOpen)
-                  }
+                  onClick={() => !nurse.isSynced && setIsGradeDropdownOpen(!isGradeDropdownOpen)}
                   className={`flex items-center gap-1 w-[90px] p-1 rounded justify-center ${
                     !nurse.isSynced ? 'hover:bg-gray-50' : 'cursor-not-allowed'
                   }`}
                 >
                   <div className="flex items-center justify-center w-full">
-                    <Icon
-                      name="idCard"
-                      size={16}
-                      className="text-gray-500 flex-shrink-0"
-                    />
+                    <Icon name="idCard" size={16} className="text-gray-500 flex-shrink-0" />
                     <span className="ml-1 truncate">{nurse.grade}년차</span>
                   </div>
                 </button>
@@ -582,11 +528,7 @@ const WardAdminRowCard = ({
                         onClick={() => handleGradeChange(grade + 1)}
                         className="flex items-center gap-2 w-full px-3 py-2 hover:bg-gray-50 whitespace-nowrap"
                       >
-                        <Icon
-                          name="idCard"
-                          size={16}
-                          className="text-gray-500 flex-shrink-0"
-                        />
+                        <Icon name="idCard" size={16} className="text-gray-500 flex-shrink-0" />
                         <span>{grade + 1}년차</span>
                       </button>
                     ))}
@@ -596,21 +538,12 @@ const WardAdminRowCard = ({
               <div className="relative w-[5rem]">
                 <button
                   className="flex items-center gap-[0.25rem] px-[0.5rem] py-[0.25rem] border rounded hover:bg-gray-50"
-                  onClick={() =>
-                    setOpenWorkIntensityDropdown(!openWorkIntensityDropdown)
-                  }
+                  onClick={() => setOpenWorkIntensityDropdown(!openWorkIntensityDropdown)}
                   ref={workIntensityButtonRef}
                 >
-                  <Icon
-                    name={getWorkIntensityIcon(nurse.workIntensity)}
-                    size={16}
-                  />
+                  <Icon name={getWorkIntensityIcon(nurse.workIntensity)} size={16} />
                   <span className="text-[0.875rem]">
-                    {
-                      workIntensityOptions.find(
-                        (opt) => opt.value === nurse.workIntensity
-                      )?.label
-                    }
+                    {workIntensityOptions.find((opt) => opt.value === nurse.workIntensity)?.label}
                   </span>
                 </button>
 
@@ -618,9 +551,7 @@ const WardAdminRowCard = ({
                   <div
                     ref={workIntensityDropdownRef}
                     className={`absolute ${
-                      dropdownPosition === 'top'
-                        ? 'bottom-full mb-1'
-                        : 'top-full mt-1'
+                      dropdownPosition === 'top' ? 'bottom-full mb-1' : 'top-full mt-1'
                     } left-0 bg-white border rounded-md shadow-lg z-10`}
                   >
                     {workIntensityOptions.map((option) => (
@@ -629,10 +560,7 @@ const WardAdminRowCard = ({
                         className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 w-full"
                         onClick={() => handleWorkIntensityChange(option.value)}
                       >
-                        <Icon
-                          name={getWorkIntensityIcon(option.value)}
-                          size={16}
-                        />
+                        <Icon name={getWorkIntensityIcon(option.value)} size={16} />
                         <span className="text-sm">{option.label}</span>
                       </button>
                     ))}
@@ -668,9 +596,7 @@ const WardAdminRowCard = ({
                         : 'outline'
                     }
                     onClick={handleAllShiftChange}
-                    isSelected={
-                      (nurse.shiftFlags & DEN_COMBINATION) === DEN_COMBINATION
-                    }
+                    isSelected={(nurse.shiftFlags & DEN_COMBINATION) === DEN_COMBINATION}
                     useSmallText={true}
                   />
                 </DutyTooltip>
@@ -744,9 +670,7 @@ const WardAdminRowCard = ({
                     }
                   }}
                   label=""
-                  position={
-                    dropdownPosition === 'top' ? 'top-left' : 'bottom-left'
-                  }
+                  position={dropdownPosition === 'top' ? 'top-left' : 'bottom-left'}
                   isSelected={isSelected}
                 />
               </div>

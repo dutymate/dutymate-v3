@@ -5,21 +5,16 @@ import { Button } from '@/components/atoms/Button';
 import DutyBadgeEng from '@/components/atoms/DutyBadgeEng';
 import { DateInput, TextArea } from '@/components/atoms/Input';
 import { requestService } from '@/services/requestService';
-import { wardService, Nurse } from '@/services/wardService';
+import { Nurse, wardService } from '@/services/wardService';
 
 interface AdminReqShiftModalProps {
   onClose: () => void;
   onRequestCreated?: () => void;
 }
 
-const AdminReqShiftModal = ({
-  onClose,
-  onRequestCreated,
-}: AdminReqShiftModalProps) => {
+const AdminReqShiftModal = ({ onClose, onRequestCreated }: AdminReqShiftModalProps) => {
   const [selectedDate, setSelectedDate] = useState('');
-  const [selectedDuty, setSelectedDuty] = useState<
-    'D' | 'E' | 'N' | 'O' | null
-  >(null);
+  const [selectedDuty, setSelectedDuty] = useState<'D' | 'E' | 'N' | 'O' | null>(null);
   const [memo, setMemo] = useState('');
   const [nurses, setNurses] = useState<Nurse[]>([]);
   const [selectedNurseId, setSelectedNurseId] = useState<number | null>(null);
@@ -64,9 +59,7 @@ const AdminReqShiftModal = ({
 
       onClose();
     } catch (error: any) {
-      toast.error(
-        error.response?.data?.message || '근무 요청 등록에 실패했습니다.'
-      );
+      toast.error(error.response?.data?.message || '근무 요청 등록에 실패했습니다.');
     }
   };
 
@@ -74,17 +67,13 @@ const AdminReqShiftModal = ({
     <div className="bg-white rounded-xl p-6 w-[23rem]">
       <div className="flex flex-col gap-1 mb-6">
         <h2 className="text-lg font-bold">근무 요청 등록</h2>
-        <p className="text-sm text-gray-500">
-          간호사를 대신하여 근무 요청을 등록할 수 있습니다.
-        </p>
+        <p className="text-sm text-gray-500">간호사를 대신하여 근무 요청을 등록할 수 있습니다.</p>
       </div>
 
       <div className="space-y-4">
         {/* 간호사 선택 */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            간호사 선택
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">간호사 선택</label>
           <select
             value={selectedNurseId || ''}
             onChange={(e) => setSelectedNurseId(Number(e.target.value))}
@@ -102,12 +91,8 @@ const AdminReqShiftModal = ({
         {/* 근무 날짜 */}
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <label className="text-sm font-medium text-gray-700">
-              근무 날짜
-            </label>
-            <span className="text-xs text-gray-400">
-              요청할 날짜를 선택해주세요.
-            </span>
+            <label className="text-sm font-medium text-gray-700">근무 날짜</label>
+            <span className="text-xs text-gray-400">요청할 날짜를 선택해주세요.</span>
           </div>
           <DateInput
             id="req-date"
@@ -120,9 +105,7 @@ const AdminReqShiftModal = ({
 
         {/* 근무 유형 */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            근무 유형
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">근무 유형</label>
           <div className="flex gap-2">
             {(['D', 'E', 'N', 'O'] as const).map((duty) => (
               <DutyBadgeEng
@@ -160,11 +143,7 @@ const AdminReqShiftModal = ({
           >
             등록하기
           </Button>
-          <Button
-            color="off"
-            onClick={onClose}
-            className="min-w-[6.25rem] min-h-[2.5rem]"
-          >
+          <Button color="off" onClick={onClose} className="min-w-[6.25rem] min-h-[2.5rem]">
             닫기
           </Button>
         </div>

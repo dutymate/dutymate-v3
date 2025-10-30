@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { groupService } from '@/services/groupService';
-import { toast } from 'react-toastify';
-import { useLoadingStore } from '@/stores/loadingStore';
 import PageLoadingSpinner from '@/components/atoms/Loadingspinner';
+import { groupService } from '@/services/groupService';
+import { useLoadingStore } from '@/stores/loadingStore';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const GroupInvitePage = () => {
   const navigate = useNavigate();
@@ -63,9 +63,7 @@ const GroupInvitePage = () => {
   return (
     <>
       <Helmet>
-        <title>
-          {groupName ? `${groupName} 그룹 초대` : '듀티메이트 - 그룹 초대'}
-        </title>
+        <title>{groupName ? `${groupName} 그룹 초대` : '듀티메이트 - 그룹 초대'}</title>
         <meta
           name="description"
           content="DutyMate에서 함께 근무표를 관리하고 일정을 공유해보세요!"
@@ -76,9 +74,7 @@ const GroupInvitePage = () => {
         <meta property="og:type" content="website" />
         <meta
           property="og:title"
-          content={
-            groupName ? `${groupName} 그룹 초대` : '듀티메이트 - 그룹 초대'
-          }
+          content={groupName ? `${groupName} 그룹 초대` : '듀티메이트 - 그룹 초대'}
         />
         <meta
           property="og:description"
@@ -93,9 +89,7 @@ const GroupInvitePage = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
-          content={
-            groupName ? `${groupName} 그룹 초대` : '듀티메이트 - 그룹 초대'
-          }
+          content={groupName ? `${groupName} 그룹 초대` : '듀티메이트 - 그룹 초대'}
         />
         <meta
           name="twitter:description"
@@ -133,9 +127,7 @@ const GroupInvitePage = () => {
 
             {/* Error Message */}
             <div className="space-y-4">
-              <h1 className="text-2xl font-bold text-base-foreground">
-                유효하지 않은 코드입니다
-              </h1>
+              <h1 className="text-2xl font-bold text-base-foreground">유효하지 않은 코드입니다</h1>
               <p className="text-base-foreground/70">{error}</p>
             </div>
 

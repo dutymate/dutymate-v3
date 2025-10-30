@@ -1,7 +1,7 @@
-import PasswordResetForm from '@/components/organisms/PasswordResetForm';
 import { SEO } from '@/components/SEO';
-import LandingTemplate from '@/components/templates/LandingTemplate';
 import Footer from '@/components/organisms/Footer';
+import PasswordResetForm from '@/components/organisms/PasswordResetForm';
+import LandingTemplate from '@/components/templates/LandingTemplate';
 
 const PasswordReset = () => {
   return (

@@ -1,8 +1,7 @@
 import { SEO } from '@/components/SEO';
 
 const Maintenance = () => {
-  const maintenanceMessage =
-    import.meta.env.VITE_MAINTENANCE_MESSAGE || '~ 점검 완료 시까지';
+  const maintenanceMessage = import.meta.env.VITE_MAINTENANCE_MESSAGE || '~ 점검 완료 시까지';
 
   return (
     <>
@@ -32,9 +31,7 @@ const Maintenance = () => {
 
           {/* Maintenance */}
           <div className="space-y-4">
-            <h1 className="text-2xl font-bold text-base-foreground">
-              시스템 점검 안내
-            </h1>
+            <h1 className="text-2xl font-bold text-base-foreground">시스템 점검 안내</h1>
             <div className="text-base text-base-foreground leading-relaxed space-y-3">
               <p>안녕하세요, 듀티메이트입니다.</p>
               <p>
@@ -43,8 +40,8 @@ const Maintenance = () => {
                 점검 동안 일부 기능이 일시적으로 제한될 수 있습니다.
               </p>
               <p>
-                최대한 빠르게 작업을 마치고 정상적으로 서비스를 제공해드릴 수
-                있도록 최선을 다하겠습니다.
+                최대한 빠르게 작업을 마치고 정상적으로 서비스를 제공해드릴 수 있도록 최선을
+                다하겠습니다.
               </p>
               <p>이용에 불편을 드려 진심으로 죄송합니다.</p>
             </div>

@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import axios from '@/lib/axios';
+import { useEffect, useState } from 'react';
 
 // Type definitions matching backend DTO
 interface MemberStatDto {
@@ -92,45 +92,31 @@ const AdminDashboard = () => {
   return (
     <div className="min-h-screen bg-[#F5F5F5] p-8">
       <div className="max-w-[1400px] mx-auto">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8">
-          관리자 대시보드
-        </h1>
+        <h1 className="text-3xl font-bold text-gray-800 mb-8">관리자 대시보드</h1>
 
         {/* 전체 통계 */}
         <section className="mb-12">
-          <h2 className="text-xl font-semibold text-gray-700 mb-6">
-            전체 통계
-          </h2>
+          <h2 className="text-xl font-semibold text-gray-700 mb-6">전체 통계</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
               <div className="text-sm text-gray-500 mb-2">전체 회원 수</div>
-              <div className="text-3xl font-bold text-gray-800">
-                {stats.totalMembers}
-              </div>
+              <div className="text-3xl font-bold text-gray-800">{stats.totalMembers}</div>
             </div>
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
               <div className="text-sm text-gray-500 mb-2">활성 회원 수</div>
-              <div className="text-3xl font-bold text-gray-800">
-                {stats.totalActiveMembers}
-              </div>
+              <div className="text-3xl font-bold text-gray-800">{stats.totalActiveMembers}</div>
             </div>
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
               <div className="text-sm text-gray-500 mb-2">전체 병동 수</div>
-              <div className="text-3xl font-bold text-gray-800">
-                {stats.totalWards}
-              </div>
+              <div className="text-3xl font-bold text-gray-800">{stats.totalWards}</div>
             </div>
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
               <div className="text-sm text-gray-500 mb-2">일반 간호사</div>
-              <div className="text-3xl font-bold text-gray-800">
-                {stats.totalNurses}
-              </div>
+              <div className="text-3xl font-bold text-gray-800">{stats.totalNurses}</div>
             </div>
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
               <div className="text-sm text-gray-500 mb-2">수간호사</div>
-              <div className="text-3xl font-bold text-gray-800">
-                {stats.totalHeadNurses}
-              </div>
+              <div className="text-3xl font-bold text-gray-800">{stats.totalHeadNurses}</div>
             </div>
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
               <div className="text-sm text-gray-500 mb-2">총 자동생성 횟수</div>
@@ -154,9 +140,7 @@ const AdminDashboard = () => {
               <table className="w-full">
                 <thead>
                   <tr className="bg-gray-50 border-b border-gray-200">
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
-                      ID
-                    </th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">ID</th>
                     <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
                       이메일
                     </th>
@@ -182,34 +166,15 @@ const AdminDashboard = () => {
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {stats.recentMembers.map((member) => (
-                    <tr
-                      key={member.memberId}
-                      className="hover:bg-gray-50 transition-colors"
-                    >
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        {member.memberId}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        {member.email}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        {member.name}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        {member.role}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        {member.autoGenCnt}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        {member.createdAt}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        {member.lastLoginAt}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        {member.wardName}
-                      </td>
+                    <tr key={member.memberId} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-6 py-4 text-sm text-gray-700">{member.memberId}</td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{member.email}</td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{member.name}</td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{member.role}</td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{member.autoGenCnt}</td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{member.createdAt}</td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{member.lastLoginAt}</td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{member.wardName}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -257,9 +222,7 @@ const AdminDashboard = () => {
 
         {/* 병동별 통계 */}
         <section>
-          <h2 className="text-xl font-semibold text-gray-700 mb-6">
-            병동별 통계
-          </h2>
+          <h2 className="text-xl font-semibold text-gray-700 mb-6">병동별 통계</h2>
           <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
             <div className="overflow-x-auto">
               <table className="w-full">
@@ -284,25 +247,12 @@ const AdminDashboard = () => {
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {stats.wardStats.map((ward) => (
-                    <tr
-                      key={ward.wardId}
-                      className="hover:bg-gray-50 transition-colors"
-                    >
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        {ward.wardId}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        {ward.hospitalName}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        {ward.wardName}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        {ward.nurseCount}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        {ward.headNurseCount}
-                      </td>
+                    <tr key={ward.wardId} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-6 py-4 text-sm text-gray-700">{ward.wardId}</td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{ward.hospitalName}</td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{ward.wardName}</td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{ward.nurseCount}</td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{ward.headNurseCount}</td>
                     </tr>
                   ))}
                 </tbody>

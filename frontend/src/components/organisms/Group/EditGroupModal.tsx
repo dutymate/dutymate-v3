@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { groupService } from '@/services/groupService';
-import { toast } from 'react-toastify';
 import heic2any from 'heic2any';
+import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 interface EditGroupModalProps {
   open: boolean;
@@ -64,9 +64,7 @@ const EditGroupModal: React.FC<EditGroupModalProps> = ({
         // ];
 
         if (!fileExtension || !validExtensions.includes(fileExtension)) {
-          toast.error(
-            'JPG, PNG, JPEG, HEIC 형식의 이미지만 업로드 가능합니다.'
-          );
+          toast.error('JPG, PNG, JPEG, HEIC 형식의 이미지만 업로드 가능합니다.');
           setIsImageUploading(false);
           return;
         }
@@ -79,11 +77,9 @@ const EditGroupModal: React.FC<EditGroupModalProps> = ({
               toType: 'image/jpeg',
               quality: 0.9,
             });
-            file = new File(
-              [convertedBlob as Blob],
-              file.name.replace(/\.(heic|heif)$/i, '.jpg'),
-              { type: 'image/jpeg' }
-            );
+            file = new File([convertedBlob as Blob], file.name.replace(/\.(heic|heif)$/i, '.jpg'), {
+              type: 'image/jpeg',
+            });
           } catch (err) {
             toast.error('HEIC 이미지를 변환하는 데 실패했습니다.');
             setIsImageUploading(false);
@@ -141,9 +137,7 @@ const EditGroupModal: React.FC<EditGroupModalProps> = ({
     try {
       setIsImageUploading(true);
       if (initialData?.groupId) {
-        const response = await groupService.updateGroupRandomImage(
-          initialData.groupId
-        );
+        const response = await groupService.updateGroupRandomImage(initialData.groupId);
         setImg(response.groupImgUrl);
         setIsImageUploading(false);
       }
@@ -166,8 +160,7 @@ const EditGroupModal: React.FC<EditGroupModalProps> = ({
       return;
     }
 
-    onAddGroup &&
-      onAddGroup({ groupName: name, groupDescription: desc, groupImg: img });
+    onAddGroup && onAddGroup({ groupName: name, groupDescription: desc, groupImg: img });
     onClose();
   };
 
@@ -177,21 +170,14 @@ const EditGroupModal: React.FC<EditGroupModalProps> = ({
       <div
         className={`
           relative bg-white rounded-t-2xl lg:rounded-2xl shadow-xl w-full
-          ${
-            isMobile
-              ? 'max-w-full pb-4 pt-2 px-4 animate-slideup'
-              : 'max-w-sm p-5'
-          }
+          ${isMobile ? 'max-w-full pb-4 pt-2 px-4 animate-slideup' : 'max-w-sm p-5'}
           flex flex-col items-center
           z-10
         `}
         style={isMobile ? { bottom: 0 } : {}}
       >
         {/* 닫기 버튼 */}
-        <button
-          className="absolute top-3 right-3 text-gray-400 text-xl"
-          onClick={onClose}
-        >
+        <button className="absolute top-3 right-3 text-gray-400 text-xl" onClick={onClose}>
           ×
         </button>
         {/* 타이틀 */}
@@ -204,11 +190,7 @@ const EditGroupModal: React.FC<EditGroupModalProps> = ({
         <div className="flex flex-col items-center mb-4 w-full">
           <label className="w-24 h-24 border-2 border-gray-300 rounded-xl flex items-center justify-center cursor-pointer text-2xl text-gray-400 bg-gray-100 hover:bg-gray-200 transition overflow-hidden relative">
             {img ? (
-              <img
-                src={img}
-                alt="preview"
-                className="w-full h-full object-cover"
-              />
+              <img src={img} alt="preview" className="w-full h-full object-cover" />
             ) : (
               <span className="text-2xl text-gray-400">＋</span>
             )}
@@ -258,9 +240,7 @@ const EditGroupModal: React.FC<EditGroupModalProps> = ({
         {/* 입력폼 */}
         {initialData ? (
           <div className="w-full flex flex-col items-start mb-6">
-            <label className="text-gray-400 text-xs mb-1 self-start">
-              그룹명
-            </label>
+            <label className="text-gray-400 text-xs mb-1 self-start">그룹명</label>
             <div className="w-full flex flex-col items-center mb-3">
               <input
                 className="block w-full border border-gray-300 rounded-lg px-4 py-2 text-base focus:outline-none focus:border-orange-300"
@@ -270,9 +250,7 @@ const EditGroupModal: React.FC<EditGroupModalProps> = ({
                 maxLength={20}
               />
             </div>
-            <label className="text-gray-400 text-xs mb-1 self-start">
-              그룹 설명
-            </label>
+            <label className="text-gray-400 text-xs mb-1 self-start">그룹 설명</label>
             <div className="w-full flex flex-col items-center">
               <input
                 className="block w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-orange-300"
@@ -286,9 +264,7 @@ const EditGroupModal: React.FC<EditGroupModalProps> = ({
         ) : (
           <>
             <div className="w-full flex flex-col items-start mb-6">
-              <label className="text-gray-400 text-xs mb-1 self-start">
-                그룹명
-              </label>
+              <label className="text-gray-400 text-xs mb-1 self-start">그룹명</label>
               <div className="w-full flex flex-col items-center mb-3">
                 <input
                   className="block w-full border border-gray-300 rounded-lg px-4 py-2 text-base focus:outline-none focus:border-orange-300"
@@ -298,9 +274,7 @@ const EditGroupModal: React.FC<EditGroupModalProps> = ({
                   maxLength={20}
                 />
               </div>
-              <label className="text-gray-400 text-xs mb-1 self-start">
-                그룹 설명
-              </label>
+              <label className="text-gray-400 text-xs mb-1 self-start">그룹 설명</label>
               <div className="w-full flex flex-col items-center">
                 <input
                   className="block w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-orange-300"
@@ -316,19 +290,13 @@ const EditGroupModal: React.FC<EditGroupModalProps> = ({
         {/* 등록/수정 버튼 */}
         <button
           className={`w-full bg-[#F5A281] text-white text-base font-bold py-2 rounded-xl shadow mt-2 transition mb-2 ${
-            isImageUploading
-              ? 'opacity-50 cursor-not-allowed'
-              : 'active:bg-[#F37C4C]'
+            isImageUploading ? 'opacity-50 cursor-not-allowed' : 'active:bg-[#F37C4C]'
           }`}
           style={{ boxShadow: '0 2px 8px 0 #f5a28133' }}
           onClick={handleSubmit}
           disabled={isImageUploading}
         >
-          {isImageUploading
-            ? '이미지 업로드 중...'
-            : initialData
-              ? '수정하기'
-              : '등록'}
+          {isImageUploading ? '이미지 업로드 중...' : initialData ? '수정하기' : '등록'}
         </button>
         {/* 경고 모달 */}
         {showModal && (

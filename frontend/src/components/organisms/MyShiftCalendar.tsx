@@ -1,12 +1,14 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { toast } from 'react-toastify';
 
 import { Button } from '@/components/atoms/Button';
 import { DutyBadgeKor } from '@/components/atoms/DutyBadgeKor';
 import ReqShiftModal from '@/components/organisms/ReqShiftModal';
+import TodayShiftModal from '@/components/organisms/TodayShiftModal';
 import WorkCRUDModal from '@/components/organisms/WorkCRUDModal';
 import type { ScheduleType } from '@/services/calendarService';
+import type { MyDuty } from '@/services/dutyService';
 import { useHolidayStore } from '@/stores/holidayStore';
 import { useUserAuthStore } from '@/stores/userAuthStore';
 import {
@@ -20,8 +22,6 @@ import {
   isToday,
 } from '@/utils/dateUtils';
 import { getDutyColors } from '@/utils/dutyUtils';
-import TodayShiftModal from '@/components/organisms/TodayShiftModal';
-import type { MyDuty } from '@/services/dutyService';
 
 interface MyShiftCalendarProps {
   onDateSelect: (date: Date | null) => void;
@@ -30,9 +30,7 @@ interface MyShiftCalendarProps {
   onMonthChange?: (year: number, month: number) => void;
   schedulesByDate: Record<string, ScheduleType[]>;
   colorClassMap: Record<string, string>;
-  setSchedulesByDate?: React.Dispatch<
-    React.SetStateAction<Record<string, ScheduleType[]>>
-  >;
+  setSchedulesByDate?: React.Dispatch<React.SetStateAction<Record<string, ScheduleType[]>>>;
   onClose?: () => void;
   dutyColors?: Record<string, { bg: string; text: string }>;
   dutyBadges?: Record<string, JSX.Element>;
@@ -84,8 +82,7 @@ const MyShiftCalendar = ({
   const [isWorkModalOpen, setIsWorkModalOpen] = useState(false);
   const [isWorkInputMode, setIsWorkInputMode] = useState(false);
   const [isTodayShiftModalOpen, setIsTodayShiftModalOpen] = useState(false);
-  const [workInputSelectedDate, setWorkInputSelectedDate] =
-    useState<Date | null>(null);
+  const [workInputSelectedDate, setWorkInputSelectedDate] = useState<Date | null>(null);
   const fetchHolidays = useHolidayStore((state) => state.fetchHolidays);
   const { userInfo } = useUserAuthStore();
   const hasWard = userInfo?.existMyWard;
@@ -94,8 +91,7 @@ const MyShiftCalendar = ({
   const cellRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   // dutyColors가 전달되지 않은 경우 기본값 설정
-  const defaultDutyColors =
-    externalDutyColors || getDutyColors(userInfo?.color);
+  const defaultDutyColors = externalDutyColors || getDutyColors(userInfo?.color);
 
   // 외부에서 전달된 isWorkInputMode 값을 사용
   useEffect(() => {
@@ -120,10 +116,7 @@ const MyShiftCalendar = ({
   }, [currentDate, fetchHolidays]);
 
   const handlePrevMonth = async () => {
-    const newDate = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth() - 1
-    );
+    const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1);
     try {
       await onMonthChange?.(newDate.getFullYear(), newDate.getMonth() + 1);
       setCurrentDate(newDate);
@@ -131,10 +124,7 @@ const MyShiftCalendar = ({
   };
 
   const handleNextMonth = async () => {
-    const newDate = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth() + 1
-    );
+    const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1);
     try {
       await onMonthChange?.(newDate.getFullYear(), newDate.getMonth() + 1);
       setCurrentDate(newDate);
@@ -180,10 +170,7 @@ const MyShiftCalendar = ({
     // shift가 undefined이거나 'X'인 경우 null 반환
     if (!shift || shift === 'X') return null;
 
-    const dutyMap: Record<
-      string,
-      'day' | 'evening' | 'night' | 'off' | 'mid' | null
-    > = {
+    const dutyMap: Record<string, 'day' | 'evening' | 'night' | 'off' | 'mid' | null> = {
       D: 'day',
       E: 'evening',
       N: 'night',
@@ -304,9 +291,7 @@ const MyShiftCalendar = ({
       const dateKey = `${externalSelectedDate.getFullYear()}-${String(externalSelectedDate.getMonth() + 1).padStart(2, '0')}-${String(externalSelectedDate.getDate()).padStart(2, '0')}`;
 
       // 모든 날짜 셀 중에서 해당 날짜 찾기
-      const idx = cellRefs.current.findIndex(
-        (ref) => ref?.getAttribute('data-date') === dateKey
-      );
+      const idx = cellRefs.current.findIndex((ref) => ref?.getAttribute('data-date') === dateKey);
 
       if (idx !== -1 && cellRefs.current[idx]) {
         // 찾은 셀을 중앙에 오도록 스크롤
@@ -328,10 +313,7 @@ const MyShiftCalendar = ({
 
         {/* 중앙 - 연월 표시 */}
         <div className="col-start-2 flex items-center justify-center gap-2 md:gap-4">
-          <button
-            onClick={handlePrevMonth}
-            className="text-base-muted hover:text-base-foreground"
-          >
+          <button onClick={handlePrevMonth} className="text-base-muted hover:text-base-foreground">
             <IoIosArrowBack className={`${isMobile ? 'w-5 h-5' : 'w-6 h-6'}`} />
           </button>
           <h2
@@ -341,13 +323,8 @@ const MyShiftCalendar = ({
           >
             {currentDate.getFullYear()}년 {currentDate.getMonth() + 1}월
           </h2>
-          <button
-            onClick={handleNextMonth}
-            className="text-base-muted hover:text-base-foreground"
-          >
-            <IoIosArrowForward
-              className={`${isMobile ? 'w-5 h-5' : 'w-6 h-6'}`}
-            />
+          <button onClick={handleNextMonth} className="text-base-muted hover:text-base-foreground">
+            <IoIosArrowForward className={`${isMobile ? 'w-5 h-5' : 'w-6 h-6'}`} />
           </button>
         </div>
 
@@ -399,11 +376,7 @@ const MyShiftCalendar = ({
               <div
                 key={day}
                 className={`text-center text-[0.875rem] font-medium ${
-                  index === 0
-                    ? 'text-red-500'
-                    : index === 6
-                      ? 'text-blue-500'
-                      : 'text-gray-900'
+                  index === 0 ? 'text-red-500' : index === 6 ? 'text-blue-500' : 'text-gray-900'
                 }`}
               >
                 <span translate="no">{WEEKDAYS[index]}</span>
@@ -419,12 +392,8 @@ const MyShiftCalendar = ({
             {/* 이전 달 날짜 */}
             {prevMonthDays.map((day) => {
               const prevMonth = currentMonth - 1 === 0 ? 12 : currentMonth - 1;
-              const prevYear =
-                currentMonth - 1 === 0 ? currentYear - 1 : currentYear;
-              const duty = getDutyFromShifts(
-                new Date(prevYear, prevMonth - 1, day),
-                day
-              );
+              const prevYear = currentMonth - 1 === 0 ? currentYear - 1 : currentYear;
+              const duty = getDutyFromShifts(new Date(prevYear, prevMonth - 1, day), day);
               const dutyBadge = duty ? (
                 <DutyBadgeKor
                   type={duty}
@@ -450,9 +419,7 @@ const MyShiftCalendar = ({
                     isMobile ? 'min-h-[5rem] p-[2px]' : 'p-2 lg:p-3'
                   } relative bg-gray-50 cursor-not-allowed flex flex-col justify-between`}
                 >
-                  <span className={`${textColor} text-xs lg:text-sm`}>
-                    {day}
-                  </span>
+                  <span className={`${textColor} text-xs lg:text-sm`}>{day}</span>
                   {dutyBadge && (
                     <div className="absolute bottom-1 right-1 lg:bottom-0.5 lg:right-0.5 transform scale-[0.45] lg:scale-75 origin-bottom-right pointer-events-none">
                       {dutyBadge}
@@ -466,10 +433,7 @@ const MyShiftCalendar = ({
             {currentMonthDays.map((day, idx) => {
               const isTodayDate = isToday(currentYear, currentMonth, day);
               const holidayName = getHolidayText(day);
-              const duty = getDutyFromShifts(
-                new Date(currentYear, currentMonth - 1, day),
-                day
-              );
+              const duty = getDutyFromShifts(new Date(currentYear, currentMonth - 1, day), day);
               const dutyBadge = duty ? (
                 <DutyBadgeKor
                   type={duty}
@@ -487,11 +451,7 @@ const MyShiftCalendar = ({
                   key={`current-${day}`}
                   data-date={dateKey}
                   onClick={(e) =>
-                    handleDateClick(
-                      new Date(currentYear, currentMonth - 1, day),
-                      e,
-                      idx
-                    )
+                    handleDateClick(new Date(currentYear, currentMonth - 1, day), e, idx)
                   }
                   className={`${
                     isMobile ? 'min-h-[6.5rem] p-1' : 'p-2 lg:p-3'
@@ -590,12 +550,8 @@ const MyShiftCalendar = ({
             {/* 다음 달 날짜 */}
             {nextMonthDays.map((day) => {
               const nextMonth = currentMonth + 1 === 13 ? 1 : currentMonth + 1;
-              const nextYear =
-                currentMonth + 1 === 13 ? currentYear + 1 : currentYear;
-              const duty = getDutyFromShifts(
-                new Date(nextYear, nextMonth - 1, day),
-                day
-              );
+              const nextYear = currentMonth + 1 === 13 ? currentYear + 1 : currentYear;
+              const duty = getDutyFromShifts(new Date(nextYear, nextMonth - 1, day), day);
               const dutyBadge = duty ? (
                 <DutyBadgeKor
                   type={duty}
@@ -621,9 +577,7 @@ const MyShiftCalendar = ({
                     isMobile ? 'min-h-[5rem] p-[2px]' : 'p-2 lg:p-3'
                   } relative bg-gray-50 cursor-not-allowed flex flex-col justify-between`}
                 >
-                  <span className={`${textColor} text-xs lg:text-sm`}>
-                    {day}
-                  </span>
+                  <span className={`${textColor} text-xs lg:text-sm`}>{day}</span>
                   {dutyBadge && (
                     <div className="absolute bottom-1 right-1 lg:bottom-0.5 lg:right-0.5 transform scale-[0.45] lg:scale-75 origin-bottom-right pointer-events-none">
                       {dutyBadge}
@@ -655,22 +609,11 @@ const MyShiftCalendar = ({
           }}
           selectedDate={workInputSelectedDate}
           setSelectedDate={setWorkInputSelectedDate}
-          onDutyUpdated={
-            typeof refreshMyDutyData === 'function'
-              ? refreshMyDutyData
-              : undefined
-          }
+          onDutyUpdated={typeof refreshMyDutyData === 'function' ? refreshMyDutyData : undefined}
           currentShift={(() => {
             if (!workInputSelectedDate || !dutyData) return undefined;
             const dayIdx = workInputSelectedDate.getDate() - 1;
-            return dutyData.shifts[dayIdx] as
-              | 'D'
-              | 'E'
-              | 'N'
-              | 'O'
-              | 'M'
-              | 'X'
-              | undefined;
+            return dutyData.shifts[dayIdx] as 'D' | 'E' | 'N' | 'O' | 'M' | 'X' | undefined;
           })()}
           dutyData={dutyData}
           setMyDutyData={setMyDutyData}
@@ -685,12 +628,7 @@ const MyShiftCalendar = ({
         !isWorkInputMode && (
           <TodayShiftModal
             date={externalSelectedDate}
-            duty={
-              getDutyFromShifts(
-                externalSelectedDate,
-                externalSelectedDate.getDate()
-              ) || 'off'
-            }
+            duty={getDutyFromShifts(externalSelectedDate, externalSelectedDate.getDate()) || 'off'}
             dutyData={{
               myShift:
                 (dutyData.shifts[externalSelectedDate.getDate() - 1] as

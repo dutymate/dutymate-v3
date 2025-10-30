@@ -1,6 +1,6 @@
 import axiosInstance from '@/lib/axios';
-import axios from 'axios';
 import { Group } from '@/types/group';
+import axios from 'axios';
 
 export interface GroupListResponse {
   groupId: number;
@@ -103,10 +103,7 @@ export const uploadGroupImage = async (file: File) => {
 };
 
 // 그룹 정보 수정
-export const updateGroup = async (
-  groupId: number,
-  data: GroupUpdateRequest
-) => {
+export const updateGroup = async (groupId: number, data: GroupUpdateRequest) => {
   try {
     const response = await axiosInstance.put(`/group/${groupId}`, data);
     return response.data;
@@ -147,9 +144,7 @@ export const createInvitationLink = async (groupId: number) => {
 // 초대 링크로 그룹 참가
 export const joinGroupByInvite = async (inviteToken: string) => {
   try {
-    const response = await axiosInstance.post(
-      `/group/invite/${inviteToken}/join`
-    );
+    const response = await axiosInstance.post(`/group/invite/${inviteToken}/join`);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -175,9 +170,7 @@ export const getAllGroupMembers = async (groupId: number) => {
 // 그룹 멤버 내보내기
 export const exportGroupMembers = async (groupId: number, memberId: number) => {
   try {
-    const response = await axiosInstance.get(
-      `/group/${groupId}/member/${memberId}`
-    );
+    const response = await axiosInstance.get(`/group/${groupId}/member/${memberId}`);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -188,14 +181,9 @@ export const exportGroupMembers = async (groupId: number, memberId: number) => {
 };
 
 // 그룹 멤버 추방 API
-export const removeGroupMember = async (
-  groupId: number | string,
-  memberId: number
-) => {
+export const removeGroupMember = async (groupId: number | string, memberId: number) => {
   try {
-    const response = await axiosInstance.delete(
-      `/group/${groupId}/member/${memberId}`
-    );
+    const response = await axiosInstance.delete(`/group/${groupId}/member/${memberId}`);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -226,16 +214,12 @@ export const getGroupMeetingDate = async (
   month?: number
 ) => {
   try {
-    const response = await axiosInstance.post(
-      `/group/${groupId}/meeting-date`,
-      data,
-      {
-        params: {
-          year,
-          month,
-        },
-      }
-    );
+    const response = await axiosInstance.post(`/group/${groupId}/meeting-date`, data, {
+      params: {
+        year,
+        month,
+      },
+    });
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

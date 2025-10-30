@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
-import { Map, MapMarker } from 'react-kakao-maps-sdk';
 // import { deleteCalendar as deleteCalendarService } from '@/services/calendarService';
 import type { ScheduleType } from '@/services/calendarService';
 import type { CalendarCreateRequest } from '@/services/calendarService';
+import { useCallback, useEffect, useState } from 'react';
+import { Map, MapMarker } from 'react-kakao-maps-sdk';
 
 interface ScheduleEditModalProps {
   mode: 'create' | 'view' | 'edit';
@@ -20,9 +20,7 @@ interface ScheduleEditModalProps {
   onDelete?: (calendarId: number) => void;
   onEdit?: (data: Omit<any, 'calendarId'>) => void;
   currentScheduleCount?: number;
-  setSchedulesByDate: React.Dispatch<
-    React.SetStateAction<Record<string, ScheduleType[]>>
-  >;
+  setSchedulesByDate: React.Dispatch<React.SetStateAction<Record<string, ScheduleType[]>>>;
   date: string;
 }
 
@@ -54,17 +52,11 @@ const ScheduleEditModal = ({
   date,
 }: ScheduleEditModalProps) => {
   const [title, setTitle] = useState(initialData?.title || '');
-  const [startTime, setStartTime] = useState(
-    toDisplayTime(initialData?.startTime || '오전 09:00')
-  );
-  const [endTime, setEndTime] = useState(
-    toDisplayTime(initialData?.endTime || '오전 10:00')
-  );
+  const [startTime, setStartTime] = useState(toDisplayTime(initialData?.startTime || '오전 09:00'));
+  const [endTime, setEndTime] = useState(toDisplayTime(initialData?.endTime || '오전 10:00'));
   const [color, setColor] = useState(initialData?.color || 'FF43F3');
   const [place, setPlace] = useState(initialData?.place || '');
-  const [activeTimePicker, setActiveTimePicker] = useState<
-    null | 'start' | 'end'
-  >(null);
+  const [activeTimePicker, setActiveTimePicker] = useState<null | 'start' | 'end'>(null);
   const [isPlaceSearchOpen, setIsPlaceSearchOpen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [pendingKeyword, setPendingKeyword] = useState('');
@@ -99,10 +91,7 @@ const ScheduleEditModal = ({
       if (endPeriod === '오전' && endHour === 12) end24Hour = 0;
 
       // Check if end time is earlier than or equal to start time
-      if (
-        end24Hour < start24Hour ||
-        (end24Hour === start24Hour && endMinute <= startMinute)
-      ) {
+      if (end24Hour < start24Hour || (end24Hour === start24Hour && endMinute <= startMinute)) {
         // Set end time to 1 hour after start time
         let newEndHour = startHour;
         let newEndPeriod = startPeriod;
@@ -119,9 +108,7 @@ const ScheduleEditModal = ({
           newEndHour = startHour + 1;
         }
 
-        setEndTime(
-          `${newEndPeriod} ${String(newEndHour).padStart(2, '0')}:${startMinute}`
-        );
+        setEndTime(`${newEndPeriod} ${String(newEndHour).padStart(2, '0')}:${startMinute}`);
       }
     },
     [endTime]
@@ -144,9 +131,7 @@ const ScheduleEditModal = ({
             },
             content: data[i].place_name,
           });
-          bounds.extend(
-            new window.kakao.maps.LatLng(Number(data[i].y), Number(data[i].x))
-          );
+          bounds.extend(new window.kakao.maps.LatLng(Number(data[i].y), Number(data[i].x)));
         }
         setMarkers(newMarkers);
         map.setBounds(bounds);
@@ -199,9 +184,7 @@ const ScheduleEditModal = ({
     isEndTimePicker?: boolean;
     startTimeValue?: string;
   }) => {
-    const [period, setPeriod] = useState<'오전' | '오후'>(
-      value.includes('오전') ? '오전' : '오후'
-    );
+    const [period, setPeriod] = useState<'오전' | '오후'>(value.includes('오전') ? '오전' : '오후');
     const timeParts = value.split(' ')[1].split(':');
     const [hour, setHour] = useState<string>(timeParts[0]);
     const [minute, setMinute] = useState<string>(timeParts[1]);
@@ -264,9 +247,7 @@ const ScheduleEditModal = ({
 
     // Get valid hour options based on constraints
     const getHourOptions = () => {
-      const hours = Array.from({ length: 12 }, (_, i) =>
-        String(i + 1).padStart(2, '0')
-      );
+      const hours = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0'));
 
       if (!isEndTimePicker || !startTimeParts) {
         return hours.map((h) => ({ value: h, label: `${h}시` }));
@@ -279,10 +260,7 @@ const ScheduleEditModal = ({
       if (startPeriod === currentPeriod) {
         // Same period, so start hour must be <= end hour
         return hours
-          .filter(
-            (h) =>
-              parseInt(h) >= (startPeriod === currentPeriod ? startHour : 1)
-          )
+          .filter((h) => parseInt(h) >= (startPeriod === currentPeriod ? startHour : 1))
           .map((h) => ({ value: h, label: `${h}시` }));
       }
 
@@ -292,20 +270,7 @@ const ScheduleEditModal = ({
 
     // Get valid minute options based on constraints
     const getMinuteOptions = () => {
-      const minutes = [
-        '00',
-        '05',
-        '10',
-        '15',
-        '20',
-        '25',
-        '30',
-        '35',
-        '40',
-        '45',
-        '50',
-        '55',
-      ];
+      const minutes = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
 
       if (!isEndTimePicker || !startTimeParts) {
         return minutes.map((m) => ({ value: m, label: `${m}분` }));
@@ -461,9 +426,7 @@ const ScheduleEditModal = ({
 
   // 저장 버튼 활성화 조건
   const isSaveDisabled =
-    !title.trim() ||
-    !color.trim() ||
-    (isAllDay === false && (!startTime || !endTime));
+    !title.trim() || !color.trim() || (isAllDay === false && (!startTime || !endTime));
 
   // 저장 처리
   const handleSave = async () => {
@@ -541,11 +504,7 @@ const ScheduleEditModal = ({
   };
 
   // 모달 타이틀
-  const modalTitle = isCreate
-    ? '새 일정 추가'
-    : isView
-      ? '일정 보기'
-      : '일정 수정';
+  const modalTitle = isCreate ? '새 일정 추가' : isView ? '일정 보기' : '일정 수정';
 
   function toDisplayTime(timeStr: string) {
     if (!timeStr) return '오전 09:00';
@@ -589,9 +548,7 @@ const ScheduleEditModal = ({
             'bg-white border-b border-gray-200 px-3 sm:px-4 py-2 flex justify-between items-center'
           }
         >
-          <h2 className="text-base sm:text-lg font-bold text-primary">
-            {modalTitle}
-          </h2>
+          <h2 className="text-base sm:text-lg font-bold text-primary">{modalTitle}</h2>
           <button
             onClick={onClose}
             className="text-gray-400 text-lg sm:text-xl rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-100 transition-colors"
@@ -651,15 +608,11 @@ const ScheduleEditModal = ({
                           : 'bg-gray-50 border-gray-200'
                       } ${isAllDay ? 'bg-gray-100 pointer-events-none opacity-60' : ''}`}
                       onClick={
-                        isEditable && !isAllDay
-                          ? () => setActiveTimePicker('start')
-                          : undefined
+                        isEditable && !isAllDay ? () => setActiveTimePicker('start') : undefined
                       }
                     >
                       <span className="mr-1 text-sm">⏰</span>
-                      <span className="text-sm">
-                        {toDisplayTime(startTime)}
-                      </span>
+                      <span className="text-sm">{toDisplayTime(startTime)}</span>
                     </div>
                   </div>
                   <div>
@@ -673,9 +626,7 @@ const ScheduleEditModal = ({
                           : 'bg-gray-50 border-gray-200'
                       } ${isAllDay ? 'bg-gray-100 pointer-events-none opacity-60' : ''}`}
                       onClick={
-                        isEditable && !isAllDay
-                          ? () => setActiveTimePicker('end')
-                          : undefined
+                        isEditable && !isAllDay ? () => setActiveTimePicker('end') : undefined
                       }
                     >
                       <span className="mr-1 text-sm">⏰</span>
@@ -685,9 +636,7 @@ const ScheduleEditModal = ({
                   {isEditable && activeTimePicker && !isAllDay && (
                     <div className="absolute left-0 top-full w-full z-20 time-picker-container">
                       <TimePicker
-                        value={toDisplayTime(
-                          activeTimePicker === 'start' ? startTime : endTime
-                        )}
+                        value={toDisplayTime(activeTimePicker === 'start' ? startTime : endTime)}
                         onChange={(v: string) => {
                           if (activeTimePicker === 'start') {
                             handleStartTimeChange(v);
@@ -696,9 +645,7 @@ const ScheduleEditModal = ({
                           }
                         }}
                         isEndTimePicker={activeTimePicker === 'end'}
-                        startTimeValue={
-                          activeTimePicker === 'end' ? startTime : ''
-                        }
+                        startTimeValue={activeTimePicker === 'end' ? startTime : ''}
                       />
                     </div>
                   )}
@@ -722,9 +669,7 @@ const ScheduleEditModal = ({
                       title={opt.name}
                     >
                       {color === opt.value && (
-                        <span className="text-white text-[10px] sm:text-xs">
-                          ✓
-                        </span>
+                        <span className="text-white text-[10px] sm:text-xs">✓</span>
                       )}
                     </button>
                   ))}
@@ -735,8 +680,7 @@ const ScheduleEditModal = ({
                     className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full ${colorOptions.find((c) => c.value === color)?.bg || 'bg-blue-500'} mr-2`}
                   ></span>
                   <span className="text-sm">
-                    {colorOptions.find((c) => c.value === color)?.name ||
-                      '기본'}
+                    {colorOptions.find((c) => c.value === color)?.name || '기본'}
                   </span>
                 </div>
               )}
@@ -745,10 +689,7 @@ const ScheduleEditModal = ({
             {/* 장소 */}
             <div>
               <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
-                장소{' '}
-                <span className="text-gray-400 text-xs font-normal">
-                  (선택)
-                </span>
+                장소 <span className="text-gray-400 text-xs font-normal">(선택)</span>
               </label>
               <div className="space-y-2">
                 {isEditable && (
@@ -782,10 +723,7 @@ const ScheduleEditModal = ({
                   <div
                     className={`flex items-center w-full px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg border ${isEditable ? 'border-gray-300' : 'bg-gray-50 border-gray-200'}`}
                     style={{
-                      cursor:
-                        isEditable && !isDirectPlaceInput
-                          ? 'pointer'
-                          : 'default',
+                      cursor: isEditable && !isDirectPlaceInput ? 'pointer' : 'default',
                     }}
                   >
                     <span className="mr-1 text-sm">📍</span>
@@ -832,12 +770,11 @@ const ScheduleEditModal = ({
                               setIsPlaceSearchOpen(false);
                             }}
                           >
-                            {selectedPlace &&
-                              selectedPlace.content === marker.content && (
-                                <div className="p-2 bg-white rounded-lg shadow-lg">
-                                  {marker.content}
-                                </div>
-                              )}
+                            {selectedPlace && selectedPlace.content === marker.content && (
+                              <div className="p-2 bg-white rounded-lg shadow-lg">
+                                {marker.content}
+                              </div>
+                            )}
                           </MapMarker>
                         ))}
                       </Map>
@@ -861,10 +798,7 @@ const ScheduleEditModal = ({
               <button
                 className="w-full py-1.5 sm:py-2 rounded-lg font-bold text-sm sm:text-base bg-white border border-primary text-primary shadow-sm hover:bg-primary hover:text-white transition-colors"
                 onClick={handleSave}
-                disabled={
-                  isSaveDisabled ||
-                  currentScheduleCount >= MAX_SCHEDULES_PER_DAY
-                }
+                disabled={isSaveDisabled || currentScheduleCount >= MAX_SCHEDULES_PER_DAY}
                 style={
                   currentScheduleCount >= MAX_SCHEDULES_PER_DAY
                     ? { opacity: 0.5, cursor: 'not-allowed' }
@@ -875,12 +809,11 @@ const ScheduleEditModal = ({
               </button>
             )}
 
-            {currentScheduleCount >= MAX_SCHEDULES_PER_DAY &&
-              mode === 'create' && (
-                <div className="text-xs text-red-500 mt-1 text-center">
-                  하루에 최대 10개의 메모만 추가할 수 있습니다.
-                </div>
-              )}
+            {currentScheduleCount >= MAX_SCHEDULES_PER_DAY && mode === 'create' && (
+              <div className="text-xs text-red-500 mt-1 text-center">
+                하루에 최대 10개의 메모만 추가할 수 있습니다.
+              </div>
+            )}
 
             {isView && (
               <>

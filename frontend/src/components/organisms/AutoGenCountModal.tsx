@@ -93,25 +93,18 @@ const AutoGenCountModal = ({
         event_category: autoGenCnt <= 0 ? 'payment' : 'auto_generate',
         event_action: 'click',
         event_label: autoGenCnt <= 0 ? 'open_payment' : 'start_auto_generate',
-        event_id:
-          autoGenCnt <= 0
-            ? `open-payment-button`
-            : `start-auto-generate-button`,
+        event_id: autoGenCnt <= 0 ? `open-payment-button` : `start-auto-generate-button`,
         view_type: isMobile ? 'mobile' : 'desktop',
         remaining_count: autoGenCnt,
       });
 
       // GA4 직접 이벤트 전송 (gtag 함수 사용)
       if (typeof window.gtag === 'function') {
-        window.gtag(
-          'event',
-          autoGenCnt <= 0 ? 'open_payment' : 'start_auto_generate',
-          {
-            action_category: autoGenCnt <= 0 ? 'payment' : 'auto_generate',
-            view_type: isMobile ? 'mobile' : 'desktop',
-            remaining_count: autoGenCnt,
-          }
-        );
+        window.gtag('event', autoGenCnt <= 0 ? 'open_payment' : 'start_auto_generate', {
+          action_category: autoGenCnt <= 0 ? 'payment' : 'auto_generate',
+          view_type: isMobile ? 'mobile' : 'desktop',
+          remaining_count: autoGenCnt,
+        });
       }
     }
 
@@ -141,14 +134,11 @@ const AutoGenCountModal = ({
       >
         <div className="p-6">
           {/* 제목 */}
-          <h2 className="text-[0.9375rem] font-medium text-left mb-2">
-            {title}
-          </h2>
+          <h2 className="text-[0.9375rem] font-medium text-left mb-2">{title}</h2>
 
           {/* 메시지 표시 */}
           <p className="text-left mb-6 text-[0.9375rem]">
-            사용 가능 횟수가{' '}
-            <span className="text-primary font-medium">{autoGenCnt}회</span>{' '}
+            사용 가능 횟수가 <span className="text-primary font-medium">{autoGenCnt}회</span>{' '}
             남았어요.
           </p>
 
@@ -168,11 +158,7 @@ const AutoGenCountModal = ({
               color="primary"
               onClick={handleButtonClick} // 이 함수가 제대로 동작해야 함
               className="flex-1 bg-primary hover:bg-primary-dark active:bg-primary-darker text-white font-normal rounded-xl py-3 transition-colors"
-              id={
-                autoGenCnt <= 0
-                  ? `open-payment-button`
-                  : `start-auto-generate-button`
-              }
+              id={autoGenCnt <= 0 ? `open-payment-button` : `start-auto-generate-button`}
             >
               생성하기
             </Button>

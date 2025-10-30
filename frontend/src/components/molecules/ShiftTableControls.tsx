@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import { Button } from '@/components/atoms/Button';
 import { Icon } from '@/components/atoms/Icon';
-import { Tooltip } from '@/components/atoms/Tooltip';
 import KeyboardGuide from '@/components/atoms/KeyboardGuide';
+import { Tooltip } from '@/components/atoms/Tooltip';
 import useUserAuthStore from '@/stores/userAuthStore';
 import { getDefaultOffDays } from '@/utils/dateUtils';
+import { useState } from 'react';
 
 interface ShiftTableControlsProps {
   year: number;
@@ -59,9 +59,7 @@ export const MobileShiftControls = ({
         />
         <div className="flex items-center gap-1 ml-2 text-xs">
           <span className="text-gray-400">기본 OFF</span>
-          <span className="font-bold text-black">
-            {getDefaultOffDays(year, month)}
-          </span>
+          <span className="font-bold text-black">{getDefaultOffDays(year, month)}</span>
           <span>일</span>
         </div>
       </div>
@@ -79,10 +77,7 @@ export const MobileShiftControls = ({
         {isDropdownOpen && (
           <>
             {/* 오버레이 - 외부 클릭 시 닫힘 */}
-            <div
-              className="fixed inset-0 z-40"
-              onClick={() => setIsDropdownOpen(false)}
-            />
+            <div className="fixed inset-0 z-40" onClick={() => setIsDropdownOpen(false)} />
 
             {/* 드롭다운 메뉴 */}
             <div className="absolute right-0 top-full mt-1 bg-white rounded-lg shadow-lg z-50 min-w-[8rem] py-1">
@@ -191,9 +186,7 @@ export const DesktopShiftControls = ({
               onClick={onNextMonth}
             />
             <div className="flex items-center gap-2 ml-1">
-              <span className="text-[11px] sm:text-xs text-gray-400">
-                기본 OFF
-              </span>
+              <span className="text-[11px] sm:text-xs text-gray-400">기본 OFF</span>
               <span className="text-[12px] sm:text-sm font-bold text-black">
                 {getDefaultOffDays(year, month)}
               </span>
@@ -267,11 +260,9 @@ export const DesktopShiftControls = ({
                       *숙련도 반영은은 개발 중입니다.
                       <br />* 커스텀 규칙 생성 기능은 개발 중입니다.
                       <br />
-                      *완성도 100%일 시 새로운 근무표가 생성되지 않을 수
-                      있습니다.
+                      *완성도 100%일 시 새로운 근무표가 생성되지 않을 수 있습니다.
                       <br />
-                      *변경이 필요한 칸을 X로 눌러 자동생성을 재실행하는 것을
-                      추천드립니다.
+                      *변경이 필요한 칸을 X로 눌러 자동생성을 재실행하는 것을 추천드립니다.
                     </p>
                   </div>
                 }
@@ -294,21 +285,13 @@ export const DesktopShiftControls = ({
               className={`py-0.5 px-1.5 sm:py-1 sm:px-2 ${
                 isDemo || isExporting ? 'opacity-50 cursor-not-allowed' : ''
               }`}
-              onClick={() =>
-                !isDemo &&
-                !isExporting &&
-                setShowWebDownloadDropdown((prev) => !prev)
-              }
+              onClick={() => !isDemo && !isExporting && setShowWebDownloadDropdown((prev) => !prev)}
             >
               <div className="flex items-center gap-1">
                 다운로드
                 {(isDemo || isExporting) && (
                   <Tooltip
-                    content={
-                      isExporting
-                        ? '내보내기 중입니다...'
-                        : '로그인 후 이용해주세요'
-                    }
+                    content={isExporting ? '내보내기 중입니다...' : '로그인 후 이용해주세요'}
                     className="ml-1"
                     width="w-40"
                   />

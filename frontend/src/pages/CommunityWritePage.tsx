@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import { SEO } from '@/components/SEO';
 import PageLoadingSpinner from '@/components/atoms/Loadingspinner';
 import CommunityLayout from '@/components/organisms/CommunityLayout';
 import CommunityWrite from '@/components/organisms/CommunityWrite';
-import { SEO } from '@/components/SEO';
 import boardService, { ApiErrorResponse } from '@/services/boardService';
 
 interface WritePageInitialData {
@@ -19,9 +19,7 @@ interface WritePageInitialData {
 const CommunityWritePage = () => {
   const { boardId } = useParams<{ boardId: string }>();
   const navigate = useNavigate();
-  const [initialData, setInitialData] = useState<WritePageInitialData | null>(
-    null
-  );
+  const [initialData, setInitialData] = useState<WritePageInitialData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -36,8 +34,7 @@ const CommunityWritePage = () => {
             return;
           }
 
-          const response: WritePageInitialData =
-            await boardService.getSinglePosts(numericBoardId);
+          const response: WritePageInitialData = await boardService.getSinglePosts(numericBoardId);
           if (response) {
             setInitialData(response);
           } else {
@@ -46,9 +43,7 @@ const CommunityWritePage = () => {
           }
         } catch (error) {
           const apiError = error as ApiErrorResponse;
-          toast.error(
-            apiError?.message || '게시글 정보를 가져오는데 실패했습니다.'
-          );
+          toast.error(apiError?.message || '게시글 정보를 가져오는데 실패했습니다.');
           navigate('/community', { replace: true });
         } finally {
           setIsLoading(false);
@@ -89,9 +84,7 @@ const CommunityWritePage = () => {
       <CommunityLayout
         title={isEditMode ? '글 수정' : '글쓰기'}
         subtitle={
-          isEditMode
-            ? '게시글을 수정해보세요'
-            : '동료들과 나누고 싶은 이야기를 작성해보세요'
+          isEditMode ? '게시글을 수정해보세요' : '동료들과 나누고 싶은 이야기를 작성해보세요'
         }
       >
         {(!isEditMode || (isEditMode && initialData)) && (
@@ -101,9 +94,7 @@ const CommunityWritePage = () => {
                 ? {
                     ...initialData,
                     boardImgUrl:
-                      initialData.boardImgUrl === null
-                        ? undefined
-                        : initialData.boardImgUrl,
+                      initialData.boardImgUrl === null ? undefined : initialData.boardImgUrl,
                   }
                 : undefined
             }

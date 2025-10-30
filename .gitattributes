@@ -1,0 +1,22 @@
+# 모든 텍스트 파일을 LF로 강제
+* text=auto eol=lf
+
+# 바이너리 파일은 이진 처리
+*.jar binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.otf binary
+*.zip binary
+*.tar binary
+*.gz binary
+
+# Windows 배치 파일은 CRLF 유지 (필요한 경우)
+*.bat text eol=crlf
+

@@ -1,7 +1,7 @@
-import { createRoot } from 'react-dom/client';
-import { HelmetProvider } from 'react-helmet-async';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { createRoot } from 'react-dom/client';
+import { HelmetProvider } from 'react-helmet-async';
 
 import App from '@/App';
 

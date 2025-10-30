@@ -3,7 +3,7 @@ import { FaMinus, FaPlus } from 'react-icons/fa6';
 import { toast } from 'react-toastify';
 
 import { Icon } from '@/components/atoms/Icon';
-import { MAX_TOTAL_NURSES, MAX_TEMP_NURSES } from '@/pages/WardAdmin';
+import { MAX_TEMP_NURSES, MAX_TOTAL_NURSES } from '@/pages/WardAdmin';
 
 interface WardAdminTempProps {
   isOpen: boolean;
@@ -42,16 +42,12 @@ const WardAdminTemp = ({
     const tempAfterAdd = currentTempNurses + count + 1;
 
     if (tempAfterAdd > MAX_TEMP_NURSES) {
-      toast.warning(
-        `임시 간호사는 최대 ${MAX_TEMP_NURSES}명까지만 추가할 수 있습니다.`
-      );
+      toast.warning(`임시 간호사는 최대 ${MAX_TEMP_NURSES}명까지만 추가할 수 있습니다.`);
       return;
     }
 
     if (totalAfterAdd > MAX_TOTAL_NURSES) {
-      toast.warning(
-        `병동 최대 인원 ${MAX_TOTAL_NURSES}명을 초과할 수 없습니다.`
-      );
+      toast.warning(`병동 최대 인원 ${MAX_TOTAL_NURSES}명을 초과할 수 없습니다.`);
       return;
     }
 
@@ -72,9 +68,7 @@ const WardAdminTemp = ({
     }
 
     if (tempAfterAdd > MAX_TEMP_NURSES) {
-      toast.warning(
-        `임시 간호사는 최대 ${MAX_TEMP_NURSES}명까지만 추가할 수 있습니다.`
-      );
+      toast.warning(`임시 간호사는 최대 ${MAX_TEMP_NURSES}명까지만 추가할 수 있습니다.`);
       return;
     }
 
@@ -94,9 +88,7 @@ const WardAdminTemp = ({
       >
         {/* Header - 중앙 정렬 및 닫기 버튼 위치 수정 */}
         <div className="relative mb-[1.5rem]">
-          <h2 className="text-[1.25rem] font-semibold text-center">
-            임시 간호사 추가
-          </h2>
+          <h2 className="text-[1.25rem] font-semibold text-center">임시 간호사 추가</h2>
           <button
             onClick={onClose}
             className="absolute top-0 right-0 p-[0.5rem] hover:bg-gray-100 rounded-[0.5rem] transition-colors"
@@ -107,9 +99,7 @@ const WardAdminTemp = ({
 
         {/* Content */}
         <div className="bg-[#F4F4F4] rounded-[1rem] p-[1.25rem] mb-[1.25rem]">
-          <p className="text-[1rem] text-center mb-[1rem]">
-            추가할 인원 수를 선택해 주세요.
-          </p>
+          <p className="text-[1rem] text-center mb-[1rem]">추가할 인원 수를 선택해 주세요.</p>
           <div className="bg-white rounded-[0.75rem] p-[1rem] flex items-center justify-between">
             <button
               onClick={handleDecrease}
@@ -120,9 +110,7 @@ const WardAdminTemp = ({
                 className={`text-[1.25rem] ${count <= 1 ? 'text-gray-300' : 'text-gray-600'}`}
               />
             </button>
-            <span className="text-[1.25rem] font-medium min-w-[2rem] text-center">
-              {count}명
-            </span>
+            <span className="text-[1.25rem] font-medium min-w-[2rem] text-center">{count}명</span>
             <button
               onClick={handleIncrease}
               className="p-[0.5rem] hover:bg-gray-100 rounded-[0.75rem] transition-colors"

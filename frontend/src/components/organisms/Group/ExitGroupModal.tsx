@@ -1,6 +1,6 @@
+import useMediaQuery from '@/hooks/useMediaQuery';
 //그룹 나가기 & 리더 권한 넘기기 모달
 import React, { useState } from 'react';
-import useMediaQuery from '@/hooks/useMediaQuery';
 
 interface ExitGroupModalProps {
   open: boolean;
@@ -25,9 +25,7 @@ const ExitGroupModal: React.FC<ExitGroupModalProps> = ({
 
   const handleExit = () => {
     if (isLeader) {
-      setModalMessage(
-        '그룹을 나가기 전에 리더 권한을 다른 멤버에게 넘겨주세요.'
-      );
+      setModalMessage('그룹을 나가기 전에 리더 권한을 다른 멤버에게 넘겨주세요.');
       setShowModal(true);
     } else {
       onExit?.();
@@ -48,10 +46,7 @@ const ExitGroupModal: React.FC<ExitGroupModalProps> = ({
           `}
           style={isMobile ? { bottom: 0 } : {}}
         >
-          <button
-            className="absolute top-3 right-3 text-gray-400 text-xl"
-            onClick={onClose}
-          >
+          <button className="absolute top-3 right-3 text-gray-400 text-xl" onClick={onClose}>
             ×
           </button>
           <h2 className="text-lg font-bold mb-4">그룹 나가기</h2>

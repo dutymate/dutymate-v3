@@ -1,24 +1,24 @@
+import heic2any from 'heic2any';
+import debounce from 'lodash/debounce';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { IoMdCamera } from 'react-icons/io';
 // import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import debounce from 'lodash/debounce';
-import { IoMdCamera } from 'react-icons/io';
-import heic2any from 'heic2any';
 
 import { Button } from '@/components/atoms/Button';
 import { MypageInput, MypageSelect } from '@/components/atoms/Input';
 import MypageExitConfirmModal from '@/components/organisms/MypageExitConfirmModal';
 import { ApiErrorResponse, profileService } from '@/services/profileService';
+import { wardService } from '@/services/wardService';
 import useProfileStore from '@/stores/profileStore';
 import useUserAuthStore from '@/stores/userAuthStore';
-import { wardService } from '@/services/wardService';
-import { validateNickname } from '@/utils/validation';
 import {
-  navigateToLanding,
   navigateToCreateWard,
   navigateToExtraInfo,
+  navigateToLanding,
   navigateToWebView,
 } from '@/utils/navigation';
+import { validateNickname } from '@/utils/validation';
 
 const MypageProfile = () => {
   // const navigate = useNavigate();
@@ -34,8 +34,7 @@ const MypageProfile = () => {
   const [isAvailable, setIsAvailable] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
-  const [isMypageExitConfirmModalOpen, setMypageExitConfirmModalOpen] =
-    useState(false);
+  const [isMypageExitConfirmModalOpen, setMypageExitConfirmModalOpen] = useState(false);
   const [exitRequestType, setExitRequestType] = useState<
     'CREATE-WARD' | 'WARD' | 'WITHDRAWAL' | null
   >(null);
@@ -134,9 +133,7 @@ const MypageProfile = () => {
           const isAvail = await checkNickname(nickname);
           setNicknameStatus({
             isValid: isAvail,
-            message: isAvail
-              ? '사용 가능한 닉네임입니다.'
-              : '이미 사용 중인 닉네임입니다.',
+            message: isAvail ? '사용 가능한 닉네임입니다.' : '이미 사용 중인 닉네임입니다.',
           });
           setIsAvailable(isAvail && nameStatus.isValid);
         } catch (error) {
@@ -182,8 +179,7 @@ const MypageProfile = () => {
 
     // Update isAvailable based on both name and nickname validity
     setIsAvailable(
-      isNameValid &&
-        (nicknameStatus.isValid === true || nicknameStatus.isValid === null)
+      isNameValid && (nicknameStatus.isValid === true || nicknameStatus.isValid === null)
     );
 
     setIsDirty(true);
@@ -236,11 +232,9 @@ const MypageProfile = () => {
           toType: 'image/jpeg',
           quality: 0.9,
         });
-        file = new File(
-          [convertedBlob as Blob],
-          file.name.replace(/\.(heic|heif)$/i, '.jpg'),
-          { type: 'image/jpeg' }
-        );
+        file = new File([convertedBlob as Blob], file.name.replace(/\.(heic|heif)$/i, '.jpg'), {
+          type: 'image/jpeg',
+        });
       } catch (err) {
         toast.error('HEIC 이미지를 변환하는 데 실패했습니다.');
         return;
@@ -301,11 +295,9 @@ const MypageProfile = () => {
           toType: 'image/jpeg',
           quality: 0.9,
         });
-        file = new File(
-          [convertedBlob as Blob],
-          file.name.replace(/\.(heic|heif)$/i, '.jpg'),
-          { type: 'image/jpeg' }
-        );
+        file = new File([convertedBlob as Blob], file.name.replace(/\.(heic|heif)$/i, '.jpg'), {
+          type: 'image/jpeg',
+        });
       } catch (err) {
         toast.error('HEIC 이미지를 변환하는 데 실패했습니다.');
         return;
@@ -356,9 +348,7 @@ const MypageProfile = () => {
     }
   };
 
-  const handleOpenModal = async (
-    type: 'CREATE-WARD' | 'WARD' | 'WITHDRAWAL'
-  ) => {
+  const handleOpenModal = async (type: 'CREATE-WARD' | 'WARD' | 'WITHDRAWAL') => {
     if (type === 'WARD' && userInfo?.role === 'HN') {
       try {
         const nurses = await wardService.getNurseWaitList();
@@ -454,16 +444,12 @@ const MypageProfile = () => {
   return (
     <div className="space-y-4">
       <div className="relative bg-white rounded-lg shadow-md p-4 transition-all duration-200 hover:shadow-lg">
-        <h2 className="text-lg font-bold text-gray-900 mb-3 border-b pb-2">
-          프로필 설정
-        </h2>
+        <h2 className="text-lg font-bold text-gray-900 mb-3 border-b pb-2">프로필 설정</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* 왼쪽 프로필 아이콘 */}
           <div className="flex flex-col items-center justify-center space-y-3">
             <div className="text-center mb-2">
-              <h3 className="text-base font-bold text-gray-800">
-                {profile?.hospitalName}
-              </h3>
+              <h3 className="text-base font-bold text-gray-800">{profile?.hospitalName}</h3>
               <p className="text-sm text-gray-600">{profile?.wardName}</p>
             </div>
 
@@ -536,9 +522,7 @@ const MypageProfile = () => {
                 </div>
 
                 <div className="space-y-4">
-                  <h4 className="text-sm font-medium text-gray-700">
-                    개인정보
-                  </h4>
+                  <h4 className="text-sm font-medium text-gray-700">개인정보</h4>
                   <div className="relative">
                     <MypageInput
                       id="name"
@@ -549,9 +533,7 @@ const MypageProfile = () => {
                       className="bg-white border-0 shadow-sm focus:ring-2 focus:ring-primary-20 transition-all duration-200"
                     />
                     {nameStatus.message && (
-                      <p className="mt-1 text-xs font-medium text-red-600">
-                        {nameStatus.message}
-                      </p>
+                      <p className="mt-1 text-xs font-medium text-red-600">{nameStatus.message}</p>
                     )}
                   </div>
 
@@ -567,9 +549,7 @@ const MypageProfile = () => {
                     {nicknameStatus.message && (
                       <p
                         className={`mt-1 text-xs font-medium ${
-                          nicknameStatus.isValid
-                            ? 'text-green-600'
-                            : 'text-red-600'
+                          nicknameStatus.isValid ? 'text-green-600' : 'text-red-600'
                         }`}
                       >
                         {nicknameStatus.message}
@@ -579,9 +559,7 @@ const MypageProfile = () => {
                 </div>
 
                 <div className="space-y-3">
-                  <h4 className="text-sm font-medium text-gray-700">
-                    근무 정보
-                  </h4>
+                  <h4 className="text-sm font-medium text-gray-700">근무 정보</h4>
                   <div className="grid grid-cols-2 gap-3">
                     <MypageSelect
                       id="gender"
@@ -641,21 +619,16 @@ const MypageProfile = () => {
 
       {/* 계정 관리 섹션 */}
       <div className="bg-white rounded-lg shadow-md p-4">
-        <h2 className="text-lg font-bold text-gray-900 mb-3 border-b pb-2">
-          계정 관리
-        </h2>
+        <h2 className="text-lg font-bold text-gray-900 mb-3 border-b pb-2">계정 관리</h2>
         <div className="space-y-4">
           {/* 병동 생성하기 (RN 병동X) */}
           {!userInfo?.existMyWard && (
             <div className="space-y-2">
-              <h3 className="text-base font-semibold text-gray-800">
-                병동 생성하기
-              </h3>
+              <h3 className="text-base font-semibold text-gray-800">병동 생성하기</h3>
               <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                 <p className="text-sm text-gray-600 md:max-w-[80%]">
-                  새로운 병동을 생성하게 되면 기존에 작성했던 근무표 데이터에
-                  접근할 수 없게 됩니다. 병동을 생성하면 병동 단위의 근무표를
-                  생성하고 관리할 수 있습니다.
+                  새로운 병동을 생성하게 되면 기존에 작성했던 근무표 데이터에 접근할 수 없게 됩니다.
+                  병동을 생성하면 병동 단위의 근무표를 생성하고 관리할 수 있습니다.
                 </p>
                 <Button
                   type="button"
@@ -673,14 +646,11 @@ const MypageProfile = () => {
           {/* 병동 나가기 (RN 병동O, HN) */}
           {userInfo?.existMyWard && (
             <div className="space-y-2">
-              <h3 className="text-base font-semibold text-gray-800">
-                병동 나가기
-              </h3>
+              <h3 className="text-base font-semibold text-gray-800">병동 나가기</h3>
               <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                 <p className="text-sm text-gray-600 md:max-w-[80%]">
-                  현재 병동을 나가면 해당 병동의 모든 데이터에 접근할 수 없게
-                  됩니다. 다른 병동으로 이동하시려면 먼저 현재 병동을 나가야
-                  합니다.
+                  현재 병동을 나가면 해당 병동의 모든 데이터에 접근할 수 없게 됩니다. 다른 병동으로
+                  이동하시려면 먼저 현재 병동을 나가야 합니다.
                 </p>
                 <Button
                   type="button"
@@ -700,8 +670,8 @@ const MypageProfile = () => {
             <h3 className="text-base font-semibold text-gray-800">회원 탈퇴</h3>
             <div className="flex flex-col md:flex-row md:items-center md:justify-between">
               <p className="text-sm text-gray-600 md:max-w-[80%]">
-                회원 탈퇴 시 모든 개인정보와 데이터가 영구적으로 삭제되며 복구할
-                수 없습니다. 탈퇴 전에 반드시 필요한 데이터를 백업해주세요.
+                회원 탈퇴 시 모든 개인정보와 데이터가 영구적으로 삭제되며 복구할 수 없습니다. 탈퇴
+                전에 반드시 필요한 데이터를 백업해주세요.
               </p>
               <Button
                 type="button"

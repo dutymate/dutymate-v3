@@ -1,6 +1,6 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
 import DutyBadgeEng from '@/components/atoms/DutyBadgeEng';
-import { MdClose, MdSwapHoriz, MdDragIndicator } from 'react-icons/md';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { MdClose, MdDragIndicator, MdSwapHoriz } from 'react-icons/md';
 
 // 듀티 타입 정의
 type DutyType = 'D' | 'E' | 'N' | 'M' | 'O' | 'X';
@@ -11,11 +11,7 @@ interface MobileDutyControlsProps {
   onClose: () => void;
 }
 
-const MobileDutyControls = ({
-  isVisible,
-  onDutySelect,
-  onClose,
-}: MobileDutyControlsProps) => {
+const MobileDutyControls = ({ isVisible, onDutySelect, onClose }: MobileDutyControlsProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const dragHandleRef = useRef<HTMLDivElement>(null);
 
@@ -187,15 +183,11 @@ const MobileDutyControls = ({
           className="absolute -right-3 -bottom-3 w-7 h-7 flex items-center justify-center bg-white rounded-full shadow-md text-gray-500 hover:text-gray-700 z-10"
           onClick={toggleOrientation}
         >
-          <MdSwapHoriz
-            className={`w-5 h-5 ${isHorizontal ? 'rotate-90' : 'rotate-0'}`}
-          />
+          <MdSwapHoriz className={`w-5 h-5 ${isHorizontal ? 'rotate-90' : 'rotate-0'}`} />
         </button>
 
         {/* 컨텐츠 컨테이너 */}
-        <div
-          className={`${isHorizontal ? 'flex items-center' : 'flex flex-col items-center'}`}
-        >
+        <div className={`${isHorizontal ? 'flex items-center' : 'flex flex-col items-center'}`}>
           {/* 그랩 핸들 */}
           <div
             ref={dragHandleRef}
@@ -209,9 +201,7 @@ const MobileDutyControls = ({
           </div>
 
           {/* 듀티 버튼들 */}
-          <div
-            className={`grid ${isHorizontal ? 'grid-cols-6' : 'grid-cols-1 grid-rows-6'} gap-3`}
-          >
+          <div className={`grid ${isHorizontal ? 'grid-cols-6' : 'grid-cols-1 grid-rows-6'} gap-3`}>
             {dutyTypes.map((type) => (
               <button
                 key={type}

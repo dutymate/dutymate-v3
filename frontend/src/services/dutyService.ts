@@ -136,9 +136,7 @@ export const dutyService = {
       })
       .catch((error) => {
         if (error.code === 'ERR_NETWORK') {
-          console.error(
-            '서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.'
-          );
+          console.error('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
           throw new Error('서버 연결 실패');
         }
         if (error.response) {
@@ -169,9 +167,7 @@ export const dutyService = {
       })
       .catch((error) => {
         if (error.code === 'ERR_NETWORK') {
-          console.error(
-            '서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.'
-          );
+          console.error('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
           throw new Error('서버 연결 실패');
         }
         if (error.response) {
@@ -202,9 +198,7 @@ export const dutyService = {
       })
       .catch((error) => {
         if (error.code === 'ERR_NETWORK') {
-          console.error(
-            '서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.'
-          );
+          console.error('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
           throw new Error('서버 연결 실패');
         }
         if (error.response) {
@@ -231,12 +225,7 @@ export const dutyService = {
    * @param priorityRequestIds - 우선순위를 부여할 요청 ID 배열 (선택사항)
    * @returns AutoCreateResponse - 자동 생성 결과 (반영되지 않은 요청 목록 포함)
    */
-  autoCreateDuty: (
-    year: number,
-    month: number,
-    force?: boolean,
-    priorityRequestIds?: number[]
-  ) => {
+  autoCreateDuty: (year: number, month: number, force?: boolean, priorityRequestIds?: number[]) => {
     return axiosInstance
       .get('/duty/auto-create', {
         params: {
@@ -252,9 +241,7 @@ export const dutyService = {
       })
       .catch((error) => {
         if (error.code === 'ERR_NETWORK') {
-          console.error(
-            '서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.'
-          );
+          console.error('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
           throw new Error('서버 연결 실패');
         }
         if (error.response) {
@@ -283,9 +270,7 @@ export const dutyService = {
       })
       .catch((error) => {
         if (error.code === 'ERR_NETWORK') {
-          console.error(
-            '서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.'
-          );
+          console.error('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
           throw new Error('서버 연결 실패');
         }
         if (error.response) {
@@ -314,9 +299,7 @@ export const dutyService = {
       })
       .catch((error) => {
         if (error.code === 'ERR_NETWORK') {
-          console.error(
-            '서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.'
-          );
+          console.error('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
           throw new Error('서버 연결 실패');
         }
         if (error.response) {
@@ -348,9 +331,7 @@ export const dutyService = {
       })
       .catch((error) => {
         if (error.code === 'ERR_NETWORK') {
-          console.error(
-            '서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.'
-          );
+          console.error('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
           throw new Error('서버 연결 실패');
         }
         if (error.response) {
@@ -419,11 +400,7 @@ export const dutyService = {
    * @param requestIds - 재반영할 요청 ID 목록
    * @returns AutoCreateResponse - 자동 생성 결과 (반영되지 않은 요청 목록 포함)
    */
-  reAutoCreateDuty: async (
-    year: number,
-    month: number,
-    requestIds: number[]
-  ) => {
+  reAutoCreateDuty: async (year: number, month: number, requestIds: number[]) => {
     try {
       const response = await axiosInstance.post(
         '/duty/re-auto-create',
@@ -439,9 +416,7 @@ export const dutyService = {
       return response.data as AutoCreateResponse;
     } catch (error: any) {
       if (error.code === 'ERR_NETWORK') {
-        console.error(
-          '서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.'
-        );
+        console.error('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
         throw new Error('서버 연결 실패');
       }
       if (error.response) {

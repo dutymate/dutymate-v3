@@ -1,10 +1,10 @@
-import { FaCrown } from 'react-icons/fa';
 import useMediaQuery from '@/hooks/useMediaQuery';
-import DateSuggestionModal from './DateSuggestionModal';
-import ShareDateModal from './ShareDateModal';
-import { useState, useEffect } from 'react';
 import { getGroupMeetingDate } from '@/services/groupService';
 import { GroupMember, RecommendedDate } from '@/types/group';
+import { useEffect, useState } from 'react';
+import { FaCrown } from 'react-icons/fa';
+import DateSuggestionModal from './DateSuggestionModal';
+import ShareDateModal from './ShareDateModal';
 
 interface CheckMemberModalProps {
   open: boolean;
@@ -30,9 +30,7 @@ const CheckMemberModal: React.FC<CheckMemberModalProps> = ({
   const isMobile = useMediaQuery('(max-width: 1023px)');
   const [dateSuggestionOpen, setDateSuggestionOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
-  const [recommendedDates, setRecommendedDates] = useState<RecommendedDate[]>(
-    []
-  );
+  const [recommendedDates, setRecommendedDates] = useState<RecommendedDate[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -75,8 +73,7 @@ const CheckMemberModal: React.FC<CheckMemberModalProps> = ({
       const getRecommendationText = (memberList: { duty: string }[]) => {
         // 모두 OFF면 BEST, 한 명이라도 D/E/M이면 OKAY, 그 외 HARD
         if (memberList.every((m) => m.duty === 'O')) return 'BEST';
-        if (memberList.some((m) => ['D', 'E', 'M'].includes(m.duty)))
-          return 'OKAY';
+        if (memberList.some((m) => ['D', 'E', 'M'].includes(m.duty))) return 'OKAY';
         return 'HARD';
       };
       setRecommendedDates(
@@ -100,26 +97,17 @@ const CheckMemberModal: React.FC<CheckMemberModalProps> = ({
       <div
         className={`
           relative bg-white rounded-t-2xl lg:rounded-2xl shadow-xl w-full
-          ${
-            isMobile
-              ? 'max-w-full pb-4 pt-2 px-4 animate-slideup'
-              : 'max-w-sm p-5'
-          }
+          ${isMobile ? 'max-w-full pb-4 pt-2 px-4 animate-slideup' : 'max-w-sm p-5'}
           flex flex-col
           z-10
         `}
         style={isMobile ? { bottom: 0 } : {}}
       >
-        <button
-          className="absolute top-3 right-3 text-gray-400 text-xl"
-          onClick={onClose}
-        >
+        <button className="absolute top-3 right-3 text-gray-400 text-xl" onClick={onClose}>
           ×
         </button>
         <div className="text-lg font-semibold mt-2 mb-1">인원 선택하기</div>
-        <div className="text-sm text-gray-500 mb-4">
-          약속을 잡을 멤버를 선택해주세요~!
-        </div>
+        <div className="text-sm text-gray-500 mb-4">약속을 잡을 멤버를 선택해주세요~!</div>
         <div className="flex flex-wrap gap-2 mb-7 max-[1023px]:justify-center">
           {members.map((m) => (
             <button
@@ -135,9 +123,7 @@ const CheckMemberModal: React.FC<CheckMemberModalProps> = ({
               style={{ minWidth: 75 }}
               onClick={() => handleToggle(m.memberId)}
             >
-              {m.isLeader && (
-                <FaCrown className="mr-1 text-yellow-400 text-base" />
-              )}
+              {m.isLeader && <FaCrown className="mr-1 text-yellow-400 text-base" />}
               {m.name}
             </button>
           ))}

@@ -1,6 +1,4 @@
-export const validateName = (
-  name: string
-): { isValid: boolean; message: string } => {
+export const validateName = (name: string): { isValid: boolean; message: string } => {
   // 한글/영문 + 공백 허용
   const nameRegex = /^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ0-9 ]*$/;
 
@@ -57,9 +55,7 @@ export const validateName = (
 
   // 대소문자 구분 없이 비교하기 위해 소문자로 변환
   const lowerName = name.toLowerCase();
-  if (
-    forbiddenNames.some((forbidden) => forbidden.toLowerCase() === lowerName)
-  ) {
+  if (forbiddenNames.some((forbidden) => forbidden.toLowerCase() === lowerName)) {
     return {
       isValid: false,
       message: '사용할 수 없는 이름입니다.',
@@ -79,9 +75,7 @@ export const validateName = (
   };
 };
 
-export const validateNickname = (
-  nickname: string
-): { isValid: boolean; message: string } => {
+export const validateNickname = (nickname: string): { isValid: boolean; message: string } => {
   // 한글/영문만 허용 (숫자/공백/특수문자 모두 불가)
   const nicknameRegex = /^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ0-9 ]*$/;
 
@@ -138,11 +132,7 @@ export const validateNickname = (
 
   // 대소문자 구분 없이 비교하기 위해 소문자로 변환
   const lowerNickname = nickname.toLowerCase();
-  if (
-    forbiddenNicknames.some(
-      (forbidden) => forbidden.toLowerCase() === lowerNickname
-    )
-  ) {
+  if (forbiddenNicknames.some((forbidden) => forbidden.toLowerCase() === lowerNickname)) {
     return {
       isValid: false,
       message: '사용할 수 없는 닉네임입니다.',

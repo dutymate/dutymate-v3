@@ -1,6 +1,9 @@
 import { ReactElement, useEffect } from 'react';
 import { Navigate, Route, Routes, useParams } from 'react-router-dom';
 
+import AdminDashboard from '@/pages/AdminDashboard';
+import AdminWardList from '@/pages/AdminWardList';
+import AdminWardShift from '@/pages/AdminWardShift';
 import Community from '@/pages/Community';
 import CommunityDetailPage from '@/pages/CommunityDetailPage';
 import CommunityWritePage from '@/pages/CommunityWritePage';
@@ -9,29 +12,26 @@ import Error from '@/pages/Error';
 import ExtraInfo from '@/pages/ExtraInfo';
 import Game from '@/pages/Game';
 import { GoogleRedirect } from '@/pages/GoogleRedirect';
+import GroupDetailPage from '@/pages/Group/GroupDetailPage';
+import GroupInvitePage from '@/pages/Group/GroupInvitePage';
+import GroupMemberPage from '@/pages/Group/GroupMemberPage';
+import NurseGroupPage from '@/pages/Group/NurseGroupPage';
 import { KakaoRedirect } from '@/pages/KakaoRedirect';
 import Landing from '@/pages/Landing';
 import Login from '@/pages/Login';
-import Mypage from '@/pages/Mypage';
 import MyShift from '@/pages/MyShift';
+import Mypage from '@/pages/Mypage';
+import NoticeDetailPage from '@/pages/Notice/NoticeDetailPage';
+import NoticePage from '@/pages/Notice/NoticePage';
+import NoticeWritePage from '@/pages/Notice/NoticeWritePage';
 import PasswordReset from '@/pages/PasswordReset';
+import PrivacyPolicy from '@/pages/PrivacyPolicy';
 import ReqAdmin from '@/pages/ReqAdmin';
 import ShiftAdmin from '@/pages/ShiftAdmin';
 import Signup from '@/pages/Signup';
 import TeamShift from '@/pages/TeamShift';
 import WardAdmin from '@/pages/WardAdmin';
 import useUserAuthStore from '@/stores/userAuthStore';
-import NurseGroupPage from '@/pages/Group/NurseGroupPage';
-import GroupDetailPage from '@/pages/Group/GroupDetailPage';
-import GroupMemberPage from '@/pages/Group/GroupMemberPage';
-import GroupInvitePage from '@/pages/Group/GroupInvitePage';
-import PrivacyPolicy from '@/pages/PrivacyPolicy';
-import NoticePage from '@/pages/Notice/NoticePage';
-import NoticeDetailPage from '@/pages/Notice/NoticeDetailPage';
-import NoticeWritePage from '@/pages/Notice/NoticeWritePage';
-import AdminDashboard from '@/pages/AdminDashboard';
-import AdminWardList from '@/pages/AdminWardList';
-import AdminWardShift from '@/pages/AdminWardShift';
 
 interface ProtectedRouteProps {
   element: ReactElement;
@@ -48,8 +48,7 @@ const ProtectedRoute = ({ element }: ProtectedRouteProps) => {
   // 데모 버전에서 커뮤니티 페이지와 마이페이지 접근 차단
   if (
     userInfo?.isDemo &&
-    (window.location.pathname.startsWith('/community') ||
-      window.location.pathname === '/my-page')
+    (window.location.pathname.startsWith('/community') || window.location.pathname === '/my-page')
   ) {
     return <Navigate to="/error" replace />;
   }
@@ -87,60 +86,30 @@ const Router = () => {
       {/* 공지사항 관련 페이지 */}
       <Route path="/notice" element={<NoticePage />} />
       <Route path="/notice/:noticeId" element={<NoticeDetailPage />} />
-      <Route
-        path="/notice/write"
-        element={<ProtectedRoute element={<NoticeWritePage />} />}
-      />
+      <Route path="/notice/write" element={<ProtectedRoute element={<NoticeWritePage />} />} />
       <Route
         path="/notice/:noticeId/edit"
         element={<ProtectedRoute element={<NoticeWritePage />} />}
       />
 
       {/* 관리자 페이지 */}
-      <Route
-        path="/admin/dashboard"
-        element={<ProtectedRoute element={<AdminDashboard />} />}
-      />
-      <Route
-        path="/admin/wards"
-        element={<ProtectedRoute element={<AdminWardList />} />}
-      />
+      <Route path="/admin/dashboard" element={<ProtectedRoute element={<AdminDashboard />} />} />
+      <Route path="/admin/wards" element={<ProtectedRoute element={<AdminWardList />} />} />
       <Route
         path="/admin/wards/:wardId/shift"
         element={<ProtectedRoute element={<AdminWardShift />} />}
       />
 
       {/* 그룹 초대 링크 - 로그인 필요 */}
-      <Route
-        path="/invite/:inviteToken"
-        element={<InviteRoute element={<GroupInvitePage />} />}
-      />
+      <Route path="/invite/:inviteToken" element={<InviteRoute element={<GroupInvitePage />} />} />
 
       {/* 로그인이 필요한 페이지 */}
-      <Route
-        path="/my-shift"
-        element={<ProtectedRoute element={<MyShift />} />}
-      />
-      <Route
-        path="/team-shift"
-        element={<ProtectedRoute element={<TeamShift />} />}
-      />
-      <Route
-        path="/ward-admin"
-        element={<ProtectedRoute element={<WardAdmin />} />}
-      />
-      <Route
-        path="/create-ward"
-        element={<ProtectedRoute element={<CreateWard />} />}
-      />
-      <Route
-        path="/extra-info"
-        element={<ProtectedRoute element={<ExtraInfo />} />}
-      />
-      <Route
-        path="/community"
-        element={<ProtectedRoute element={<Community />} />}
-      />
+      <Route path="/my-shift" element={<ProtectedRoute element={<MyShift />} />} />
+      <Route path="/team-shift" element={<ProtectedRoute element={<TeamShift />} />} />
+      <Route path="/ward-admin" element={<ProtectedRoute element={<WardAdmin />} />} />
+      <Route path="/create-ward" element={<ProtectedRoute element={<CreateWard />} />} />
+      <Route path="/extra-info" element={<ProtectedRoute element={<ExtraInfo />} />} />
+      <Route path="/community" element={<ProtectedRoute element={<Community />} />} />
       <Route
         path="/community/:boardId"
         element={<ProtectedRoute element={<CommunityDetailPage />} />}
@@ -155,31 +124,16 @@ const Router = () => {
       />
 
       {/* 그룹 관련 페이지 */}
-      <Route
-        path="/group"
-        element={<ProtectedRoute element={<NurseGroupPage />} />}
-      />
-      <Route
-        path="/group/:groupId"
-        element={<ProtectedRoute element={<GroupDetailPage />} />}
-      />
+      <Route path="/group" element={<ProtectedRoute element={<NurseGroupPage />} />} />
+      <Route path="/group/:groupId" element={<ProtectedRoute element={<GroupDetailPage />} />} />
       <Route
         path="/group/:groupId/member"
         element={<ProtectedRoute element={<GroupMemberPage />} />}
       />
 
-      <Route
-        path="/req-admin"
-        element={<ProtectedRoute element={<ReqAdmin />} />}
-      />
-      <Route
-        path="/shift-admin"
-        element={<ProtectedRoute element={<ShiftAdmin />} />}
-      />
-      <Route
-        path="/my-page"
-        element={<ProtectedRoute element={<Mypage />} />}
-      />
+      <Route path="/req-admin" element={<ProtectedRoute element={<ReqAdmin />} />} />
+      <Route path="/shift-admin" element={<ProtectedRoute element={<ShiftAdmin />} />} />
+      <Route path="/my-page" element={<ProtectedRoute element={<Mypage />} />} />
       {/* 이스터에그 */}
       <Route path="/game" element={<ProtectedRoute element={<Game />} />} />
 

@@ -1,6 +1,6 @@
+import Title from '@/components/atoms/Title';
 import MSidebar from '@/components/organisms/MSidebar';
 import WSidebar from '@/components/organisms/WSidebar';
-import Title from '@/components/atoms/Title';
 import useUserAuthStore from '@/stores/userAuthStore';
 import { useState } from 'react';
 import { IoMdMenu } from 'react-icons/io';
@@ -11,11 +11,7 @@ interface GroupLayoutProps {
   subtitle?: string;
 }
 
-export default function GroupLayout({
-  children,
-  title,
-  subtitle,
-}: GroupLayoutProps) {
+export default function GroupLayout({ children, title, subtitle }: GroupLayoutProps) {
   const { userInfo } = useUserAuthStore();
   const isDemo = userInfo?.isDemo;
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -23,10 +19,7 @@ export default function GroupLayout({
   return (
     <div className="w-full h-screen flex flex-row bg-[#F4F4F4]">
       <div className="hidden lg:block w-[14.875rem] shrink-0">
-        <WSidebar
-          userType={userInfo?.role as 'HN' | 'RN'}
-          isDemo={isDemo ?? false}
-        />
+        <WSidebar userType={userInfo?.role as 'HN' | 'RN'} isDemo={isDemo ?? false} />
       </div>
       <MSidebar
         userType={userInfo?.role as 'HN' | 'RN'}
@@ -38,9 +31,7 @@ export default function GroupLayout({
         <div className="hidden lg:block mb-3">
           <Title
             title={title || '나의 모임'}
-            subtitle={
-              subtitle || '그룹을 만들어 친구들끼리 근무표를 공유해보세요'
-            }
+            subtitle={subtitle || '그룹을 만들어 친구들끼리 근무표를 공유해보세요'}
           />
         </div>
         <div className="flex items-center gap-3 lg:hidden mb-4 px-4 pt-4">

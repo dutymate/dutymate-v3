@@ -8,8 +8,7 @@ import useUserAuthStore from '@/stores/userAuthStore';
 export const isMobileApp = (): boolean => {
   return (
     typeof window !== 'undefined' &&
-    (window.isMobileApp === true ||
-      localStorage.getItem('isMobileApp') === 'true')
+    (window.isMobileApp === true || localStorage.getItem('isMobileApp') === 'true')
   );
 };
 
@@ -65,8 +64,7 @@ class MobileAppBridge {
 
     try {
       // 데이터가 문자열인 경우 파싱
-      const data =
-        typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+      const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
 
       // 메시지 타입에 따라 처리
       switch (data.type) {

@@ -5,10 +5,7 @@ import { toast } from 'react-toastify';
 import { CommunityWriteButton } from '@/components/atoms/Button';
 import { Icon } from '@/components/atoms/Icon';
 import CommunityCategories from '@/components/organisms/CommunityCategories';
-import boardService, {
-  AllPostResponse,
-  RecommendedPost,
-} from '@/services/boardService';
+import boardService, { AllPostResponse, RecommendedPost } from '@/services/boardService';
 import useUserAuthStore from '@/stores/userAuthStore';
 import { formatTimeAgo } from '@/utils/dateUtils';
 
@@ -28,9 +25,7 @@ const CommunityForm = ({ onWrite, onPostClick }: CommunityFormProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const category = searchParams.get('category') || 'ALL';
   const [selectedCategory, setSelectedCategory] = useState(category);
-  const [recommendedPosts, setRecommendedPosts] = useState<RecommendedPost[]>(
-    []
-  );
+  const [recommendedPosts, setRecommendedPosts] = useState<RecommendedPost[]>([]);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
@@ -71,10 +66,7 @@ const CommunityForm = ({ onWrite, onPostClick }: CommunityFormProps) => {
         setRecommendedPosts(
           boardList.map((post: any) => ({
             ...post,
-            title:
-              post.title.length > 16
-                ? post.title.slice(0, 16) + '...'
-                : post.title,
+            title: post.title.length > 16 ? post.title.slice(0, 16) + '...' : post.title,
           }))
         );
       },
@@ -134,11 +126,7 @@ const CommunityForm = ({ onWrite, onPostClick }: CommunityFormProps) => {
             />
           </div>
 
-          <CommunityWriteButton
-            onClick={onWrite}
-            className="hidden lg:block"
-            isDemo={isDemo}
-          />
+          <CommunityWriteButton onClick={onWrite} className="hidden lg:block" isDemo={isDemo} />
         </div>
 
         {/* 추천 게시글 영역 */}
@@ -198,9 +186,7 @@ const CommunityForm = ({ onWrite, onPostClick }: CommunityFormProps) => {
                           className="w-[1.125rem] h-[1.125rem] min-w-[1.125rem] text-gray-500 rounded-full"
                         />
                       )}
-                      <span className="font-medium text-xs sm:text-sm">
-                        {post.nickname}
-                      </span>
+                      <span className="font-medium text-xs sm:text-sm">{post.nickname}</span>
                       <span className="text-gray-400 text-sm">·</span>
                       {post.boardId === PINNED_POST_ID && (
                         <>
@@ -251,16 +237,15 @@ const CommunityForm = ({ onWrite, onPostClick }: CommunityFormProps) => {
                       </div>
 
                       {/* 이미지 영역 */}
-                      {post.boardImgUrl !== null &&
-                        post.boardImgUrl.trim() !== '' && (
-                          <div className="flex sm:flex items-center justify-center w-[4rem] h-[4rem] md:w-[6rem] md:h-[6em] xl:w-[7.5rem] xl:h-[7.5rem] bg-gray-50 rounded-lg shrink-0">
-                            <img
-                              src={getImageUrl(post.boardImgUrl)}
-                              alt={post.title}
-                              className="w-full h-full object-cover rounded-lg"
-                            />
-                          </div>
-                        )}
+                      {post.boardImgUrl !== null && post.boardImgUrl.trim() !== '' && (
+                        <div className="flex sm:flex items-center justify-center w-[4rem] h-[4rem] md:w-[6rem] md:h-[6em] xl:w-[7.5rem] xl:h-[7.5rem] bg-gray-50 rounded-lg shrink-0">
+                          <img
+                            src={getImageUrl(post.boardImgUrl)}
+                            alt={post.title}
+                            className="w-full h-full object-cover rounded-lg"
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -284,11 +269,7 @@ const CommunityForm = ({ onWrite, onPostClick }: CommunityFormProps) => {
 		${isDemo ? 'bg-[#9CA3AF] hover:bg-[#9CA3AF] cursor-not-allowed' : 'bg-primary-20 hover:bg-primary-30'} 
 		shadow-[0_0.25rem_0.75rem_rgba(0,0,0,0.1)] flex items-center justify-center transition-colors`}
       >
-        <Icon
-          name="edit"
-          size={24}
-          className={isDemo ? 'text-white' : 'text-primary-dark'}
-        />
+        <Icon name="edit" size={24} className={isDemo ? 'text-white' : 'text-primary-dark'} />
       </button>
     </>
   );

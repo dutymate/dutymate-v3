@@ -20,24 +20,19 @@ const CommunityNews = ({ onClose }: any) => {
       <div className="bg-white rounded-lg p-3 min-h-[37.5rem] sticky top-6 shadow-[0_0.25rem_0.75rem_rgba(0,0,0,0.1)] relative">
         {/* Title with improved visuals */}
         <div className="flex flex-col items-center justify-center gap-1 mb-4">
-          <button
-            className="lg:hidden absolute right-3 top-3 p-2"
-            onClick={onClose}
-          >
+          <button className="lg:hidden absolute right-3 top-3 p-2" onClick={onClose}>
             <IoMdClose className="w-6 h-6 text-gray-600" />
           </button>
 
           <div className="flex items-center gap-2 mt-2">
             <IoNewspaperOutline className="w-5 h-5 text-primary-dark" />
-            <h2 className="text-primary-dark font-semibold whitespace-nowrap">
-              오늘의 간호 뉴스
-            </h2>
+            <h2 className="text-primary-dark font-semibold whitespace-nowrap">오늘의 간호 뉴스</h2>
           </div>
 
           <div className="mt-3 p-2 bg-gray-50 rounded-lg border border-gray-200 w-full">
             <p className="text-sm text-gray-600">
-              <span className="font-medium">※ 안내</span>: 최신 간호 관련 뉴스를
-              AI가 요약하여 제공합니다. 뉴스는 6시, 14시, 21시에 업데이트됩니다.
+              <span className="font-medium">※ 안내</span>: 최신 간호 관련 뉴스를 AI가 요약하여
+              제공합니다. 뉴스는 6시, 14시, 21시에 업데이트됩니다.
             </p>
           </div>
         </div>

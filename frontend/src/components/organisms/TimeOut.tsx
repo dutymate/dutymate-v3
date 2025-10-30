@@ -59,8 +59,7 @@ const TimeOut = () => {
             서비스 맛보기 시간 종료
           </h2>
           <div className="text-[#444] text-sm sm:text-sm text-center leading-relaxed">
-            저희 서비스 어떠셨나요{' '}
-            <span className="inline-block">|•'-'•)ง✧</span>
+            저희 서비스 어떠셨나요 <span className="inline-block">|•'-'•)ง✧</span>
             <br />더 많은 기능과 사용을 원하시면 회원가입을 진행해주세요.
           </div>
         </div>

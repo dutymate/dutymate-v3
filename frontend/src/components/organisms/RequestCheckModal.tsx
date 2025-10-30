@@ -1,9 +1,9 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 
 import { Button } from '@/components/atoms/Button';
 import ReqAdminTable from '@/components/organisms/ReqAdminTable';
-import { requestService, WardRequest } from '@/services/requestService';
+import { WardRequest, requestService } from '@/services/requestService';
 import { useRequestCountStore } from '@/stores/requestCountStore';
 
 // GA4 타입 선언 (전역 Window 타입에 gtag 추가)
@@ -53,10 +53,7 @@ const RequestCheckModal = ({
   // 외부 클릭 감지
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
-      ) {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
         handleClose();
       }
     };
@@ -74,9 +71,7 @@ const RequestCheckModal = ({
         const data = await requestService.getWardRequestsByDate(year, month);
         setAllRequests(data);
         // 대기 중인 요청만 필터링
-        const pendingRequests = data.filter(
-          (request: WardRequest) => request.status === 'HOLD'
-        );
+        const pendingRequests = data.filter((request: WardRequest) => request.status === 'HOLD');
         setRequests(pendingRequests);
       } catch (error) {
         console.error('Failed to fetch requests:', error);
@@ -162,9 +157,7 @@ const RequestCheckModal = ({
       >
         {/* Header */}
         <div className="flex rounded-t-xl justify-between bg-primary-bg items-center px-[1rem] py-[0.75rem] border-b">
-          <h2 className="text-base font-medium text-primary-dark">
-            대기 중인 요청 확인
-          </h2>
+          <h2 className="text-base font-medium text-primary-dark">대기 중인 요청 확인</h2>
           <button
             onClick={handleClose}
             className="text-primary hover:text-primary/80"
@@ -184,18 +177,11 @@ const RequestCheckModal = ({
             <>
               <div className="flex items-center justify-center gap-[0.25rem] py-[0.5rem] px-[0.25rem] rounded text-sm sm:text-base text-base-dark mb-[0rem]">
                 {requestCount > 0 ? (
-                  <span>
-                    대기 중인 요청이 있습니다. 요청을 처리한 후 자동 생성을
-                    진행해주세요.
-                  </span>
+                  <span>대기 중인 요청이 있습니다. 요청을 처리한 후 자동 생성을 진행해주세요.</span>
                 ) : allRequests.length > 0 ? (
-                  <span>
-                    모든 요청이 처리되었습니다. 자동 생성을 시작할 수 있습니다.
-                  </span>
+                  <span>모든 요청이 처리되었습니다. 자동 생성을 시작할 수 있습니다.</span>
                 ) : (
-                  <span>
-                    요청 내역이 없습니다. 자동 생성을 시작할 수 있습니다.
-                  </span>
+                  <span>요청 내역이 없습니다. 자동 생성을 시작할 수 있습니다.</span>
                 )}
               </div>
 

@@ -6,13 +6,13 @@ import { toast } from 'react-toastify';
 
 import '@/styles/animations.css';
 
+import { SEO } from '@/components/SEO';
 import { Button } from '@/components/atoms/Button';
+import Footer from '@/components/organisms/Footer';
 // import UpdateNoticeModal from '@/components/organisms/UpdateNoticeModal';
 import LandingTemplate from '@/components/templates/LandingTemplate';
-import { SEO } from '@/components/SEO';
 import axiosInstance from '@/lib/axios';
 import useUserAuthStore from '@/stores/userAuthStore';
-import Footer from '@/components/organisms/Footer';
 
 const Landing = () => {
   const navigate = useNavigate();
