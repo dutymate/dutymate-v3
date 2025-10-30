@@ -1,8 +1,8 @@
+import { isHoliday } from '@/utils/dateUtils';
+import { toPng } from 'html-to-image';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { toPng } from 'html-to-image';
 import * as XLSX from 'xlsx-js-style';
-import { isHoliday } from '@/utils/dateUtils';
 
 // xlsx-js-style를 위한 타입 정의
 interface StyledCell {
@@ -121,11 +121,7 @@ export const useShiftExport = (year: number, month: number) => {
   /**
    * 요일별 배경색 가져오기
    */
-  const getWeekendBgColor = (
-    year: number,
-    month: number,
-    day: number
-  ): string => {
+  const getWeekendBgColor = (year: number, month: number, day: number): string => {
     if (isHoliday(year, month, day) || isSundayDay(year, month, day)) {
       return 'FFEEEE'; // 일요일/공휴일 배경색
     } else if (isSaturdayDay(year, month, day)) {

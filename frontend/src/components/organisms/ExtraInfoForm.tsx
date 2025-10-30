@@ -52,9 +52,7 @@ const RoleCard = ({ option, selected, onClick }: RoleCardProps) => {
       <div className="flex items-center gap-2">
         <span className="text-xl">{option.icon}</span>
         <div className="flex-1">
-          <p
-            className={`text-[0.75rem] ${selected ? 'text-primary' : 'text-gray-500'}`}
-          >
+          <p className={`text-[0.75rem] ${selected ? 'text-primary' : 'text-gray-500'}`}>
             {option.position}
           </p>
           <h3
@@ -70,11 +68,7 @@ const RoleCard = ({ option, selected, onClick }: RoleCardProps) => {
         }`}
       >
         {selected && (
-          <svg
-            className="w-2.5 h-2.5 text-white"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
+          <svg className="w-2.5 h-2.5 text-white" viewBox="0 0 20 20" fill="currentColor">
             <path
               fillRule="evenodd"
               d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -199,8 +193,7 @@ const ExtraInfoForm = ({ initialData, onSubmit }: ExtraInfoFormProps) => {
             ))}
           </div>
           <p className="mt-1 sm:mt-1.5 text-[0.7rem] sm:text-[0.75rem] text-gray-500">
-            * 평간호사도 근무표 생성 기능이 필요한 경우 수간호사(근무표
-            관리자)를 선택해주세요.
+            * 평간호사도 근무표 생성 기능이 필요한 경우 수간호사(근무표 관리자)를 선택해주세요.
           </p>
         </div>
 

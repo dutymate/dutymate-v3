@@ -3,12 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import {
-  AuthCodeInput,
-  EmailInput,
-  Input,
-  PasswordInput,
-} from '@/components/atoms/Input';
+import { AuthCodeInput, EmailInput, Input, PasswordInput } from '@/components/atoms/Input';
 import { useEmailVerification } from '@/hooks/useEmailVerification';
 import userService from '@/services/userService';
 import useUserAuthStore from '@/stores/userAuthStore';
@@ -25,9 +20,7 @@ const validateEmail = (email: string) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && !email.includes('@dutymate.demo');
 
 const validatePassword = (password: string) =>
-  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$#^!%*~?&])[A-Za-z\d@$#^!%*~?&]{8,}$/.test(
-    password
-  );
+  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$#^!%*~?&])[A-Za-z\d@$#^!%*~?&]{8,}$/.test(password);
 
 const SignupForm = () => {
   const navigate = useNavigate();
@@ -81,15 +74,11 @@ const SignupForm = () => {
       if (authCodeSent && !isVerified) {
         resetVerification(); // 인증 코드 상태 초기화
       }
-      if (!validateEmail(value.trim()))
-        errorMessage = '올바른 이메일 형식이 아닙니다.';
+      if (!validateEmail(value.trim())) errorMessage = '올바른 이메일 형식이 아닙니다.';
     } else if (name === 'password') {
       if (!validatePassword(value.trim()))
         errorMessage = '8자 이상, 숫자 및 특수문자를 포함해야 합니다.';
-      if (
-        signupData.passwordConfirm &&
-        value.trim() !== signupData.passwordConfirm.trim()
-      ) {
+      if (signupData.passwordConfirm && value.trim() !== signupData.passwordConfirm.trim()) {
         setError((prev) => ({
           ...prev,
           passwordConfirm: '비밀번호가 일치하지 않습니다.',
@@ -118,10 +107,7 @@ const SignupForm = () => {
         : '올바른 이메일 형식이 아닙니다.';
       isValid = false;
     }
-    if (
-      !signupData.password.trim() ||
-      !validatePassword(signupData.password.trim())
-    ) {
+    if (!signupData.password.trim() || !validatePassword(signupData.password.trim())) {
       newErrors.password = !signupData.password.trim()
         ? '비밀번호를 입력해주세요.'
         : '비밀번호는 8자 이상, 숫자 및 특수문자를 포함해야 합니다.';
@@ -191,9 +177,7 @@ const SignupForm = () => {
   return (
     <div className="bg-white rounded-[0.925rem] shadow-[0_0_0.9375rem_rgba(0,0,0,0.1)] w-[20rem] px-[2rem] py-[2rem] sm:w-[23rem] sm:px-[2.5rem] sm:py-[2.5rem] lg:w-[26rem] lg:px-[3rem] lg:py-[3rem]">
       <form onSubmit={handleSignupSubmit} className="lg:block">
-        <span className="font-medium text-gray-900 text-base sm:text-lg">
-          회원가입
-        </span>
+        <span className="font-medium text-gray-900 text-base sm:text-lg">회원가입</span>
         <div className="space-y-[0.25rem] sm:space-y-[0.5rem]">
           <EmailInput
             id="signup-email"
@@ -213,11 +197,7 @@ const SignupForm = () => {
               onClick={sendCode}
               disabled={isSending}
             >
-              {isSending
-                ? '발송 중...'
-                : authCodeSent
-                  ? '인증번호 재발송'
-                  : '인증번호 발송'}
+              {isSending ? '발송 중...' : authCodeSent ? '인증번호 재발송' : '인증번호 발송'}
             </button>
           )}
           {authCodeSent && (
@@ -230,14 +210,8 @@ const SignupForm = () => {
               onVerifyClick={verifyCode}
               isVerified={isVerified}
               status={authCodeStatus}
-              error={
-                authCodeStatus === 'error'
-                  ? '인증 코드가 일치하지 않습니다.'
-                  : undefined
-              }
-              successText={
-                authCodeStatus === 'success' ? '인증되었습니다.' : undefined
-              }
+              error={authCodeStatus === 'error' ? '인증 코드가 일치하지 않습니다.' : undefined}
+              successText={authCodeStatus === 'success' ? '인증되었습니다.' : undefined}
             />
           )}
           {isVerified && (

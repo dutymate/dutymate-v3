@@ -138,9 +138,7 @@ export const wardService = {
       })
       .catch((error) => {
         if (error.code === 'ERR_NETWORK') {
-          console.error(
-            '서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.'
-          );
+          console.error('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
           throw new Error('서버 연결 실패');
         }
         if (error.response) {
@@ -171,9 +169,7 @@ export const wardService = {
       })
       .catch((error) => {
         if (error.code === 'ERR_NETWORK') {
-          console.error(
-            '서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.'
-          );
+          console.error('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
           throw new Error('서버 연결 실패');
         }
         if (error.response) {
@@ -206,9 +202,7 @@ export const wardService = {
 
       .catch((error) => {
         if (error.code === 'ERR_NETWORK') {
-          console.error(
-            '서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.'
-          );
+          console.error('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
           throw new Error('서버 연결 실패');
         }
         if (error.response) {
@@ -242,9 +236,7 @@ export const wardService = {
       })
       .catch((error) => {
         if (error.code === 'ERR_NETWORK') {
-          console.error(
-            '서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.'
-          );
+          console.error('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
           throw new Error('서버 연결 실패');
         }
         if (error.response) {
@@ -276,9 +268,7 @@ export const wardService = {
       })
       .catch((error) => {
         if (error.code === 'ERR_NETWORK') {
-          console.error(
-            '서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.'
-          );
+          console.error('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
           throw new Error('서버 연결 실패');
         }
         if (error.response) {
@@ -449,11 +439,7 @@ export const wardService = {
       });
   },
 
-  connectWithEnterMember: (
-    enterMemberId: number,
-    tempMemberId: number,
-    appliedShifts: string
-  ) => {
+  connectWithEnterMember: (enterMemberId: number, tempMemberId: number, appliedShifts: string) => {
     return axiosInstance
       .post(`/ward/member/${enterMemberId}/link`, {
         tempMemberId,

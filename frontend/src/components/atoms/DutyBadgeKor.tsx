@@ -5,12 +5,7 @@ interface DutyBadgeProps {
   textColor?: string;
 }
 
-export const DutyBadgeKor = ({
-  type,
-  size = 'md',
-  bgColor,
-  textColor,
-}: DutyBadgeProps) => {
+export const DutyBadgeKor = ({ type, size = 'md', bgColor, textColor }: DutyBadgeProps) => {
   const defaultBadgeStyles = {
     day: 'bg-duty-day-bg text-duty-day',
     evening: 'bg-duty-evening-bg text-duty-evening',

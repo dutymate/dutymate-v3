@@ -30,11 +30,7 @@ export const Tooltip = ({
       {children ? (
         <div className="inline-block"> {children} </div>
       ) : (
-        <Icon
-          name={icon.name as IconName}
-          size={icon.size}
-          className={icon.className}
-        />
+        <Icon name={icon.name as IconName} size={icon.size} className={icon.className} />
       )}
       <div
         className={`absolute top-full left-1/2 -translate-x-1/2 mt-1 ${width} bg-gray-800 text-white text-xs rounded-lg p-2 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-[9999] text-center`}

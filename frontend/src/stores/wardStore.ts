@@ -70,16 +70,10 @@ const useWardStore = create<WardStore>((set, get) => ({
     if (!wardInfo) return;
 
     // 삭제 대상 nurse 리스트
-    const targetNurses = wardInfo.nurses.filter((nurse) =>
-      memberIds.includes(nurse.memberId)
-    );
+    const targetNurses = wardInfo.nurses.filter((nurse) => memberIds.includes(nurse.memberId));
     // HN 수 확인
-    const hnCount = wardInfo.nurses.filter(
-      (nurse) => nurse.role === 'HN'
-    ).length;
-    const hnToRemove = targetNurses.filter(
-      (nurse) => nurse.role === 'HN'
-    ).length;
+    const hnCount = wardInfo.nurses.filter((nurse) => nurse.role === 'HN').length;
+    const hnToRemove = targetNurses.filter((nurse) => nurse.role === 'HN').length;
 
     if (hnCount - hnToRemove < 1) {
       throw new Error('LAST_HN');
@@ -93,9 +87,7 @@ const useWardStore = create<WardStore>((set, get) => ({
       wardInfo: state.wardInfo
         ? {
             ...state.wardInfo,
-            nurses: state.wardInfo.nurses.filter(
-              (nurse) => !memberIds.includes(nurse.memberId)
-            ),
+            nurses: state.wardInfo.nurses.filter((nurse) => !memberIds.includes(nurse.memberId)),
             nursesTotalCnt: state.wardInfo.nursesTotalCnt - memberIds.length,
           }
         : null,

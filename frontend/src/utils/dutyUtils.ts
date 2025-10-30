@@ -27,19 +27,13 @@ export const convertDutyType = (duty: DutyCode): DutyType | null => {
  * @param defaultType null일 경우 사용할 기본 타입 (기본값: 'off')
  * @returns 근무 타입
  */
-export const convertDutyTypeSafe = (
-  duty: DutyCode,
-  defaultType: DutyType = 'off'
-): DutyType => {
+export const convertDutyTypeSafe = (duty: DutyCode, defaultType: DutyType = 'off'): DutyType => {
   const dutyType = convertDutyType(duty);
   return dutyType !== null ? dutyType : defaultType;
 };
 
 // 기본 색상 정의
-export const DEFAULT_DUTY_COLORS: Record<
-  DutyType,
-  { bg: string; text: string }
-> = {
+export const DEFAULT_DUTY_COLORS: Record<DutyType, { bg: string; text: string }> = {
   day: { bg: '#D0E5D2', text: '#61A86A' },
   off: { bg: '#E5E5E1', text: '#999786' },
   evening: { bg: '#FCDADA', text: '#F68585' },
@@ -58,37 +52,23 @@ export const getDutyColors = (userColor?: ColorTheme | null) => {
   return {
     day: {
       bg: userColor.dayBg ? `#${userColor.dayBg}` : DEFAULT_DUTY_COLORS.day.bg,
-      text: userColor.dayText
-        ? `#${userColor.dayText}`
-        : DEFAULT_DUTY_COLORS.day.text,
+      text: userColor.dayText ? `#${userColor.dayText}` : DEFAULT_DUTY_COLORS.day.text,
     },
     off: {
       bg: userColor.offBg ? `#${userColor.offBg}` : DEFAULT_DUTY_COLORS.off.bg,
-      text: userColor.offText
-        ? `#${userColor.offText}`
-        : DEFAULT_DUTY_COLORS.off.text,
+      text: userColor.offText ? `#${userColor.offText}` : DEFAULT_DUTY_COLORS.off.text,
     },
     evening: {
-      bg: userColor.eveningBg
-        ? `#${userColor.eveningBg}`
-        : DEFAULT_DUTY_COLORS.evening.bg,
-      text: userColor.eveningText
-        ? `#${userColor.eveningText}`
-        : DEFAULT_DUTY_COLORS.evening.text,
+      bg: userColor.eveningBg ? `#${userColor.eveningBg}` : DEFAULT_DUTY_COLORS.evening.bg,
+      text: userColor.eveningText ? `#${userColor.eveningText}` : DEFAULT_DUTY_COLORS.evening.text,
     },
     night: {
-      bg: userColor.nightBg
-        ? `#${userColor.nightBg}`
-        : DEFAULT_DUTY_COLORS.night.bg,
-      text: userColor.nightText
-        ? `#${userColor.nightText}`
-        : DEFAULT_DUTY_COLORS.night.text,
+      bg: userColor.nightBg ? `#${userColor.nightBg}` : DEFAULT_DUTY_COLORS.night.bg,
+      text: userColor.nightText ? `#${userColor.nightText}` : DEFAULT_DUTY_COLORS.night.text,
     },
     mid: {
       bg: userColor.midBg ? `#${userColor.midBg}` : DEFAULT_DUTY_COLORS.mid.bg,
-      text: userColor.midText
-        ? `#${userColor.midText}`
-        : DEFAULT_DUTY_COLORS.mid.text,
+      text: userColor.midText ? `#${userColor.midText}` : DEFAULT_DUTY_COLORS.mid.text,
     },
   };
 };

@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
 import { Button } from '@/components/atoms/Button.tsx';
 import DutyBadgeEng from '@/components/atoms/DutyBadgeEng.tsx';
 import { wardService } from '@/services/wardService';
 import { getHolidayDays } from '@/utils/dateUtils';
+import { useEffect, useState } from 'react';
 
 interface AddNurseConfirmModalProps {
   isOpen: boolean;
@@ -74,11 +74,7 @@ const AddNurseConfirmModal = ({
       const appliedShifts = selected === 'enter' ? enterShifts : tempShifts;
 
       if (isConnect) {
-        await wardService.connectWithEnterMember(
-          enterMemberId,
-          tempMemberId,
-          appliedShifts
-        );
+        await wardService.connectWithEnterMember(enterMemberId, tempMemberId, appliedShifts);
       } else {
         await wardService.addNurseWithoutConnect(enterMemberId, appliedShifts);
       }
@@ -89,19 +85,13 @@ const AddNurseConfirmModal = ({
     }
   };
 
-  const renderShifts = (
-    shifts: string,
-    label: string,
-    type: 'enter' | 'temp'
-  ) => (
+  const renderShifts = (shifts: string, label: string, type: 'enter' | 'temp') => (
     <div className="flex flex-col gap-1">
       <span className="font-semibold text-sm ml-1">{label}</span>
       <div
         onClick={() => setSelected(type)}
         className={`border rounded-xl p-3 min-w-full overflow-x-auto flex flex-col gap-2 cursor-pointer ${
-          selected === type
-            ? 'border-primary ring-2 ring-primary'
-            : 'border-gray-300'
+          selected === type ? 'border-primary ring-2 ring-primary' : 'border-gray-300'
         }`}
       >
         <div className="flex gap-1 justify-start">
@@ -117,10 +107,7 @@ const AddNurseConfirmModal = ({
         </div>
         <div className="flex gap-1 justify-start">
           {shifts.split('').map((duty, idx) => (
-            <div
-              key={idx}
-              className="min-w-[24px] w-[24px] max-w-[24px] flex justify-center"
-            >
+            <div key={idx} className="min-w-[24px] w-[24px] max-w-[24px] flex justify-center">
               <DutyBadgeEng type={duty as any} size="sm" />
             </div>
           ))}

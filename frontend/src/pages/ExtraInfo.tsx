@@ -3,12 +3,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import ExtraInfoForm from '@/components/organisms/ExtraInfoForm';
-import LandingTemplate from '@/components/templates/LandingTemplate';
 import { SEO } from '@/components/SEO';
+import ExtraInfoForm from '@/components/organisms/ExtraInfoForm';
+import Footer from '@/components/organisms/Footer';
+import LandingTemplate from '@/components/templates/LandingTemplate';
 import userService from '@/services/userService';
 import useUserAuthStore from '@/stores/userAuthStore';
-import Footer from '@/components/organisms/Footer';
 
 // Mock 응답 데이터 import (임시로 주석 처리)
 // import mockResponse from "../services/response-json/user/PostApiMemberInfo.json";

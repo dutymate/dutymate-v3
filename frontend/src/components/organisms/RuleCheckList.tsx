@@ -20,18 +20,13 @@ const RuleCheckList = () => {
         ) : (
           <div className="space-y-[0.75rem]">
             {issues.map((item, index) => (
-              <div
-                key={index}
-                className="flex items-center gap-[0.7rem] px-[0.5rem]"
-              >
+              <div key={index} className="flex items-center gap-[0.7rem] px-[0.5rem]">
                 <span className="w-[4.3rem] bg-duty-off-bg px-[0.375rem] py-[0.1875rem] rounded-md">
                   <span className="font-medium text-sm text-center truncate whitespace-nowrap block">
                     {item.name}
                   </span>
                 </span>
-                <span className="text-foreground text-xs lg:text-sm">
-                  {item.startDate}일
-                </span>
+                <span className="text-foreground text-xs lg:text-sm">{item.startDate}일</span>
                 <div className="text-duty-evening-dark text-xs lg:text-sm text-red-500">
                   {item.message}
                 </div>

@@ -31,9 +31,7 @@ const GameKeyboardGuide = () => {
       <div className="flex items-center gap-1">
         <span className="text-xs font-bold text-gray-500">조작키</span>
         <div className="flex gap-0.5">
-          <kbd className="px-1.5 py-0.5 bg-gray-100 rounded font-medium text-gray-600">
-            ← → ↑ ↓
-          </kbd>
+          <kbd className="px-1.5 py-0.5 bg-gray-100 rounded font-medium text-gray-600">← → ↑ ↓</kbd>
         </div>
       </div>
     </div>
@@ -43,12 +41,8 @@ const GameKeyboardGuide = () => {
 export const WormGameModal = ({ isOpen, onClose }: WormGameModalProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [worm, setWorm] = useState<Position[]>([{ x: 10, y: 10 }]);
-  const [direction, setDirection] = useState<'UP' | 'DOWN' | 'LEFT' | 'RIGHT'>(
-    'RIGHT'
-  );
-  const [food, setFood] = useState<
-    Position & { type: (typeof DUTY_TYPES)[number] }
-  >({
+  const [direction, setDirection] = useState<'UP' | 'DOWN' | 'LEFT' | 'RIGHT'>('RIGHT');
+  const [food, setFood] = useState<Position & { type: (typeof DUTY_TYPES)[number] }>({
     x: 15,
     y: 15,
     type: 'D',
@@ -77,10 +71,7 @@ export const WormGameModal = ({ isOpen, onClose }: WormGameModalProps) => {
 
   // 점수에 따른 게임 속도 조정
   useEffect(() => {
-    const newSpeed = Math.max(
-      INITIAL_SPEED - score * SPEED_INCREMENT,
-      MIN_SPEED
-    );
+    const newSpeed = Math.max(INITIAL_SPEED - score * SPEED_INCREMENT, MIN_SPEED);
     setGameSpeed(newSpeed);
   }, [score]);
 
@@ -143,9 +134,7 @@ export const WormGameModal = ({ isOpen, onClose }: WormGameModalProps) => {
           head.x >= GRID_SIZE ||
           head.y < 0 ||
           head.y >= GRID_SIZE ||
-          currentWorm.some(
-            (segment) => segment.x === head.x && segment.y === head.y
-          )
+          currentWorm.some((segment) => segment.x === head.x && segment.y === head.y)
         ) {
           setGameOver(true);
           return currentWorm;
@@ -190,10 +179,7 @@ export const WormGameModal = ({ isOpen, onClose }: WormGameModalProps) => {
       <div className="bg-white rounded-xl p-8 max-w-[600px] w-full mx-4">
         {/* 헤더 영역 */}
         <div className="flex justify-between items-start mb-6">
-          <Title
-            title="DutyWorm Game"
-            subtitle="자동 생성을 기다리는 동안 게임을 즐겨보세요!"
-          />
+          <Title title="DutyWorm Game" subtitle="자동 생성을 기다리는 동안 게임을 즐겨보세요!" />
           <Button size="sm" color="muted" onClick={onClose} className="mt-1">
             <Icon name="close" size={20} />
           </Button>
@@ -220,11 +206,7 @@ export const WormGameModal = ({ isOpen, onClose }: WormGameModalProps) => {
               }}
             >
               <DutyBadgeEng
-                type={
-                  index === 0
-                    ? 'D'
-                    : (['E', 'N', 'O'][index % 3] as 'D' | 'E' | 'N' | 'O')
-                }
+                type={index === 0 ? 'D' : (['E', 'N', 'O'][index % 3] as 'D' | 'E' | 'N' | 'O')}
                 size="xs"
               />
             </div>
@@ -246,12 +228,8 @@ export const WormGameModal = ({ isOpen, onClose }: WormGameModalProps) => {
         <div className="flex flex-col gap-4">
           <div className="flex justify-between items-center bg-white p-4 rounded-lg shadow-sm">
             <div>
-              <p className="text-2xl font-bold text-primary mb-1">
-                Score: {score}
-              </p>
-              <p className="text-sm text-gray-600">
-                방향키로 이동하여 듀티를 먹으세요!
-              </p>
+              <p className="text-2xl font-bold text-primary mb-1">Score: {score}</p>
+              <p className="text-sm text-gray-600">방향키로 이동하여 듀티를 먹으세요!</p>
             </div>
             <GameKeyboardGuide />
           </div>

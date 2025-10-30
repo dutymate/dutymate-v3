@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback } from 'react';
+import { WardRule, ruleService } from '@/services/ruleService';
 import {
   getDefaultOffDays,
+  isHoliday,
   isSaturday as isSaturdayDay,
   isSunday as isSundayDay,
-  isHoliday,
 } from '@/utils/dateUtils';
-import { ruleService, WardRule } from '@/services/ruleService';
+import { useCallback, useEffect, useState } from 'react';
 
 interface UseNurseShortageCalculationProps {
   year: number;
@@ -44,10 +44,7 @@ const useNurseShortageCalculation = ({
 
     // 1. 평일/주말 계산
     const daysInMonth = new Date(year, month, 0).getDate();
-    const weekendDays = Array.from(
-      { length: daysInMonth },
-      (_, i) => i + 1
-    ).filter(
+    const weekendDays = Array.from({ length: daysInMonth }, (_, i) => i + 1).filter(
       (day) =>
         isSaturdayDay(year, month, day) ||
         isSundayDay(year, month, day) ||
@@ -56,14 +53,11 @@ const useNurseShortageCalculation = ({
     const weekdayDays = daysInMonth - weekendDays;
 
     // 2. 평일/주말 필요 근무 수 계산
-    const weekdayShifts =
-      wardRules.wdayDCnt + wardRules.wdayECnt + wardRules.wdayNCnt;
-    const weekendShifts =
-      wardRules.wendDCnt + wardRules.wendECnt + wardRules.wendNCnt;
+    const weekdayShifts = wardRules.wdayDCnt + wardRules.wdayECnt + wardRules.wdayNCnt;
+    const weekendShifts = wardRules.wendDCnt + wardRules.wendECnt + wardRules.wendNCnt;
 
     // 3. 총 필요 근무 수 계산
-    const totalRequiredShifts =
-      weekdayShifts * weekdayDays + weekendShifts * weekendDays;
+    const totalRequiredShifts = weekdayShifts * weekdayDays + weekendShifts * weekendDays;
 
     // 4. 야간 전담 간호사가 없는 경우
     if (nightNurseCount === 0) {

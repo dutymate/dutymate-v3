@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/atoms/Button';
 import { Icon } from '@/components/atoms/Icon';
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // GA4 타입 선언 (전역 Window 타입에 gtag 추가)
 declare global {
@@ -286,15 +286,13 @@ const NurseShortageModal: React.FC<NurseShortageModalProps> = ({
           {isShortageMode && (
             <div className="text-sm text-gray-600 mb-6">
               <p className="mb-2">
-                현재 모든 인원의 <span className="font-bold">법정 공휴일</span>
-                을 보장할 수 없습니다.
+                현재 모든 인원의 <span className="font-bold">법정 공휴일</span>을 보장할 수
+                없습니다.
               </p>
               <p>
                 근무를 위해 최소{' '}
-                <span className="font-bold text-primary">
-                  {internalNeededCount}명
-                </span>
-                의 간호사가 더 필요합니다.
+                <span className="font-bold text-primary">{internalNeededCount}명</span>의 간호사가
+                더 필요합니다.
               </p>
               {addedNurses > 0 && (
                 <p className="mt-2 font-medium text-duty-day-dark">
@@ -319,9 +317,7 @@ const NurseShortageModal: React.FC<NurseShortageModalProps> = ({
                 >
                   -
                 </button>
-                <span className="text-xl font-medium w-12 text-center">
-                  {tempNurseCount}
-                </span>
+                <span className="text-xl font-medium w-12 text-center">{tempNurseCount}</span>
                 <button
                   onClick={handleIncreaseTempNurse}
                   className="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-100 text-lg font-medium"
@@ -333,9 +329,7 @@ const NurseShortageModal: React.FC<NurseShortageModalProps> = ({
               </div>
               <p className="text-xs text-gray-500 text-center">
                 {wouldBeSufficient ? (
-                  <span className="text-duty-day-dark">
-                    필요한 인원이 충족되었어요
-                  </span>
+                  <span className="text-duty-day-dark">필요한 인원이 충족되었어요</span>
                 ) : (
                   <span className="text-duty-evening-dark">
                     아직 {internalNeededCount - tempNurseCount - addedNurses}
@@ -370,9 +364,7 @@ const NurseShortageModal: React.FC<NurseShortageModalProps> = ({
                 className="!w-full"
                 id="add-temp-nurse-button"
               >
-                {isAddingNurses
-                  ? '추가 중...'
-                  : `임시 간호사 ${tempNurseCount}명 추가하기`}
+                {isAddingNurses ? '추가 중...' : `임시 간호사 ${tempNurseCount}명 추가하기`}
               </Button>
             ) : (
               <Button

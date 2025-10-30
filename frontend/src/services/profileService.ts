@@ -149,10 +149,7 @@ export const profileService = {
   },
 
   // 병동 나가기
-  exitWard: async (
-    success: () => void,
-    fail: (error: ApiErrorResponse) => void
-  ) => {
+  exitWard: async (success: () => void, fail: (error: ApiErrorResponse) => void) => {
     try {
       await axiosInstance.delete(`/member/ward`);
       success();
@@ -166,10 +163,7 @@ export const profileService = {
   },
 
   // 회원 탈퇴하기
-  withdrawlMember: async (
-    success: () => void,
-    fail: (error: ApiErrorResponse) => void
-  ) => {
+  withdrawlMember: async (success: () => void, fail: (error: ApiErrorResponse) => void) => {
     try {
       await axiosInstance.delete(`/member`);
       success();
@@ -183,10 +177,7 @@ export const profileService = {
   },
 
   // 로그아웃
-  logout: async (
-    success: () => void,
-    fail: (error: ApiErrorResponse) => void
-  ) => {
+  logout: async (success: () => void, fail: (error: ApiErrorResponse) => void) => {
     try {
       await axiosInstance.post(`/member/logout`);
       success();

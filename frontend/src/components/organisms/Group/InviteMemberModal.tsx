@@ -56,9 +56,7 @@ const InviteMemberModal: React.FC<InviteMemberModalProps> = ({
 
   const handleKakaoShare = () => {
     if (!window.Kakao || !kakaoInitialized) {
-      setModalMessage(
-        '카카오톡 공유 기능을 초기화하는 중입니다. 잠시 후 다시 시도해주세요.'
-      );
+      setModalMessage('카카오톡 공유 기능을 초기화하는 중입니다. 잠시 후 다시 시도해주세요.');
       setShowModal(true);
       return;
     }
@@ -70,8 +68,7 @@ const InviteMemberModal: React.FC<InviteMemberModalProps> = ({
       objectType: 'feed',
       content: {
         title: `듀티메이트 | Dutymate \n[${groupName}] 그룹에서 당신을 초대합니다.`,
-        description:
-          '듀티메이트에서 함께 근무표를 관리하고 추천 약속 날짜를 받아보세요!',
+        description: '듀티메이트에서 함께 근무표를 관리하고 추천 약속 날짜를 받아보세요!',
         imageUrl: imageUrl,
         link: {
           mobileWebUrl: inviteUrl,

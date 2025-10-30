@@ -1,8 +1,8 @@
+import { CancelEnterWardButton } from '@/components/atoms/Button';
+import userService from '@/services/userService';
+import useUserAuthStore from '@/stores/userAuthStore';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { CancelEnterWardButton } from '@/components/atoms/Button';
-import useUserAuthStore from '@/stores/userAuthStore';
-import userService from '@/services/userService';
 
 const WaitingForApproval = () => {
   const navigate = useNavigate();
@@ -32,9 +32,7 @@ const WaitingForApproval = () => {
         }
         navigate('/my-shift');
       } else if (error.message?.includes('병동 입장이 거절된 상태입니다')) {
-        toast.warning(
-          '병동 입장이 거절되었습니다. 다시 입장 코드를 입력해주세요.'
-        );
+        toast.warning('병동 입장이 거절되었습니다. 다시 입장 코드를 입력해주세요.');
         if (userInfo) {
           userAuthStore.setUserInfo({
             ...userInfo,

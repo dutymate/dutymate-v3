@@ -1,13 +1,13 @@
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 import { IoMdMenu } from 'react-icons/io';
 
-import AdminReqShiftModal from '@/components/organisms/AdminReqShiftModal';
+import { SEO } from '@/components/SEO';
 import DemoTimer from '@/components/atoms/DemoTimer';
 import Title from '@/components/atoms/Title';
+import AdminReqShiftModal from '@/components/organisms/AdminReqShiftModal';
 import MSidebar from '@/components/organisms/MSidebar';
 import ReqAdminTable from '@/components/organisms/ReqAdminTable';
 import Sidebar from '@/components/organisms/WSidebar';
-import { SEO } from '@/components/SEO';
 import useUserAuthStore from '@/stores/userAuthStore';
 
 const ReqAdmin = () => {
@@ -19,17 +19,11 @@ const ReqAdmin = () => {
 
   return (
     <>
-      <SEO
-        title="요청 관리 | Dutymate"
-        description="간호사들의 근무 요청을 관리해보세요."
-      />
+      <SEO title="요청 관리 | Dutymate" description="간호사들의 근무 요청을 관리해보세요." />
       <div className="w-full min-h-screen flex flex-row bg-[#F4F4F4]">
         {/* 데스크톱 Sidebar */}
         <div className="hidden lg:block w-[14.875rem] shrink-0">
-          <Sidebar
-            userType={userInfo?.role as 'HN' | 'RN'}
-            isDemo={isDemo ?? false}
-          />
+          <Sidebar userType={userInfo?.role as 'HN' | 'RN'} isDemo={isDemo ?? false} />
         </div>
         {/* 모바일 Sidebar */}
         <MSidebar
@@ -50,26 +44,18 @@ const ReqAdmin = () => {
             </button>
             <div className="flex-1">
               <h1 className="text-lg font-bold">요청 근무 관리</h1>
-              <p className="text-sm text-gray-500">
-                간호사들의 근무 요청을 관리해보세요
-              </p>
+              <p className="text-sm text-gray-500">간호사들의 근무 요청을 관리해보세요</p>
             </div>
             {isDemo && <DemoTimer />}
           </div>
 
           {/* 데스크톱 타이틀 */}
           <div className="hidden lg:flex justify-between items-center">
-            <Title
-              title="요청 근무 관리"
-              subtitle="간호사들의 근무 요청을 관리해보세요"
-            />
+            <Title title="요청 근무 관리" subtitle="간호사들의 근무 요청을 관리해보세요" />
           </div>
 
           <div className="mt-6">
-            <ReqAdminTable
-              ref={tableRef}
-              onCreateRequest={() => setIsModalOpen(true)}
-            />
+            <ReqAdminTable ref={tableRef} onCreateRequest={() => setIsModalOpen(true)} />
           </div>
         </div>
       </div>

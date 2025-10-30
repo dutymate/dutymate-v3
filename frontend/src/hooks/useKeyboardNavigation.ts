@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, RefObject } from 'react';
+import { RefObject, useCallback, useEffect, useState } from 'react';
 
 interface UseKeyboardNavigationProps<T> {
   items: T[];

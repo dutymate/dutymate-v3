@@ -1,18 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
-import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import Cookies from 'js-cookie';
-import {
-  FaCheck,
-  FaStar,
-  FaRegStar,
-  FaChevronRight,
-  FaChevronLeft,
-} from 'react-icons/fa';
-import { HiX } from 'react-icons/hi';
 import useUserAuthStore from '@/stores/userAuthStore';
+import { yupResolver } from '@hookform/resolvers/yup';
+import Cookies from 'js-cookie';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { FaCheck, FaChevronLeft, FaChevronRight, FaRegStar, FaStar } from 'react-icons/fa';
+import { HiX } from 'react-icons/hi';
+import * as yup from 'yup';
 
 // GA4 타입 선언 (전역 Window 타입에 gtag 추가)
 declare global {
@@ -34,10 +28,7 @@ const surveySchema = yup.object({
     .required('만족도를 선택해주세요')
     .min(1, '만족도를 선택해주세요')
     .max(5, '만족도를 선택해주세요'),
-  favoriteFeatures: yup
-    .array()
-    .of(yup.string())
-    .min(1, '최소 하나 이상의 기능을 선택해주세요'),
+  favoriteFeatures: yup.array().of(yup.string()).min(1, '최소 하나 이상의 기능을 선택해주세요'),
   customFeature: yup.string().when('favoriteFeatures', {
     is: (features: string[]) => features.includes('기타'),
     then: (schema) => schema.required('기타 기능을 입력해주세요'),
@@ -73,12 +64,7 @@ interface SurveyModalProps {
   onClose: () => void;
 }
 
-type StepType =
-  | 'satisfaction'
-  | 'favoriteFeatures'
-  | 'recommendation'
-  | 'feedback'
-  | 'userInfo';
+type StepType = 'satisfaction' | 'favoriteFeatures' | 'recommendation' | 'feedback' | 'userInfo';
 
 const SurveyModal = ({ isOpen, onClose }: SurveyModalProps) => {
   const { isAuthenticated, userInfo } = useUserAuthStore();
@@ -127,8 +113,7 @@ const SurveyModal = ({ isOpen, onClose }: SurveyModalProps) => {
 
   const watchFavoriteFeatures = watch('favoriteFeatures');
   const hasOtherFeature =
-    Array.isArray(watchFavoriteFeatures) &&
-    watchFavoriteFeatures.includes('기타');
+    Array.isArray(watchFavoriteFeatures) && watchFavoriteFeatures.includes('기타');
   const watchSatisfaction = watch('satisfaction');
   const watchRecommendation = watch('recommendation');
 
@@ -267,18 +252,12 @@ const SurveyModal = ({ isOpen, onClose }: SurveyModalProps) => {
     let formData = '';
 
     // 설문 응답 데이터 추가
-    formData += `Satisfaction=${encodeURIComponent(
-      data.satisfaction.toString()
-    )}`;
-    formData += `&FavoriteFeatures=${encodeURIComponent(
-      data.favoriteFeatures.join(', ')
-    )}`;
+    formData += `Satisfaction=${encodeURIComponent(data.satisfaction.toString())}`;
+    formData += `&FavoriteFeatures=${encodeURIComponent(data.favoriteFeatures.join(', '))}`;
     if (data.customFeature) {
       formData += `&CustomFeature=${encodeURIComponent(data.customFeature)}`;
     }
-    formData += `&Recommendation=${encodeURIComponent(
-      data.recommendation.toString()
-    )}`;
+    formData += `&Recommendation=${encodeURIComponent(data.recommendation.toString())}`;
     if (data.feedback) {
       formData += `&Feedback=${encodeURIComponent(data.feedback)}`;
     }
@@ -309,9 +288,7 @@ const SurveyModal = ({ isOpen, onClose }: SurveyModalProps) => {
     if (isAuthenticated && userInfo) {
       formData += `&UserName=${encodeURIComponent(userInfo.name)}`;
 
-      formData += `&MemberId=${encodeURIComponent(
-        userInfo.memberId.toString()
-      )}`;
+      formData += `&MemberId=${encodeURIComponent(userInfo.memberId.toString())}`;
 
       formData += `&UserRole=${encodeURIComponent(userInfo.role || '')}`;
       if (userInfo.provider) {
@@ -375,9 +352,7 @@ const SurveyModal = ({ isOpen, onClose }: SurveyModalProps) => {
         <div className="bg-green-50 rounded-full h-14 w-14 flex items-center justify-center mx-auto mb-5">
           <FaCheck className="text-green-500 text-xl" />
         </div>
-        <h2 className="text-xl font-semibold mb-2 text-gray-800">
-          멋진 의견 감사합니다! 🎉
-        </h2>
+        <h2 className="text-xl font-semibold mb-2 text-gray-800">멋진 의견 감사합니다! 🎉</h2>
         <p className="text-gray-500 mb-6 text-sm">
           소중한 피드백 덕분에 더 나은 서비스로 발전할 수 있어요.
           <br />
@@ -400,9 +375,7 @@ const SurveyModal = ({ isOpen, onClose }: SurveyModalProps) => {
         <div className="bg-green-50 rounded-full h-14 w-14 flex items-center justify-center mx-auto mb-5">
           <FaCheck className="text-green-500 text-xl" />
         </div>
-        <h2 className="text-xl font-semibold mb-2 text-gray-800">
-          이미 참여해주셨네요! 👍
-        </h2>
+        <h2 className="text-xl font-semibold mb-2 text-gray-800">이미 참여해주셨네요! 👍</h2>
         <p className="text-gray-500 mb-6 text-sm">
           이미 소중한 의견을 보내주셨어요.
           <br />
@@ -515,12 +488,8 @@ const SurveyModal = ({ isOpen, onClose }: SurveyModalProps) => {
             </div>
           )}
 
-          <h2 className="text-xl font-bold text-gray-800">
-            {headerContent.title}
-          </h2>
-          <p className="text-sm text-gray-600 mt-1">
-            {headerContent.description}
-          </p>
+          <h2 className="text-xl font-bold text-gray-800">{headerContent.title}</h2>
+          <p className="text-sm text-gray-600 mt-1">{headerContent.description}</p>
         </div>
 
         {/* 프로그레스 바 */}
@@ -599,9 +568,7 @@ const SurveyModal = ({ isOpen, onClose }: SurveyModalProps) => {
           {/* 2. 가장 만족한 기능 체크박스 */}
           {currentStep === 'favoriteFeatures' && (
             <div className="min-h-[200px]">
-              <p className="text-gray-700 text-center mb-6">
-                가장 마음에 드는 기능은 무엇인가요?
-              </p>
+              <p className="text-gray-700 text-center mb-6">가장 마음에 드는 기능은 무엇인가요?</p>
               <div className="space-y-2.5 mb-2">
                 {[
                   '근무표 관리 기능',
@@ -653,17 +620,13 @@ const SurveyModal = ({ isOpen, onClose }: SurveyModalProps) => {
                     placeholder="어떤 기능이 좋았는지 작성해주세요"
                   />
                   {errors.customFeature && (
-                    <p className="text-red-500 text-xs mt-2 pl-1">
-                      {errors.customFeature.message}
-                    </p>
+                    <p className="text-red-500 text-xs mt-2 pl-1">{errors.customFeature.message}</p>
                   )}
                 </div>
               )}
 
               {errors.favoriteFeatures && (
-                <p className="text-red-500 text-xs mt-2 pl-1">
-                  {errors.favoriteFeatures.message}
-                </p>
+                <p className="text-red-500 text-xs mt-2 pl-1">{errors.favoriteFeatures.message}</p>
               )}
             </div>
           )}
@@ -681,12 +644,8 @@ const SurveyModal = ({ isOpen, onClose }: SurveyModalProps) => {
                   render={({ field }) => (
                     <div className="w-full">
                       <div className="flex justify-between mb-3">
-                        <span className="text-xs text-gray-500">
-                          절대 추천하지 않음
-                        </span>
-                        <span className="text-xs text-gray-500">
-                          매우 추천함
-                        </span>
+                        <span className="text-xs text-gray-500">절대 추천하지 않음</span>
+                        <span className="text-xs text-gray-500">매우 추천함</span>
                       </div>
 
                       <div className="relative mb-8">
@@ -716,10 +675,8 @@ const SurveyModal = ({ isOpen, onClose }: SurveyModalProps) => {
                       {watchRecommendation > 0 && (
                         <div className="text-center mt-6">
                           <span className="bg-gray-50 py-1.5 px-4 rounded-full text-sm font-medium text-gray-700">
-                            {watchRecommendation === 1 &&
-                              '절대 추천하지 않겠습니다'}
-                            {watchRecommendation === 2 &&
-                              '추천하지 않을 것 같습니다'}
+                            {watchRecommendation === 1 && '절대 추천하지 않겠습니다'}
+                            {watchRecommendation === 2 && '추천하지 않을 것 같습니다'}
                             {watchRecommendation === 3 && '보통입니다'}
                             {watchRecommendation === 4 && '추천할 것 같습니다'}
                             {watchRecommendation === 5 && '적극 추천하겠습니다'}
@@ -765,9 +722,7 @@ const SurveyModal = ({ isOpen, onClose }: SurveyModalProps) => {
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs text-gray-500 mb-1.5 ml-1">
-                    직위
-                  </label>
+                  <label className="block text-xs text-gray-500 mb-1.5 ml-1">직위</label>
                   <div className="relative">
                     <select
                       {...register('position')}
@@ -797,9 +752,7 @@ const SurveyModal = ({ isOpen, onClose }: SurveyModalProps) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs text-gray-500 mb-1.5 ml-1">
-                    근무 경력
-                  </label>
+                  <label className="block text-xs text-gray-500 mb-1.5 ml-1">근무 경력</label>
                   <input
                     type="text"
                     inputMode="text"
@@ -810,9 +763,7 @@ const SurveyModal = ({ isOpen, onClose }: SurveyModalProps) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs text-gray-500 mb-1.5 ml-1">
-                    병원 규모
-                  </label>
+                  <label className="block text-xs text-gray-500 mb-1.5 ml-1">병원 규모</label>
                   <div className="relative">
                     <select
                       {...register('wardSize')}
@@ -844,9 +795,7 @@ const SurveyModal = ({ isOpen, onClose }: SurveyModalProps) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs text-gray-500 mb-1.5 ml-1">
-                    팀 인원
-                  </label>
+                  <label className="block text-xs text-gray-500 mb-1.5 ml-1">팀 인원</label>
                   <div className="relative">
                     <select
                       {...register('teamSize')}
@@ -883,9 +832,7 @@ const SurveyModal = ({ isOpen, onClose }: SurveyModalProps) => {
 
           {/* 버튼 */}
           <div
-            className={`flex ${
-              currentStepIndex() > 0 ? 'justify-between' : 'justify-end'
-            } pt-2`}
+            className={`flex ${currentStepIndex() > 0 ? 'justify-between' : 'justify-end'} pt-2`}
           >
             {currentStepIndex() > 0 && (
               <button
@@ -961,9 +908,7 @@ const SurveyModal = ({ isOpen, onClose }: SurveyModalProps) => {
         createPortal(alreadySubmittedContent, document.body)}
 
       {/* 첫 설문 작성 중인 경우 */}
-      {!isSubmitted &&
-        !checkIfAlreadySubmitted() &&
-        createPortal(modalContent, document.body)}
+      {!isSubmitted && !checkIfAlreadySubmitted() && createPortal(modalContent, document.body)}
     </>
   );
 };

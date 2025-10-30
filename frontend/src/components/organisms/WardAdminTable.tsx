@@ -1,8 +1,8 @@
-import { toast } from 'react-toastify';
+import { Tooltip } from '@/components/atoms/Tooltip';
 import WardAdminRowCard from '@/components/organisms/WardAdminRowCard';
 import useWardStore from '@/stores/wardStore';
-import { Tooltip } from '@/components/atoms/Tooltip';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import RemoveNurseConfirmModal from './RemoveNurseConfirmModal';
 
 interface WardAdminTableProps {
@@ -20,9 +20,7 @@ const WardAdminTable = ({}: WardAdminTableProps) => {
   const { removeNurses } = useWardStore();
 
   const toggleSelect = (id: number) => {
-    setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-    );
+    setSelectedIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   };
 
   const handleBulkRemove = () => {
@@ -75,12 +73,8 @@ const WardAdminTable = ({}: WardAdminTableProps) => {
                       <Tooltip
                         content={
                           <div className="text-left">
-                            <p>
-                              업무강도는 자동 생성 시 OFF 일수에 반영됩니다.
-                            </p>
-                            <p className="mt-1">
-                              • 높음: 평균보다 2~3일 적게 배정
-                            </p>
+                            <p>업무강도는 자동 생성 시 OFF 일수에 반영됩니다.</p>
+                            <p className="mt-1">• 높음: 평균보다 2~3일 적게 배정</p>
                             <p>• 중간: 평균 일수로 배정</p>
                             <p>• 낮음: 평균보다 2~3일 많이 배정</p>
                           </div>
@@ -88,8 +82,7 @@ const WardAdminTable = ({}: WardAdminTableProps) => {
                         icon={{
                           name: 'alert',
                           size: 14,
-                          className:
-                            'text-gray-400 hover:text-gray-600 cursor-help',
+                          className: 'text-gray-400 hover:text-gray-600 cursor-help',
                         }}
                       />
                     </div>
@@ -100,16 +93,13 @@ const WardAdminTable = ({}: WardAdminTableProps) => {
                       content={
                         <div className="text-left">
                           <p>전담 근무를 선택해 주세요.</p>
-                          <p className="mt-1">
-                            • MID: 다른 근무와 중복 배정 불가.
-                          </p>
+                          <p className="mt-1">• MID: 다른 근무와 중복 배정 불가.</p>
                         </div>
                       }
                       icon={{
                         name: 'alert',
                         size: 14,
-                        className:
-                          'text-gray-400 hover:text-gray-600 cursor-help',
+                        className: 'text-gray-400 hover:text-gray-600 cursor-help',
                       }}
                     />
                   </div>

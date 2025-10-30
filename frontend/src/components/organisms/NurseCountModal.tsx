@@ -25,17 +25,13 @@ const NurseCountModal = ({
           <IoMdClose size={24} />
         </button>
 
-        <h2 className="text-[1.25rem] font-bold mb-[1rem] text-center">
-          간호사 추가 필요
-        </h2>
+        <h2 className="text-[1.25rem] font-bold mb-[1rem] text-center">간호사 추가 필요</h2>
 
         <p className="text-center mb-[2rem] text-gray-700">
           현재 근무 규칙을 위해선
           <br />
-          <span className="text-primary text-lg font-bold">
-            최소 {neededNurseCount}명
-          </span>
-          의 간호사가 필요합니다.
+          <span className="text-primary text-lg font-bold">최소 {neededNurseCount}명</span>의
+          간호사가 필요합니다.
           <br />
           임시 간호사를 추가하시겠습니까?
         </p>

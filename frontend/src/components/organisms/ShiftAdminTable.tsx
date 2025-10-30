@@ -1,75 +1,66 @@
-import { useCallback, useEffect, useMemo, useRef, useState, memo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { debounce } from 'lodash';
 import {
   DndContext,
-  closestCenter,
-  TouchSensor,
-  PointerSensor,
+  DragEndEvent,
   KeyboardSensor,
+  PointerSensor,
+  TouchSensor,
+  closestCenter,
   useSensor,
   useSensors,
-  DragEndEvent,
 } from '@dnd-kit/core';
 import {
   SortableContext,
-  verticalListSortingStrategy,
   sortableKeyboardCoordinates,
   useSortable,
+  verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
 import { arrayMove } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { debounce } from 'lodash';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { MdDragIndicator } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import DutyBadgeEng from '@/components/atoms/DutyBadgeEng';
 import FaultLayer from '@/components/atoms/FaultLayer';
 import { ProgressChecker } from '@/components/atoms/ProgressChecker';
 import RequestStatusLayer from '@/components/atoms/RequestStatusLayer';
+import MobileDutyControls from '@/components/molecules/MobileDutyControls';
+import NurseShortageAlert from '@/components/molecules/NurseShortageAlert';
 import AutoGenCountModal from '@/components/organisms/AutoGenCountModal';
 import AutoGenerateConfirmModal from '@/components/organisms/AutoGenerateConfirmModal';
 import DemoSignupModal from '@/components/organisms/DemoSignupModal';
 import NurseCountModal from '@/components/organisms/NurseCountModal';
+import NurseShortageModal from '@/components/organisms/NurseShortageModal';
 import PaymentModal from '@/components/organisms/PaymentModal';
+import RequestCheckModal from '@/components/organisms/RequestCheckModal';
 import ResetDutyConfirmModal from '@/components/organisms/ResetDutyConfirmModal';
 import RuleEditModal from '@/components/organisms/RuleEditModal';
 import SubscriptionSuccessModal from '@/components/organisms/SubscriptionSuccessModal';
-import NurseShortageModal from '@/components/organisms/NurseShortageModal';
-import MobileDutyControls from '@/components/molecules/MobileDutyControls';
-import RequestCheckModal from '@/components/organisms/RequestCheckModal';
 import UnreflectedRequestsModal from '@/components/organisms/UnreflectedRequestsModal';
-import NurseShortageAlert from '@/components/molecules/NurseShortageAlert';
 import useNurseShortageCalculation from '@/hooks/useNurseShortageCalculation';
 
-import {
-  dutyService,
-  SubscriptionPlan,
-  UnreflectedRequest,
-} from '@/services/dutyService';
-import { requestService, WardRequest } from '@/services/requestService';
-import { ruleService, WardRule } from '@/services/ruleService.ts';
+import { SubscriptionPlan, UnreflectedRequest, dutyService } from '@/services/dutyService';
+import { WardRequest, requestService } from '@/services/requestService';
+import { WardRule, ruleService } from '@/services/ruleService.ts';
 
-import useShiftStore from '@/stores/shiftStore';
-import useUserAuthStore from '@/stores/userAuthStore';
+import { useApplyAcceptedRequestsDemoOnly } from '@/hooks/useApplyAcceptedRequestsDemoOnly';
 import { useHolidayStore } from '@/stores/holidayStore';
 import { useRequestCountStore } from '@/stores/requestCountStore';
-import { useApplyAcceptedRequestsDemoOnly } from '@/hooks/useApplyAcceptedRequestsDemoOnly';
+import useShiftStore from '@/stores/shiftStore';
+import useUserAuthStore from '@/stores/userAuthStore';
 import useWardStore from '@/stores/wardStore';
 
-import {
-  getMaxAllowedMonth,
-  isSaturday,
-  isSunday,
-  isHoliday,
-} from '@/utils/dateUtils';
+import { getMaxAllowedMonth, isHoliday, isSaturday, isSunday } from '@/utils/dateUtils';
 
 // useShiftExport 훅 추가
 import { useShiftExport } from '@/hooks/useShiftExport';
 
 // ShiftTableControls 컴포넌트 추가
 import {
-  MobileShiftControls,
   DesktopShiftControls,
+  MobileShiftControls,
 } from '@/components/molecules/ShiftTableControls';
 
 // 근무표 관리자 테이블의 props 인터페이스
@@ -108,9 +99,7 @@ type DutyCounts = {
 
 // 유효한 근무 타입인지 확인하는 타입 가드 함수
 const isValidDuty = (duty: string): duty is ValidDutyType => {
-  return (
-    duty === 'D' || duty === 'E' || duty === 'N' || duty === 'O' || duty === 'M'
-  );
+  return duty === 'D' || duty === 'E' || duty === 'N' || duty === 'O' || duty === 'M';
 };
 
 const loadingMessages = [
@@ -156,9 +145,7 @@ const DutyCell = memo(
     isDimmed,
   }: CellProps) => {
     // 규칙 위반이 시작되는 날짜인지 확인
-    const isAnyViolationStart = violations.some(
-      (v) => dayIndex + 1 === v.startDate
-    );
+    const isAnyViolationStart = violations.some((v) => dayIndex + 1 === v.startDate);
 
     return (
       <td
@@ -182,9 +169,7 @@ const DutyCell = memo(
               key={`violations-${dayIndex + 1}`}
               startDate={dayIndex + 1}
               endDate={Math.max(
-                ...violations
-                  .filter((v) => v.startDate === dayIndex + 1)
-                  .map((v) => v.endDate)
+                ...violations.filter((v) => v.startDate === dayIndex + 1).map((v) => v.endDate)
               )}
               messages={violations
                 .filter((v) => v.startDate === dayIndex + 1)
@@ -267,14 +252,7 @@ const SortableNurseRow = memo(
     isHighlighted,
   }: SortableNurseRowProps) => {
     // useSortable 훅 사용하여 드래그 가능하게 설정
-    const {
-      attributes,
-      listeners,
-      setNodeRef,
-      transform,
-      transition,
-      isDragging,
-    } = useSortable({
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
       id: nurse.memberId.toString(),
       data: {
         nurse,
@@ -314,9 +292,7 @@ const SortableNurseRow = memo(
 
     // 이전 근무 컬럼 렌더링
     const prevShiftsColumn = (
-      <td
-        className={`p-0 border-r border-gray-200 ${isHighlighted(index, -1)}`}
-      >
+      <td className={`p-0 border-r border-gray-200 ${isHighlighted(index, -1)}`}>
         <div className="flex justify-center -space-x-1.5">
           {prevShifts[index]?.map((shift: string, idx: number) => (
             <div key={idx} className="scale-[0.65]">
@@ -344,9 +320,7 @@ const SortableNurseRow = memo(
 
       const requestStatus = wardRequests.find((request) => {
         const requestDate = new Date(request.date);
-        return (
-          requestDate.getDate() === dayIndex + 1 && request.name === nurse.name
-        );
+        return requestDate.getDate() === dayIndex + 1 && request.name === nurse.name;
       });
 
       return (
@@ -355,15 +329,11 @@ const SortableNurseRow = memo(
           nurse={nurse.name}
           dayIndex={dayIndex}
           duty={duties[dayIndex] || 'X'}
-          isSelected={
-            selectedCell?.row === index && selectedCell?.col === dayIndex
-          }
+          isSelected={selectedCell?.row === index && selectedCell?.col === dayIndex}
           isDimmed={isResetting}
           violations={violations}
           requestStatus={requestStatus}
-          isHovered={
-            hoveredCell?.row === index && hoveredCell?.day === dayIndex
-          }
+          isHovered={hoveredCell?.row === index && hoveredCell?.day === dayIndex}
           onClick={() => handleCellClick(index, dayIndex)}
           onMouseEnter={() => setHoveredCell({ row: index, day: dayIndex })}
           onMouseLeave={() => setHoveredCell(null)}
@@ -425,23 +395,15 @@ const SpinnerOverlay = ({ isActive }: { isActive: boolean }) => {
 };
 
 const ShiftAdminTable = memo(
-  ({
-    dutyData = [],
-    year,
-    month,
-    onUpdate,
-    issues = [],
-  }: ShiftAdminTableProps) => {
+  ({ dutyData = [], year, month, onUpdate, issues = [] }: ShiftAdminTableProps) => {
     const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
-    const [isAutoGenerateModalOpen, setIsAutoGenerateModalOpen] =
-      useState(false);
+    const [isAutoGenerateModalOpen, setIsAutoGenerateModalOpen] = useState(false);
     const [isLoading] = useState(false);
     const [isResetting, setIsResetting] = useState(false);
     const [isWeb, setIsWeb] = useState(false);
     const [wardRules, setWardRules] = useState<WardRule | null>(null);
     const [isFromAutoGenerate, setIsFromAutoGenerate] = useState(false);
-    const [isRequestCheckModalOpen, setIsRequestCheckModalOpen] =
-      useState(false);
+    const [isRequestCheckModalOpen, setIsRequestCheckModalOpen] = useState(false);
     const [wardRequests, setWardRequests] = useState<WardRequest[]>([]);
     const requestCount = useRequestCountStore((state) => state.count);
     const { userInfo } = useUserAuthStore(); // 로그인한 사용자 정보 가져오기
@@ -450,10 +412,7 @@ const ShiftAdminTable = memo(
     useEffect(() => {
       const fetchWardRequests = async () => {
         try {
-          const requests = await requestService.getWardRequestsByDate(
-            year,
-            month
-          );
+          const requests = await requestService.getWardRequestsByDate(year, month);
           setWardRequests(requests);
         } catch (error) {
           console.error('Failed to fetch ward requests:', error);
@@ -471,9 +430,7 @@ const ShiftAdminTable = memo(
     // Local Storage 키 생성 (사용자 ID + 병동 ID + 연월 기반)
     const getLocalStorageKey = () => {
       const userId = userInfo?.memberId || 'unknown';
-      const wardId = window.location.pathname.includes('shift-admin')
-        ? 'admin'
-        : 'team';
+      const wardId = window.location.pathname.includes('shift-admin') ? 'admin' : 'team';
       return `nurse-order-${userId}-${wardId}-${year}-${month}`;
     };
 
@@ -487,23 +444,15 @@ const ShiftAdminTable = memo(
           const orderData = JSON.parse(savedOrder);
 
           // 저장된 순서 정보가 있으면 현재 간호사 목록에 적용
-          if (
-            Array.isArray(orderData) &&
-            orderData.length > 0 &&
-            dutyData.length > 0
-          ) {
+          if (Array.isArray(orderData) && orderData.length > 0 && dutyData.length > 0) {
             // 현재 간호사 ID 목록
             const currentNurseIds = dutyData.map((nurse) => nurse.memberId);
 
             // 저장된 순서에 있는 간호사 ID만 필터링
-            const validOrderIds = orderData.filter((id) =>
-              currentNurseIds.includes(id)
-            );
+            const validOrderIds = orderData.filter((id) => currentNurseIds.includes(id));
 
             // 저장된 순서에 없는 간호사 ID들 (새로 추가된 간호사들)
-            const newNurseIds = currentNurseIds.filter(
-              (id) => !validOrderIds.includes(id)
-            );
+            const newNurseIds = currentNurseIds.filter((id) => !validOrderIds.includes(id));
 
             // 최종 순서 = 저장된 순서 + 새로 추가된 간호사들
             const finalOrder = [...validOrderIds, ...newNurseIds];
@@ -615,19 +564,11 @@ const ShiftAdminTable = memo(
         setIsSavingOrder(true);
 
         // 드래그 앤 드롭 결과로 간호사 목록 재정렬
-        const oldIndex = sortedDutyData.findIndex(
-          (item) => item.memberId.toString() === active.id
-        );
-        const newIndex = sortedDutyData.findIndex(
-          (item) => item.memberId.toString() === over.id
-        );
+        const oldIndex = sortedDutyData.findIndex((item) => item.memberId.toString() === active.id);
+        const newIndex = sortedDutyData.findIndex((item) => item.memberId.toString() === over.id);
 
         // 새 정렬된 간호사 데이터
-        const newSortedData = arrayMove(
-          [...sortedDutyData],
-          oldIndex,
-          newIndex
-        );
+        const newSortedData = arrayMove([...sortedDutyData], oldIndex, newIndex);
 
         // 새 정렬된 간호사에 맞게 duties 배열도 동시에 업데이트
         const newDuties = arrayMove([...duties], oldIndex, newIndex);
@@ -671,14 +612,12 @@ const ShiftAdminTable = memo(
     const selectedCell = useShiftStore((state) => state.selectedCell);
     const setSelectedCell = useShiftStore((state) => state.setSelectedCell);
 
-    const [isAutoGenCountModalOpen, setIsAutoGenCountModalOpen] =
-      useState(false);
+    const [isAutoGenCountModalOpen, setIsAutoGenCountModalOpen] = useState(false);
     const [autoGenCnt, setAutoGenCnt] = useState(0);
 
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
-    const [isSubscriptionSuccessModalOpen, setIsSubscriptionSuccessModalOpen] =
-      useState(false);
+    const [isSubscriptionSuccessModalOpen, setIsSubscriptionSuccessModalOpen] = useState(false);
     const [currentPlan, setCurrentPlan] = useState<SubscriptionPlan>('monthly');
 
     // Add hover state management at component level
@@ -691,17 +630,13 @@ const ShiftAdminTable = memo(
     const daysInMonth = new Date(year, month, 0).getDate();
 
     // Memoize heavy calculations
-    const nurses = useMemo(
-      () => sortedDutyData.map((nurse) => nurse.name),
-      [sortedDutyData]
-    );
+    const nurses = useMemo(() => sortedDutyData.map((nurse) => nurse.name), [sortedDutyData]);
 
     // duties 상태 초기화를 단순화
     const [duties, setDuties] = useState<string[][]>([]);
 
     // 듀티표 초기화 모달 상태
-    const [isResetDutyConfirmModalOpen, setIsResetDutyConfirmModalOpen] =
-      useState(false);
+    const [isResetDutyConfirmModalOpen, setIsResetDutyConfirmModalOpen] = useState(false);
 
     // useEffect를 추가하여 dutyData 변경 시 duties 업데이트
     useEffect(() => {
@@ -753,11 +688,7 @@ const ShiftAdminTable = memo(
 
     // 근무 변경을 처리하는 핸들러 함수
     const handleShiftChange = useCallback(
-      (
-        nurseIndex: number,
-        dayIndex: number,
-        shift: 'D' | 'E' | 'N' | 'O' | 'X' | 'M'
-      ) => {
+      (nurseIndex: number, dayIndex: number, shift: 'D' | 'E' | 'N' | 'O' | 'X' | 'M') => {
         // nurseIndex나 dayIndex가 유효한지 확인
         if (!duties[nurseIndex] || dayIndex < 0 || dayIndex >= daysInMonth) {
           console.error('Invalid nurse index or day index');
@@ -807,15 +738,7 @@ const ShiftAdminTable = memo(
         // 디바운스된 일괄 처리 함수 호출
         sendBatchRequest([...pendingRequests, request]);
       },
-      [
-        sortedDutyData,
-        year,
-        month,
-        pendingRequests,
-        sendBatchRequest,
-        duties,
-        daysInMonth,
-      ]
+      [sortedDutyData, year, month, pendingRequests, sendBatchRequest, duties, daysInMonth]
     );
 
     // 키보드 이벤트 핸들러
@@ -873,20 +796,7 @@ const ShiftAdminTable = memo(
         // 근무 입력 키 처리 (한/영 모두 지원)
         if (!e.repeat && col >= 0 && col < daysInMonth) {
           const key = e.key.toUpperCase();
-          const validKeys = [
-            'D',
-            'E',
-            'N',
-            'O',
-            'X',
-            'ㅇ',
-            'ㄷ',
-            'ㅜ',
-            'ㅐ',
-            'ㅌ',
-            'M',
-            'ㅡ',
-          ];
+          const validKeys = ['D', 'E', 'N', 'O', 'X', 'ㅇ', 'ㄷ', 'ㅜ', 'ㅐ', 'ㅌ', 'M', 'ㅡ'];
           const keyMap: { [key: string]: 'D' | 'E' | 'N' | 'O' | 'X' | 'M' } = {
             ㅇ: 'D',
             ㄷ: 'E',
@@ -898,11 +808,7 @@ const ShiftAdminTable = memo(
 
           if (validKeys.includes(key)) {
             const shiftKey = keyMap[key] || key;
-            handleShiftChange(
-              row,
-              col,
-              shiftKey as 'D' | 'E' | 'N' | 'O' | 'X' | 'M'
-            );
+            handleShiftChange(row, col, shiftKey as 'D' | 'E' | 'N' | 'O' | 'X' | 'M');
 
             if (col < daysInMonth - 1) {
               setSelectedCell({ row, col: col + 1 });
@@ -1015,8 +921,7 @@ const ShiftAdminTable = memo(
 
     // 주말 스타일 결정 함수
     const getWeekendStyle = (day: number): string => {
-      if (isHoliday(year, month, day) || isSundayDay(day))
-        return 'text-red-500';
+      if (isHoliday(year, month, day) || isSundayDay(day)) return 'text-red-500';
       if (isSaturdayDay(day)) return 'text-blue-500';
       return '';
     };
@@ -1082,9 +987,7 @@ const ShiftAdminTable = memo(
 
     // 모든 셀이 X인지 확인하는 함수
     const isAllCellsEmpty = useMemo(() => {
-      return duties.every((nurseShifts) =>
-        nurseShifts.every((shift) => shift === 'X' || !shift)
-      );
+      return duties.every((nurseShifts) => nurseShifts.every((shift) => shift === 'X' || !shift));
     }, [duties]);
 
     // Modify handleResetDuty to prevent full page reload
@@ -1152,8 +1055,7 @@ const ShiftAdminTable = memo(
       setIsAutoGenCountModalOpen(true);
     };
 
-    const [isNurseShortageModalOpen, setIsNurseShortageModalOpen] =
-      useState(false);
+    const [isNurseShortageModalOpen, setIsNurseShortageModalOpen] = useState(false);
     const [neededNurseCount, setNeededNurseCount] = useState(0);
 
     const { addVirtualNurse } = useWardStore();
@@ -1196,8 +1098,7 @@ const ShiftAdminTable = memo(
     useEffect(() => {
       if (
         nurseShortageRules &&
-        (!wardRules ||
-          JSON.stringify(nurseShortageRules) !== JSON.stringify(wardRules))
+        (!wardRules || JSON.stringify(nurseShortageRules) !== JSON.stringify(wardRules))
       ) {
         setWardRules(nurseShortageRules);
       }
@@ -1223,20 +1124,14 @@ const ShiftAdminTable = memo(
             <span className="text-xs sm:text-sm font-medium overflow-hidden text-ellipsis pr-2">
               {message}
             </span>
-            <span className="text-xs sm:text-sm font-semibold flex-shrink-0">
-              {progress}%
-            </span>
+            <span className="text-xs sm:text-sm font-semibold flex-shrink-0">{progress}%</span>
           </div>
 
           {/* 프로그레스 바 - 화면 크기에 따라 너비 자동 조정, 높이는 반응형으로 조정 */}
           <div className="w-full bg-gray-200 rounded-full h-2 sm:h-2.5 overflow-hidden">
             <div
               className={`h-full rounded-full transition-all duration-300 ease-out ${
-                progress < 33
-                  ? 'bg-primary-10'
-                  : progress < 67
-                    ? 'bg-primary-30'
-                    : 'bg-primary'
+                progress < 33 ? 'bg-primary-10' : progress < 67 ? 'bg-primary-30' : 'bg-primary'
               }`}
               style={{ width: `${progress}%` }}
             ></div>
@@ -1266,10 +1161,7 @@ const ShiftAdminTable = memo(
         const progressTimer = setInterval(() => {
           progressCounter++;
           const elapsedTime = progressCounter * updateInterval;
-          const progressPercent = Math.min(
-            Math.round((elapsedTime / totalTime) * 100),
-            99
-          );
+          const progressPercent = Math.min(Math.round((elapsedTime / totalTime) * 100), 99);
 
           // 메시지 인덱스 계산 (진행률에 따라 다른 메시지 표시)
           const messageIndex = Math.min(
@@ -1280,10 +1172,7 @@ const ShiftAdminTable = memo(
           // 토스트 메시지 업데이트 (커스텀 컴포넌트로)
           toast.update(loadingToastId, {
             render: (
-              <ProgressToast
-                message={loadingMessages[messageIndex]}
-                progress={progressPercent}
-              />
+              <ProgressToast message={loadingMessages[messageIndex]} progress={progressPercent} />
             ),
             isLoading: true,
           });
@@ -1311,10 +1200,7 @@ const ShiftAdminTable = memo(
         await onUpdate(year, month);
 
         // 반영되지 않은 요청이 있는 경우 모달 표시
-        if (
-          response.unreflectedRequestsCount > 0 &&
-          response.unreflectedRequests?.length > 0
-        ) {
+        if (response.unreflectedRequestsCount > 0 && response.unreflectedRequests?.length > 0) {
           setUnreflectedRequests(response.unreflectedRequests);
           toast.dismiss(loadingToastId);
           toast.warning('일부 요청은 여전히 반영되지 않았습니다.');
@@ -1346,9 +1232,7 @@ const ShiftAdminTable = memo(
             case 406:
               // 백엔드에서 받은 필요한 간호사 수로 업데이트
               setNeededNurseCount(
-                error.response.data.neededNurseCount ||
-                  estimatedNurseShortage ||
-                  0
+                error.response.data.neededNurseCount || estimatedNurseShortage || 0
               );
               // 간호사 수 부족 시 확인 모달 표시
               setIsNurseShortageModalOpen(true);
@@ -1388,10 +1272,7 @@ const ShiftAdminTable = memo(
         const progressTimer = setInterval(() => {
           progressCounter++;
           const elapsedTime = progressCounter * updateInterval;
-          const progressPercent = Math.min(
-            Math.round((elapsedTime / totalTime) * 100),
-            99
-          );
+          const progressPercent = Math.min(Math.round((elapsedTime / totalTime) * 100), 99);
 
           // 메시지 인덱스 계산 (진행률에 따라 다른 메시지 표시)
           const messageIndex = Math.min(
@@ -1402,10 +1283,7 @@ const ShiftAdminTable = memo(
           // 토스트 메시지 업데이트 (커스텀 컴포넌트로)
           toast.update(loadingToastId, {
             render: (
-              <ProgressToast
-                message={loadingMessages[messageIndex]}
-                progress={progressPercent}
-              />
+              <ProgressToast message={loadingMessages[messageIndex]} progress={progressPercent} />
             ),
             isLoading: true,
           });
@@ -1433,10 +1311,7 @@ const ShiftAdminTable = memo(
         await onUpdate(year, month);
 
         // 반영되지 않은 요청이 있는 경우 모달 표시
-        if (
-          response.unreflectedRequestsCount > 0 &&
-          response.unreflectedRequests?.length > 0
-        ) {
+        if (response.unreflectedRequestsCount > 0 && response.unreflectedRequests?.length > 0) {
           setUnreflectedRequests(response.unreflectedRequests);
           toast.dismiss(loadingToastId);
           toast.warning('자동생성 완료, 일부 요청은 반영되지 않았습니다.');
@@ -1565,11 +1440,7 @@ const ShiftAdminTable = memo(
       fetchShiftRules();
     }, []);
 
-    const getCountColor = (
-      count: number,
-      day: number,
-      shiftType: 'D' | 'E' | 'N'
-    ) => {
+    const getCountColor = (count: number, day: number, shiftType: 'D' | 'E' | 'N') => {
       if (!wardRules) return '';
 
       // 주말 또는 공휴일인지 확인
@@ -1640,9 +1511,7 @@ const ShiftAdminTable = memo(
     const [showMobileButton, setShowMobileButton] = useState(false);
 
     // 모바일 플로팅 버튼 클릭 핸들러
-    const handleMobileButtonClick = (
-      dutyType: 'D' | 'E' | 'N' | 'M' | 'O' | 'X'
-    ) => {
+    const handleMobileButtonClick = (dutyType: 'D' | 'E' | 'N' | 'M' | 'O' | 'X') => {
       if (!selectedCell) return;
 
       // 선택된 셀에 근무 적용
@@ -1730,25 +1599,14 @@ const ShiftAdminTable = memo(
     };
 
     // 승인된 요청 적용 hook 사용
-    useApplyAcceptedRequestsDemoOnly(
-      dutyData,
-      wardRequests,
-      year,
-      month,
-      setDuties
-    );
+    useApplyAcceptedRequestsDemoOnly(dutyData, wardRequests, year, month, setDuties);
 
     // Add state for unreflected requests modal
-    const [isUnreflectedRequestsModalOpen, setIsUnreflectedRequestsModalOpen] =
-      useState(false);
-    const [unreflectedRequests, setUnreflectedRequests] = useState<
-      UnreflectedRequest[]
-    >([]);
+    const [isUnreflectedRequestsModalOpen, setIsUnreflectedRequestsModalOpen] = useState(false);
+    const [unreflectedRequests, setUnreflectedRequests] = useState<UnreflectedRequest[]>([]);
 
     // handleRegenerateWithPriority 함수도 유사하게 수정
-    const handleRegenerateWithPriority = async (
-      selectedRequestIds: number[]
-    ) => {
+    const handleRegenerateWithPriority = async (selectedRequestIds: number[]) => {
       try {
         setIsAutoCreating(true);
 
@@ -1768,10 +1626,7 @@ const ShiftAdminTable = memo(
         const progressTimer = setInterval(() => {
           progressCounter++;
           const elapsedTime = progressCounter * updateInterval;
-          const progressPercent = Math.min(
-            Math.round((elapsedTime / totalTime) * 100),
-            99
-          );
+          const progressPercent = Math.min(Math.round((elapsedTime / totalTime) * 100), 99);
 
           // 메시지 인덱스 계산 (진행률에 따라 다른 메시지 표시)
           const messageIndex = Math.min(
@@ -1782,10 +1637,7 @@ const ShiftAdminTable = memo(
           // 토스트 메시지 업데이트 (커스텀 컴포넌트로)
           toast.update(loadingToastId, {
             render: (
-              <ProgressToast
-                message={loadingMessages[messageIndex]}
-                progress={progressPercent}
-              />
+              <ProgressToast message={loadingMessages[messageIndex]} progress={progressPercent} />
             ),
             isLoading: true,
           });
@@ -1797,11 +1649,7 @@ const ShiftAdminTable = memo(
         }, updateInterval);
 
         // 새로운 재생성 API 호출
-        const response = await dutyService.reAutoCreateDuty(
-          year,
-          month,
-          selectedRequestIds
-        );
+        const response = await dutyService.reAutoCreateDuty(year, month, selectedRequestIds);
 
         // 타이머 중지
         clearInterval(progressTimer);
@@ -1817,10 +1665,7 @@ const ShiftAdminTable = memo(
         await onUpdate(year, month);
 
         // 반영되지 않은 요청이 있는 경우 모달 표시
-        if (
-          response.unreflectedRequestsCount > 0 &&
-          response.unreflectedRequests?.length > 0
-        ) {
+        if (response.unreflectedRequestsCount > 0 && response.unreflectedRequests?.length > 0) {
           // 새로운 요청 리스트로 업데이트
           setUnreflectedRequests(response.unreflectedRequests);
           toast.dismiss(loadingToastId);
@@ -1846,10 +1691,7 @@ const ShiftAdminTable = memo(
     };
 
     // 내보내기 훅 사용
-    const { isExporting, exportToImage, exportToExcel } = useShiftExport(
-      year,
-      month
-    );
+    const { isExporting, exportToImage, exportToExcel } = useShiftExport(year, month);
 
     // 맨 마지막에 필요한 반환값 추가
     return (
@@ -1880,12 +1722,8 @@ const ShiftAdminTable = memo(
 
           {/* 기존 테이블 영역 - onClick 핸들러 제거 */}
           <div className="overflow-x-auto bg-white rounded-xl p-[0.5rem] shadow-[0_0.25rem_0.75rem_rgba(0,0,0,0.1)]">
-            <div
-              className={`min-w-[800px] relative ${isWeb ? '' : 'duty-table-content'}`}
-            >
-              <SpinnerOverlay
-                isActive={isResetting || isSavingOrder || isAutoCreating}
-              />
+            <div className={`min-w-[800px] relative ${isWeb ? '' : 'duty-table-content'}`}>
+              <SpinnerOverlay isActive={isResetting || isSavingOrder || isAutoCreating} />
               {/* 기존 테이블 내용을 여기에 복사 */}
               <DndContext
                 sensors={sensors}
@@ -1897,14 +1735,10 @@ const ShiftAdminTable = memo(
                   <thead>
                     <tr className="text-xs text-gray-600 border-b border-gray-200">
                       <th className="p-0 text-center w-[90px] sm:w-24 border-r border-gray-200">
-                        <span className="block text-xs sm:text-sm px-0.5">
-                          이름
-                        </span>
+                        <span className="block text-xs sm:text-sm px-0.5">이름</span>
                       </th>
                       <th className="p-0 text-center w-[90px] sm:w-24 border-r border-gray-200">
-                        <span className="block text-xs sm:text-sm px-0.5">
-                          이전 근무
-                        </span>
+                        <span className="block text-xs sm:text-sm px-0.5">이전 근무</span>
                       </th>
                       {Array.from({ length: daysInMonth }, (_, i) => {
                         const day = i + 1;
@@ -1951,9 +1785,7 @@ const ShiftAdminTable = memo(
                   </thead>
                   <tbody>
                     <SortableContext
-                      items={sortedDutyData.map((nurse) =>
-                        nurse.memberId.toString()
-                      )}
+                      items={sortedDutyData.map((nurse) => nurse.memberId.toString())}
                       strategy={verticalListSortingStrategy}
                     >
                       {sortedDutyData.map((nurse, i) => (
@@ -1979,102 +1811,75 @@ const ShiftAdminTable = memo(
                   </tbody>
                   {/* 통계 행들을 같은 테이블에 직접 추가 */}
                   <tbody>
-                    {['DAY', 'EVENING', 'NIGHT', 'OFF', 'TOTAL'].map(
-                      (text, i) => (
-                        <tr
-                          key={`empty-${i}`}
-                          className="text-[10px] h-6 border-b border-gray-200"
+                    {['DAY', 'EVENING', 'NIGHT', 'OFF', 'TOTAL'].map((text, i) => (
+                      <tr key={`empty-${i}`} className="text-[10px] h-6 border-b border-gray-200">
+                        <td
+                          colSpan={2}
+                          className={`p-0 font-bold text-[11px] border-r border-gray-200 ${
+                            i === 0
+                              ? 'text-[#318F3D]'
+                              : i === 1
+                                ? 'text-[#E55656]'
+                                : i === 2
+                                  ? 'text-[#532FC8]'
+                                  : i === 3
+                                    ? 'text-[#726F5A]'
+                                    : 'text-black'
+                          }`}
                         >
+                          <div className="flex items-center justify-center">
+                            <span translate="no">{text}</span>
+                          </div>
+                        </td>
+                        {Array.from({ length: daysInMonth }, (_, j) => (
                           <td
-                            colSpan={2}
-                            className={`p-0 font-bold text-[11px] border-r border-gray-200 ${
-                              i === 0
-                                ? 'text-[#318F3D]'
-                                : i === 1
-                                  ? 'text-[#E55656]'
-                                  : i === 2
-                                    ? 'text-[#532FC8]'
-                                    : i === 3
-                                      ? 'text-[#726F5A]'
-                                      : 'text-black'
+                            key={j}
+                            className={`p-0 text-center text-[11px] border-r border-gray-200 ${
+                              selectedCell?.col === j
+                                ? i === 4
+                                  ? 'bg-duty-off-bg rounded-b-lg'
+                                  : 'bg-duty-off-bg'
+                                : ''
                             }`}
                           >
-                            <div className="flex items-center justify-center">
-                              <span translate="no">{text}</span>
+                            <div className="flex items-center justify-center h-6">
+                              {i === 0 && (
+                                <span className={getCountColor(dutyCounts[j].D, j + 1, 'D')}>
+                                  {dutyCounts[j].D}
+                                </span>
+                              )}
+                              {i === 1 && (
+                                <span className={getCountColor(dutyCounts[j].E, j + 1, 'E')}>
+                                  {dutyCounts[j].E}
+                                </span>
+                              )}
+                              {i === 2 && (
+                                <span className={getCountColor(dutyCounts[j].N, j + 1, 'N')}>
+                                  {dutyCounts[j].N}
+                                </span>
+                              )}
+                              {i === 3 && dutyCounts[j].O}
+                              {i === 4 && dutyCounts[j].total}
                             </div>
                           </td>
-                          {Array.from({ length: daysInMonth }, (_, j) => (
-                            <td
-                              key={j}
-                              className={`p-0 text-center text-[11px] border-r border-gray-200 ${
-                                selectedCell?.col === j
-                                  ? i === 4
-                                    ? 'bg-duty-off-bg rounded-b-lg'
-                                    : 'bg-duty-off-bg'
-                                  : ''
-                              }`}
-                            >
-                              <div className="flex items-center justify-center h-6">
-                                {i === 0 && (
-                                  <span
-                                    className={getCountColor(
-                                      dutyCounts[j].D,
-                                      j + 1,
-                                      'D'
-                                    )}
-                                  >
-                                    {dutyCounts[j].D}
-                                  </span>
-                                )}
-                                {i === 1 && (
-                                  <span
-                                    className={getCountColor(
-                                      dutyCounts[j].E,
-                                      j + 1,
-                                      'E'
-                                    )}
-                                  >
-                                    {dutyCounts[j].E}
-                                  </span>
-                                )}
-                                {i === 2 && (
-                                  <span
-                                    className={getCountColor(
-                                      dutyCounts[j].N,
-                                      j + 1,
-                                      'N'
-                                    )}
-                                  >
-                                    {dutyCounts[j].N}
-                                  </span>
-                                )}
-                                {i === 3 && dutyCounts[j].O}
-                                {i === 4 && dutyCounts[j].total}
+                        ))}
+                        {/* 각 행의 마지막 4개 열을 차지하는 셀 */}
+                        {i === 0 && (
+                          <td rowSpan={5} colSpan={4} className="p-0 border-r border-gray-200">
+                            <div className="flex justify-center items-center h-full">
+                              <div className="scale-[0.85]">
+                                <ProgressChecker
+                                  value={progress}
+                                  size={80}
+                                  strokeWidth={4}
+                                  showLabel={true}
+                                />
                               </div>
-                            </td>
-                          ))}
-                          {/* 각 행의 마지막 4개 열을 차지하는 셀 */}
-                          {i === 0 && (
-                            <td
-                              rowSpan={5}
-                              colSpan={4}
-                              className="p-0 border-r border-gray-200"
-                            >
-                              <div className="flex justify-center items-center h-full">
-                                <div className="scale-[0.85]">
-                                  <ProgressChecker
-                                    value={progress}
-                                    size={80}
-                                    strokeWidth={4}
-                                    showLabel={true}
-                                  />
-                                </div>
-                              </div>
-                            </td>
-                          )}
-                        </tr>
-                      )
-                    )}
+                            </div>
+                          </td>
+                        )}
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </DndContext>
@@ -2115,14 +1920,10 @@ const ShiftAdminTable = memo(
             <div className="bg-white rounded-xl p-[0.5rem] shadow-[0_0.25rem_0.75rem_rgba(0,0,0,0.1)]">
               <div className="relative">
                 <SpinnerOverlay
-                  isActive={
-                    isResetting || isLoading || isSavingOrder || isAutoCreating
-                  }
+                  isActive={isResetting || isLoading || isSavingOrder || isAutoCreating}
                 />
                 <div className="overflow-x-auto">
-                  <div
-                    className={`min-w-[50rem] ${isWeb ? 'duty-table-content' : ''}`}
-                  >
+                  <div className={`min-w-[50rem] ${isWeb ? 'duty-table-content' : ''}`}>
                     <DndContext
                       sensors={sensors}
                       collisionDetection={closestCenter}
@@ -2132,14 +1933,10 @@ const ShiftAdminTable = memo(
                         <thead>
                           <tr className="text-xs text-gray-600 border-b border-gray-200">
                             <th className="p-0 text-center w-[90px] sm:w-24 border-r border-gray-200">
-                              <span className="block text-xs sm:text-sm px-0.5">
-                                이름
-                              </span>
+                              <span className="block text-xs sm:text-sm px-0.5">이름</span>
                             </th>
                             <th className="p-0 text-center w-[90px] sm:w-24 border-r border-gray-200">
-                              <span className="block text-xs sm:text-sm px-0.5">
-                                이전 근무
-                              </span>
+                              <span className="block text-xs sm:text-sm px-0.5">이전 근무</span>
                             </th>
 
                             {Array.from({ length: daysInMonth }, (_, i) => {
@@ -2158,44 +1955,28 @@ const ShiftAdminTable = memo(
                             <th className="p-0 text-center w-7 border-r border-gray-200">
                               <div className="flex items-center justify-center">
                                 <div className="scale-[0.65]">
-                                  <DutyBadgeEng
-                                    type="D"
-                                    size="sm"
-                                    variant="filled"
-                                  />
+                                  <DutyBadgeEng type="D" size="sm" variant="filled" />
                                 </div>
                               </div>
                             </th>
                             <th className="p-0 text-center w-7 border-r border-gray-200">
                               <div className="flex items-center justify-center">
                                 <div className="scale-[0.65]">
-                                  <DutyBadgeEng
-                                    type="E"
-                                    size="sm"
-                                    variant="filled"
-                                  />
+                                  <DutyBadgeEng type="E" size="sm" variant="filled" />
                                 </div>
                               </div>
                             </th>
                             <th className="p-0 text-center w-7 border-r border-gray-200">
                               <div className="flex items-center justify-center">
                                 <div className="scale-[0.65]">
-                                  <DutyBadgeEng
-                                    type="N"
-                                    size="sm"
-                                    variant="filled"
-                                  />
+                                  <DutyBadgeEng type="N" size="sm" variant="filled" />
                                 </div>
                               </div>
                             </th>
                             <th className="p-0 text-center w-7 border-r border-gray-200">
                               <div className="flex items-center justify-center">
                                 <div className="scale-[0.65]">
-                                  <DutyBadgeEng
-                                    type="O"
-                                    size="sm"
-                                    variant="filled"
-                                  />
+                                  <DutyBadgeEng type="O" size="sm" variant="filled" />
                                 </div>
                               </div>
                             </th>
@@ -2203,9 +1984,7 @@ const ShiftAdminTable = memo(
                         </thead>
                         <tbody>
                           <SortableContext
-                            items={sortedDutyData.map((nurse) =>
-                              nurse.memberId.toString()
-                            )}
+                            items={sortedDutyData.map((nurse) => nurse.memberId.toString())}
                             strategy={verticalListSortingStrategy}
                           >
                             {sortedDutyData.map((nurse, i) => (
@@ -2231,102 +2010,82 @@ const ShiftAdminTable = memo(
                         </tbody>
                         {/* 통계 행들을 같은 테이블에 직접 추가 */}
                         <tbody>
-                          {['DAY', 'EVENING', 'NIGHT', 'OFF', 'TOTAL'].map(
-                            (text, i) => (
-                              <tr
-                                key={`empty-${i}`}
-                                className="text-[10px] h-6 border-b border-gray-200"
+                          {['DAY', 'EVENING', 'NIGHT', 'OFF', 'TOTAL'].map((text, i) => (
+                            <tr
+                              key={`empty-${i}`}
+                              className="text-[10px] h-6 border-b border-gray-200"
+                            >
+                              <td
+                                colSpan={2}
+                                className={`p-0 font-bold text-[11px] border-r border-gray-200 ${
+                                  i === 0
+                                    ? 'text-[#318F3D]'
+                                    : i === 1
+                                      ? 'text-[#E55656]'
+                                      : i === 2
+                                        ? 'text-[#532FC8]'
+                                        : i === 3
+                                          ? 'text-[#726F5A]'
+                                          : 'text-black'
+                                }`}
                               >
+                                <div className="flex items-center justify-center">
+                                  <span translate="no">{text}</span>
+                                </div>
+                              </td>
+                              {Array.from({ length: daysInMonth }, (_, j) => (
                                 <td
-                                  colSpan={2}
-                                  className={`p-0 font-bold text-[11px] border-r border-gray-200 ${
-                                    i === 0
-                                      ? 'text-[#318F3D]'
-                                      : i === 1
-                                        ? 'text-[#E55656]'
-                                        : i === 2
-                                          ? 'text-[#532FC8]'
-                                          : i === 3
-                                            ? 'text-[#726F5A]'
-                                            : 'text-black'
+                                  key={j}
+                                  className={`p-0 text-center text-[11px] border-r border-gray-200 ${
+                                    selectedCell?.col === j
+                                      ? i === 4
+                                        ? 'bg-duty-off-bg rounded-b-lg'
+                                        : 'bg-duty-off-bg'
+                                      : ''
                                   }`}
                                 >
-                                  <div className="flex items-center justify-center">
-                                    <span translate="no">{text}</span>
+                                  <div className="flex items-center justify-center h-6">
+                                    {i === 0 && (
+                                      <span className={getCountColor(dutyCounts[j].D, j + 1, 'D')}>
+                                        {dutyCounts[j].D}
+                                      </span>
+                                    )}
+                                    {i === 1 && (
+                                      <span className={getCountColor(dutyCounts[j].E, j + 1, 'E')}>
+                                        {dutyCounts[j].E}
+                                      </span>
+                                    )}
+                                    {i === 2 && (
+                                      <span className={getCountColor(dutyCounts[j].N, j + 1, 'N')}>
+                                        {dutyCounts[j].N}
+                                      </span>
+                                    )}
+                                    {i === 3 && dutyCounts[j].O}
+                                    {i === 4 && dutyCounts[j].total}
                                   </div>
                                 </td>
-                                {Array.from({ length: daysInMonth }, (_, j) => (
-                                  <td
-                                    key={j}
-                                    className={`p-0 text-center text-[11px] border-r border-gray-200 ${
-                                      selectedCell?.col === j
-                                        ? i === 4
-                                          ? 'bg-duty-off-bg rounded-b-lg'
-                                          : 'bg-duty-off-bg'
-                                        : ''
-                                    }`}
-                                  >
-                                    <div className="flex items-center justify-center h-6">
-                                      {i === 0 && (
-                                        <span
-                                          className={getCountColor(
-                                            dutyCounts[j].D,
-                                            j + 1,
-                                            'D'
-                                          )}
-                                        >
-                                          {dutyCounts[j].D}
-                                        </span>
-                                      )}
-                                      {i === 1 && (
-                                        <span
-                                          className={getCountColor(
-                                            dutyCounts[j].E,
-                                            j + 1,
-                                            'E'
-                                          )}
-                                        >
-                                          {dutyCounts[j].E}
-                                        </span>
-                                      )}
-                                      {i === 2 && (
-                                        <span
-                                          className={getCountColor(
-                                            dutyCounts[j].N,
-                                            j + 1,
-                                            'N'
-                                          )}
-                                        >
-                                          {dutyCounts[j].N}
-                                        </span>
-                                      )}
-                                      {i === 3 && dutyCounts[j].O}
-                                      {i === 4 && dutyCounts[j].total}
+                              ))}
+                              {/* 각 행의 마지막 4개 열을 차지하는 셀 */}
+                              {i === 0 && (
+                                <td
+                                  rowSpan={5}
+                                  colSpan={4}
+                                  className="p-0 border-r border-gray-200"
+                                >
+                                  <div className="flex justify-center items-center h-full">
+                                    <div className="scale-[0.85]">
+                                      <ProgressChecker
+                                        value={progress}
+                                        size={80}
+                                        strokeWidth={4}
+                                        showLabel={true}
+                                      />
                                     </div>
-                                  </td>
-                                ))}
-                                {/* 각 행의 마지막 4개 열을 차지하는 셀 */}
-                                {i === 0 && (
-                                  <td
-                                    rowSpan={5}
-                                    colSpan={4}
-                                    className="p-0 border-r border-gray-200"
-                                  >
-                                    <div className="flex justify-center items-center h-full">
-                                      <div className="scale-[0.85]">
-                                        <ProgressChecker
-                                          value={progress}
-                                          size={80}
-                                          strokeWidth={4}
-                                          showLabel={true}
-                                        />
-                                      </div>
-                                    </div>
-                                  </td>
-                                )}
-                              </tr>
-                            )
-                          )}
+                                  </div>
+                                </td>
+                              )}
+                            </tr>
+                          ))}
                         </tbody>
                       </table>
                     </DndContext>

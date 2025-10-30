@@ -40,9 +40,7 @@ interface CommunityDetailProps {
 const CommunityDetail = ({ post }: CommunityDetailProps) => {
   const [newComment, setNewComment] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
-  const [showCommentDropdown, setShowCommentDropdown] = useState<number | null>(
-    null
-  );
+  const [showCommentDropdown, setShowCommentDropdown] = useState<number | null>(null);
   const dropdownRef = useRef<(HTMLDivElement | null)[]>([]);
 
   const [isLiked, setIsLiked] = useState(post.isLike);
@@ -83,10 +81,7 @@ const CommunityDetail = ({ post }: CommunityDetailProps) => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        editInputRef.current &&
-        !editInputRef.current.contains(event.target as Node)
-      ) {
+      if (editInputRef.current && !editInputRef.current.contains(event.target as Node)) {
         setIsEditing(null);
         setEditContent('');
       }
@@ -141,9 +136,7 @@ const CommunityDetail = ({ post }: CommunityDetailProps) => {
         // 기존 댓글 리스트에서 수정된 댓글 업데이트
         setCommentList((prevComments) =>
           prevComments.map((comment) =>
-            comment.commentId === commentId
-              ? { ...comment, content: editContent }
-              : comment
+            comment.commentId === commentId ? { ...comment, content: editContent } : comment
           )
         );
 
@@ -156,16 +149,11 @@ const CommunityDetail = ({ post }: CommunityDetailProps) => {
     } else {
       // 수정 시작
       setIsEditing(commentId);
-      setEditContent(
-        commentList.find((c) => c.commentId === commentId)?.content || ''
-      );
+      setEditContent(commentList.find((c) => c.commentId === commentId)?.content || '');
     }
   };
 
-  const handleDeleteComment = async (
-    event: React.MouseEvent,
-    commentId: number
-  ) => {
+  const handleDeleteComment = async (event: React.MouseEvent, commentId: number) => {
     event.stopPropagation();
 
     try {
@@ -194,10 +182,7 @@ const CommunityDetail = ({ post }: CommunityDetailProps) => {
     }
 
     try {
-      const response = await boardService.writeComment(
-        newComment,
-        post.boardId
-      );
+      const response = await boardService.writeComment(newComment, post.boardId);
 
       const newCommentData: Comment = {
         commentId: response.commentId,
@@ -226,10 +211,7 @@ const CommunityDetail = ({ post }: CommunityDetailProps) => {
     }
   };
 
-  const handleEnterEditPress = (
-    e: React.KeyboardEvent<HTMLTextAreaElement>,
-    commentId: number
-  ) => {
+  const handleEnterEditPress = (e: React.KeyboardEvent<HTMLTextAreaElement>, commentId: number) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault(); // 기본 줄바꿈 방지
       handleUpdateComment(commentId); // 댓글 작성 실행
@@ -271,9 +253,7 @@ const CommunityDetail = ({ post }: CommunityDetailProps) => {
               className="w-[1.5rem] h-[1.5rem] min-w-[1.5rem] text-gray-500 rounded-full"
             />
           )}
-          <span className="font-medium text-sm sm:text-base">
-            {post.nickname}
-          </span>
+          <span className="font-medium text-sm sm:text-base">{post.nickname}</span>
           <span className="text-gray-400">·</span>
           <span className="text-gray-600 text-sm sm:text-base">
             {post.category === 'DAILY'
@@ -324,9 +304,7 @@ const CommunityDetail = ({ post }: CommunityDetailProps) => {
       </div>
 
       {/* 게시글 제목 */}
-      <h1 className="text-base sm:text-xl lg:text-2xl font-bold mb-4 break-words">
-        {post.title}
-      </h1>
+      <h1 className="text-base sm:text-xl lg:text-2xl font-bold mb-4 break-words">{post.title}</h1>
 
       {/* 게시글 내용 */}
       <p className="text-gray-800 mb-6 whitespace-pre-wrap break-words sm:text-base text-sm">
@@ -354,14 +332,10 @@ const CommunityDetail = ({ post }: CommunityDetailProps) => {
             name={isLiked ? 'heartFilled' : 'heart'}
             size={24}
             className={
-              isLiked
-                ? 'text-primary-dark w-5 h-5 sm:w-7 sm:h-7'
-                : 'w-5 h-5 sm:w-7 sm:h-7'
+              isLiked ? 'text-primary-dark w-5 h-5 sm:w-7 sm:h-7' : 'w-5 h-5 sm:w-7 sm:h-7'
             }
           />
-          <span className={isLiked ? 'text-primary-dark' : ''}>
-            {likeCount}
-          </span>
+          <span className={isLiked ? 'text-primary-dark' : ''}>{likeCount}</span>
         </button>
         <div className="flex items-center gap-1">
           <Icon name="message" className="w-5 h-5 sm:w-7 sm:h-7" />
@@ -400,13 +374,9 @@ const CommunityDetail = ({ post }: CommunityDetailProps) => {
                       className="w-[1.125rem] h-[1.125rem] min-w-[1.125em] text-gray-500 rounded-full"
                     />
                   )}
-                  <span className="font-medium text-sm">
-                    {comment.nickname}
-                  </span>
+                  <span className="font-medium text-sm">{comment.nickname}</span>
                   <span className="text-gray-400 text-sm">·</span>
-                  <span className="text-gray-400 text-sm">
-                    {formatTimeAgo(comment.createdAt)}
-                  </span>
+                  <span className="text-gray-400 text-sm">{formatTimeAgo(comment.createdAt)}</span>
                 </div>
 
                 {/* 댓글 드롭다운 */}
@@ -419,9 +389,7 @@ const CommunityDetail = ({ post }: CommunityDetailProps) => {
                       onClick={(e) => {
                         e.stopPropagation();
                         setShowCommentDropdown(
-                          showCommentDropdown === comment.commentId
-                            ? null
-                            : comment.commentId
+                          showCommentDropdown === comment.commentId ? null : comment.commentId
                         );
                       }}
                       className="p-1 hover:bg-gray-100 rounded-full"
@@ -461,9 +429,7 @@ const CommunityDetail = ({ post }: CommunityDetailProps) => {
                   <textarea
                     value={editContent}
                     onChange={(e) => setEditContent(e.target.value)}
-                    onKeyDown={(e) =>
-                      handleEnterEditPress(e, comment.commentId)
-                    }
+                    onKeyDown={(e) => handleEnterEditPress(e, comment.commentId)}
                     className="w-full p-2 border rounded resize-none h-[2rem] mb-2 text-sm"
                   />
                   <div className="flex justify-end gap-2">

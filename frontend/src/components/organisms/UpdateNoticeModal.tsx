@@ -1,7 +1,7 @@
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import ReactMarkdown from 'react-markdown';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 
 interface UpdateNoticeModalProps {
   onClose: () => void;
@@ -41,10 +41,7 @@ const UpdateNoticeModal = ({
   // ReactMarkdown 컴포넌트를 위한 커스텀 렌더러
   const customComponents = {
     h1: ({ node, ...props }: any) => (
-      <h1
-        className="text-base sm:text-xl font-semibold mb-2 sm:mb-4 text-center pr-6"
-        {...props}
-      />
+      <h1 className="text-base sm:text-xl font-semibold mb-2 sm:mb-4 text-center pr-6" {...props} />
     ),
     h2: ({ node, ...props }: any) => (
       <h2 className="text-sm sm:text-base font-semibold mt-4 mb-2" {...props} />
@@ -52,21 +49,12 @@ const UpdateNoticeModal = ({
     h3: ({ node, ...props }: any) => (
       <h3 className="text-xs sm:text-sm font-semibold mt-3 mb-1" {...props} />
     ),
-    p: ({ node, ...props }: any) => (
-      <p className="text-xs sm:text-sm my-2" {...props} />
-    ),
+    p: ({ node, ...props }: any) => <p className="text-xs sm:text-sm my-2" {...props} />,
     ul: ({ node, ...props }: any) => (
-      <ul
-        className="list-disc pl-4 sm:pl-5 mb-3 text-xs sm:text-sm"
-        {...props}
-      />
+      <ul className="list-disc pl-4 sm:pl-5 mb-3 text-xs sm:text-sm" {...props} />
     ),
-    li: ({ node, ...props }: any) => (
-      <li className="text-xs sm:text-sm mb-1" {...props} />
-    ),
-    strong: ({ node, ...props }: any) => (
-      <strong className="font-semibold" {...props} />
-    ),
+    li: ({ node, ...props }: any) => <li className="text-xs sm:text-sm mb-1" {...props} />,
+    strong: ({ node, ...props }: any) => <strong className="font-semibold" {...props} />,
   };
 
   return createPortal(
@@ -91,9 +79,7 @@ const UpdateNoticeModal = ({
             </div>
           ) : (
             <div className="text-gray-800">
-              <ReactMarkdown components={customComponents}>
-                {markdownContent}
-              </ReactMarkdown>
+              <ReactMarkdown components={customComponents}>{markdownContent}</ReactMarkdown>
             </div>
           )}
         </div>

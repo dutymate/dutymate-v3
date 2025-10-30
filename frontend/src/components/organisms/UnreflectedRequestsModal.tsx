@@ -1,15 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/atoms/Button';
-import { Icon } from '@/components/atoms/Icon';
 import DutyBadgeEng from '@/components/atoms/DutyBadgeEng';
-import { UnreflectedRequest } from '@/services/dutyService';
-import { requestService } from '@/services/requestService';
-import { toast } from 'react-toastify';
-import { dutyService } from '@/services/dutyService';
-import useUserAuthStore from '@/stores/userAuthStore';
-import PaymentModal from '@/components/organisms/PaymentModal';
+import { Icon } from '@/components/atoms/Icon';
 import DemoSignupModal from '@/components/organisms/DemoSignupModal';
+import PaymentModal from '@/components/organisms/PaymentModal';
+import { UnreflectedRequest } from '@/services/dutyService';
+import { dutyService } from '@/services/dutyService';
+import { requestService } from '@/services/requestService';
+import useUserAuthStore from '@/stores/userAuthStore';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 // GA4 타입 선언 (전역 Window 타입에 gtag 추가)
 declare global {
@@ -32,9 +32,7 @@ const UnreflectedRequestsModal: React.FC<UnreflectedRequestsModalProps> = ({
   unreflectedRequests,
   onRegenerateWithPriority,
 }) => {
-  const [selectedRequests, setSelectedRequests] = useState<
-    Record<number, boolean>
-  >({});
+  const [selectedRequests, setSelectedRequests] = useState<Record<number, boolean>>({});
   const [isRegenerating, setIsRegenerating] = useState(false);
   const [isRejecting, setIsRejecting] = useState(false);
   const [viewingMemo, setViewingMemo] = useState<{
@@ -91,9 +89,7 @@ const UnreflectedRequestsModal: React.FC<UnreflectedRequestsModalProps> = ({
   };
 
   const handleSelectAll = () => {
-    const allSelected = unreflectedRequests.every(
-      (_, index) => selectedRequests[index]
-    );
+    const allSelected = unreflectedRequests.every((_, index) => selectedRequests[index]);
 
     // GTM 이벤트 트래킹
     if (typeof window !== 'undefined' && 'dataLayer' in window) {
@@ -101,9 +97,7 @@ const UnreflectedRequestsModal: React.FC<UnreflectedRequestsModalProps> = ({
         event: 'checkbox_click',
         event_category: 'request_management',
         event_action: 'click',
-        event_label: allSelected
-          ? 'deselect_all_requests'
-          : 'select_all_requests',
+        event_label: allSelected ? 'deselect_all_requests' : 'select_all_requests',
         event_id: `select-all-checkbox`,
         view_type: isMobile ? 'mobile' : 'desktop',
         total_requests: unreflectedRequests.length,
@@ -147,8 +141,7 @@ const UnreflectedRequestsModal: React.FC<UnreflectedRequestsModalProps> = ({
     try {
       // GTM 이벤트 트래킹
       if (typeof window !== 'undefined' && 'dataLayer' in window) {
-        const selectedCount =
-          Object.values(selectedRequests).filter(Boolean).length;
+        const selectedCount = Object.values(selectedRequests).filter(Boolean).length;
         window.dataLayer.push({
           event: 'button_click',
           event_category: 'request_management',
@@ -283,9 +276,7 @@ const UnreflectedRequestsModal: React.FC<UnreflectedRequestsModalProps> = ({
 
     try {
       setIsRejecting(true);
-      const loadingToast = toast.loading(
-        '반영되지 않은 요청을 거절 처리 중...'
-      );
+      const loadingToast = toast.loading('반영되지 않은 요청을 거절 처리 중...');
 
       // 모든 반영되지 않은 요청을 거절 상태로 변경
       const rejectPromises = unreflectedRequests.map((request) =>
@@ -338,10 +329,7 @@ const UnreflectedRequestsModal: React.FC<UnreflectedRequestsModalProps> = ({
   // 모달 외부 클릭 감지
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        memoModalRef.current &&
-        !memoModalRef.current.contains(event.target as Node)
-      ) {
+      if (memoModalRef.current && !memoModalRef.current.contains(event.target as Node)) {
         closeMemoModal();
       }
     };
@@ -361,8 +349,7 @@ const UnreflectedRequestsModal: React.FC<UnreflectedRequestsModalProps> = ({
 
   const selectedCount = Object.values(selectedRequests).filter(Boolean).length;
   const isAllSelected =
-    selectedCount === unreflectedRequests.length &&
-    unreflectedRequests.length > 0;
+    selectedCount === unreflectedRequests.length && unreflectedRequests.length > 0;
 
   return (
     <div
@@ -379,9 +366,7 @@ const UnreflectedRequestsModal: React.FC<UnreflectedRequestsModalProps> = ({
       >
         {/* 헤더 */}
         <div className="flex rounded-t-xl justify-between bg-primary-bg items-center px-2 sm:px-3 py-1 border-b">
-          <h2 className="text-sm sm:text-m font-medium text-primary-dark">
-            반려된 근무 요청
-          </h2>
+          <h2 className="text-sm sm:text-m font-medium text-primary-dark">반려된 근무 요청</h2>
           <button
             onClick={handleCloseModal}
             className="text-primary hover:text-primary/80"
@@ -394,15 +379,9 @@ const UnreflectedRequestsModal: React.FC<UnreflectedRequestsModalProps> = ({
         <div className="p-2 sm:p-3">
           <div className="mb-3">
             <div className="flex items-center gap-2 mb-2 p-2 bg-yellow-50 rounded-md">
-              <Icon
-                name="alert"
-                size={18}
-                className="text-yellow-500 flex-shrink-0"
-              />
+              <Icon name="alert" size={18} className="text-yellow-500 flex-shrink-0" />
               <p className="text-sm">
-                <span className="font-medium block">
-                  일부 근무 요청이 반영되지 않았습니다.
-                </span>
+                <span className="font-medium block">일부 근무 요청이 반영되지 않았습니다.</span>
                 <span className="text-xs text-gray-600 mt-1 block">
                   다른 제약 조건으로 인해 반영되지 않은 요청들입니다.
                 </span>
@@ -410,8 +389,8 @@ const UnreflectedRequestsModal: React.FC<UnreflectedRequestsModalProps> = ({
             </div>
 
             <div className="text-xs text-gray-600 p-2 mb-2 bg-gray-50 rounded-md flex items-center">
-              <span className="font-bold text-primary mr-1">Tip:</span> 선택한
-              요청을 우선하여 재생성을 시도해보세요.
+              <span className="font-bold text-primary mr-1">Tip:</span> 선택한 요청을 우선하여
+              재생성을 시도해보세요.
             </div>
           </div>
 
@@ -448,10 +427,7 @@ const UnreflectedRequestsModal: React.FC<UnreflectedRequestsModalProps> = ({
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {unreflectedRequests.map((request, index) => (
-                    <tr
-                      key={index}
-                      className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
-                    >
+                    <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                       <td className="pl-2 pr-1 py-1 sm:py-2">
                         <div className="flex items-center justify-center">
                           <input
@@ -479,9 +455,7 @@ const UnreflectedRequestsModal: React.FC<UnreflectedRequestsModalProps> = ({
                         {request.requestMemo ? (
                           <button
                             className="text-xs text-gray-500 hover:text-primary flex items-center mx-auto"
-                            onClick={(e) =>
-                              showMemoModal(index, request.requestMemo, e)
-                            }
+                            onClick={(e) => showMemoModal(index, request.requestMemo, e)}
                             id={`view-memo-button-${index}`}
                           >
                             <Icon name="message" size={12} className="mr-0.5" />
@@ -494,15 +468,7 @@ const UnreflectedRequestsModal: React.FC<UnreflectedRequestsModalProps> = ({
                       <td className="px-1 sm:px-2 py-1 sm:py-2">
                         <div className="flex justify-center">
                           <DutyBadgeEng
-                            type={
-                              request.requestShift as
-                                | 'D'
-                                | 'E'
-                                | 'N'
-                                | 'O'
-                                | 'X'
-                                | 'M'
-                            }
+                            type={request.requestShift as 'D' | 'E' | 'N' | 'O' | 'X' | 'M'}
                             size="sm"
                           />
                         </div>
@@ -513,15 +479,7 @@ const UnreflectedRequestsModal: React.FC<UnreflectedRequestsModalProps> = ({
                       <td className="px-1 sm:px-2 py-1 sm:py-2">
                         <div className="flex justify-center">
                           <DutyBadgeEng
-                            type={
-                              request.actualShift as
-                                | 'D'
-                                | 'E'
-                                | 'N'
-                                | 'O'
-                                | 'X'
-                                | 'M'
-                            }
+                            type={request.actualShift as 'D' | 'E' | 'N' | 'O' | 'X' | 'M'}
                             size="sm"
                           />
                         </div>
@@ -553,31 +511,27 @@ const UnreflectedRequestsModal: React.FC<UnreflectedRequestsModalProps> = ({
                 />
               </svg>
               <div className="flex items-center ">
-                <span className="font-bold text-red-600 mr-3">경고: </span> 다른
-                요청 반려 가능, 재생성 횟수 1회 감소
+                <span className="font-bold text-red-600 mr-3">경고: </span> 다른 요청 반려 가능,
+                재생성 횟수 1회 감소
               </div>
             </div>
           )}
           <div className="flex justify-end gap-2 mt-1">
             {selectedCount > 0 && (
               <div className="flex-1 text-xs text-gray-600 flex items-center">
-                <span className="font-medium">{selectedCount}개</span> 요청
-                선택됨
+                <span className="font-medium">{selectedCount}개</span> 요청 선택됨
               </div>
             )}
             <div className="flex items-center gap-2">
               <div className="text-xs text-gray-600 flex items-center">
-                <span className="font-medium text-primary">{autoGenCnt}</span>회
-                남음
+                <span className="font-medium text-primary">{autoGenCnt}</span>회 남음
               </div>
               <Button
                 size="xs"
                 color="primary"
                 onClick={handleRegenerate}
                 disabled={isRegenerating || selectedCount === 0}
-                className={
-                  selectedCount === 0 ? 'opacity-50 cursor-not-allowed' : ''
-                }
+                className={selectedCount === 0 ? 'opacity-50 cursor-not-allowed' : ''}
                 id="regenerate-button"
               >
                 {isRegenerating ? (
@@ -605,10 +559,7 @@ const UnreflectedRequestsModal: React.FC<UnreflectedRequestsModalProps> = ({
         {/* 메모 모달 (테이블 외부에 배치) */}
         {viewingMemo && (
           <div className="fixed inset-0 z-[60] flex items-center justify-center">
-            <div
-              className="absolute inset-0 bg-black bg-opacity-30"
-              onClick={closeMemoModal}
-            ></div>
+            <div className="absolute inset-0 bg-black bg-opacity-30" onClick={closeMemoModal}></div>
             <div
               ref={memoModalRef}
               className="bg-white rounded-lg shadow-lg p-3 max-w-[75%] sm:max-w-xs w-full z-[70] relative mx-3"
@@ -623,9 +574,7 @@ const UnreflectedRequestsModal: React.FC<UnreflectedRequestsModalProps> = ({
                   <Icon name="close" size={16} />
                 </button>
               </div>
-              <p className="text-sm text-gray-700 break-words">
-                {viewingMemo.memo}
-              </p>
+              <p className="text-sm text-gray-700 break-words">{viewingMemo.memo}</p>
             </div>
           </div>
         )}

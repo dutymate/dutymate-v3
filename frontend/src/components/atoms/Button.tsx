@@ -76,10 +76,7 @@ const widthStyles: Record<ButtonWidth, Record<ButtonSize, string>> = {
   },
 };
 
-const colorStyles: Record<
-  ButtonColor,
-  { active: string; hover: string; pressed: string }
-> = {
+const colorStyles: Record<ButtonColor, { active: string; hover: string; pressed: string }> = {
   primary: {
     active: 'bg-primary-bg text-primary',
     hover: 'hover:bg-primary hover:text-white',
@@ -181,11 +178,7 @@ interface TempNurseButtonProps {
   isDemo?: boolean;
 }
 
-export const TempNurseButton = ({
-  onClick,
-  className,
-  isDemo,
-}: TempNurseButtonProps) => {
+export const TempNurseButton = ({ onClick, className, isDemo }: TempNurseButtonProps) => {
   return (
     <button
       onClick={onClick}
@@ -285,9 +278,7 @@ export const CommunityRegisterButton = ({
       onClick={onClick}
       disabled={disabled}
       className={`py-0.5 px-1.5 sm:py-1 sm:px-2 min-w-[8rem] h-[2.25rem] rounded-lg ${
-        disabled
-          ? 'bg-gray-300 cursor-not-allowed'
-          : 'bg-primary hover:bg-primary-dark'
+        disabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-primary hover:bg-primary-dark'
       } text-white transition-colors text-sm font-semibold ${className || ''}`}
     >
       {text}

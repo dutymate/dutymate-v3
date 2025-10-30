@@ -6,11 +6,7 @@ interface ResetDutyConfirmModalProps {
   onConfirm: () => void;
 }
 
-const ResetDutyConfirmModal = ({
-  isOpen,
-  onClose,
-  onConfirm,
-}: ResetDutyConfirmModalProps) => {
+const ResetDutyConfirmModal = ({ isOpen, onClose, onConfirm }: ResetDutyConfirmModalProps) => {
   if (!isOpen) {
     return null;
   }
@@ -35,9 +31,7 @@ const ResetDutyConfirmModal = ({
           </h2>
 
           {/* 메시지 표시 */}
-          <p className="text-left mb-6 text-[0.9375rem]">
-            정말 듀티표를 초기화하시겠습니까?
-          </p>
+          <p className="text-left mb-6 text-[0.9375rem]">정말 듀티표를 초기화하시겠습니까?</p>
 
           {/* 버튼 영역 */}
           <div className="flex gap-2">

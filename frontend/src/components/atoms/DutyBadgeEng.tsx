@@ -58,27 +58,21 @@ const DutyBadgeEng = ({
 
   const badgeStyles = {
     filled: {
-      D: `bg-duty-day text-white ${
-        isSelected ? `ring-2 ring-offset-2 ${getRingColor('D')}` : ''
-      }`,
+      D: `bg-duty-day text-white ${isSelected ? `ring-2 ring-offset-2 ${getRingColor('D')}` : ''}`,
       E: `bg-duty-evening text-white ${
         isSelected ? `ring-2 ring-offset-2 ${getRingColor('E')}` : ''
       }`,
       N: `bg-duty-night text-white ${
         isSelected ? `ring-2 ring-offset-2 ${getRingColor('N')}` : ''
       }`,
-      O: `bg-duty-off text-white ${
-        isSelected ? `ring-2 ring-offset-2 ${getRingColor('O')}` : ''
-      }`,
+      O: `bg-duty-off text-white ${isSelected ? `ring-2 ring-offset-2 ${getRingColor('O')}` : ''}`,
       ALL: `bg-base-foreground text-white ${
         isSelected ? `ring-2 ring-offset-2 ${getRingColor('ALL')}` : ''
       }`,
       X: `bg-base-muted text-white font-bold ${
         isSelected ? `ring-2 ring-offset-2 ${getRingColor('X')}` : ''
       }`,
-      M: `bg-duty-mid text-white ${
-        isSelected ? `ring-2 ring-offset-2 ${getRingColor('M')}` : ''
-      }`,
+      M: `bg-duty-mid text-white ${isSelected ? `ring-2 ring-offset-2 ${getRingColor('M')}` : ''}`,
     },
     outline: {
       D: 'bg-white text-duty-day border-2 border-duty-day hover:ring-2 hover:ring-offset-2 hover:ring-duty-day focus:ring-2 focus:ring-offset-2 focus:ring-duty-day',

@@ -23,9 +23,7 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
   };
 
   const getHoverStyle = (isSelected: boolean) => {
-    return isSelected
-      ? 'hover:text-primary-dark hover:border-primary-dark'
-      : 'hover:bg-base-muted';
+    return isSelected ? 'hover:text-primary-dark hover:border-primary-dark' : 'hover:bg-base-muted';
   };
 
   const handleClick = (e: React.MouseEvent, index: number) => {
@@ -59,9 +57,7 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
             onClick={(e) => handleClick(e, index)}
           >
             {option.icon && (
-              <span
-                className={`${variant === 'gender' ? 'text-base' : 'text-sm'}`}
-              >
+              <span className={`${variant === 'gender' ? 'text-base' : 'text-sm'}`}>
                 {option.icon}
               </span>
             )}
@@ -95,9 +91,7 @@ export const MypageToggleButton: React.FC<MypageToggleButtonProps> = ({
   };
 
   const getHoverStyle = (isSelected: boolean) => {
-    return isSelected
-      ? 'hover:text-primary-dark hover:border-primary-dark'
-      : 'hover:bg-base-muted';
+    return isSelected ? 'hover:text-primary-dark hover:border-primary-dark' : 'hover:bg-base-muted';
   };
 
   return (

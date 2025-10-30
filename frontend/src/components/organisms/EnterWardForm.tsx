@@ -93,14 +93,10 @@ const EnterWardForm = ({ onSubmit, onCancel }: EnterWardFormProps) => {
             {isLoading ? (
               <div className="flex items-center justify-center gap-[0.5rem]">
                 <span className="animate-spin">⌛</span>
-                <span className="text-[0.75rem] lg:text-[0.875rem]">
-                  확인 중...
-                </span>
+                <span className="text-[0.75rem] lg:text-[0.875rem]">확인 중...</span>
               </div>
             ) : (
-              <span className="text-[0.75rem] lg:text-[0.875rem]">
-                입장하기
-              </span>
+              <span className="text-[0.75rem] lg:text-[0.875rem]">입장하기</span>
             )}
           </Button>
         </div>

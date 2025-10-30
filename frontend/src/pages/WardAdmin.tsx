@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { IoMdMenu } from 'react-icons/io';
 import { toast } from 'react-toastify';
 
+import { SEO } from '@/components/SEO';
 import DemoTimer from '@/components/atoms/DemoTimer';
 import Title from '@/components/atoms/Title';
 import MSidebar from '@/components/organisms/MSidebar';
 import Sidebar from '@/components/organisms/WSidebar';
 import WardAdminInfo from '@/components/organisms/WardAdminInfo';
 import WardAdminTable from '@/components/organisms/WardAdminTable';
-import { SEO } from '@/components/SEO';
 import { wardService } from '@/services/wardService';
 import { useLoadingStore } from '@/stores/loadingStore';
 import useUserAuthStore from '@/stores/userAuthStore';
@@ -62,17 +62,11 @@ const WardAdmin = () => {
 
   return (
     <>
-      <SEO
-        title="병동 관리 | Dutymate"
-        description="병동의 간호사를 관리해보세요."
-      />
+      <SEO title="병동 관리 | Dutymate" description="병동의 간호사를 관리해보세요." />
       <div className="w-full h-screen flex flex-row bg-[#F4F4F4]">
         {/* 데스크톱 Sidebar */}
         <div className="hidden lg:block w-[14.875rem] shrink-0">
-          <Sidebar
-            userType={userInfo?.role as 'HN' | 'RN'}
-            isDemo={isDemo ?? false}
-          />
+          <Sidebar userType={userInfo?.role as 'HN' | 'RN'} isDemo={isDemo ?? false} />
         </div>
 
         {/* 모바일 Sidebar */}
@@ -95,9 +89,7 @@ const WardAdmin = () => {
             </button>
             <div className="flex-1">
               <h1 className="text-lg font-bold">병동 관리</h1>
-              <p className="text-sm text-gray-500">
-                병동의 간호사를 관리해보세요
-              </p>
+              <p className="text-sm text-gray-500">병동의 간호사를 관리해보세요</p>
             </div>
             {isDemo && <DemoTimer />}
           </div>

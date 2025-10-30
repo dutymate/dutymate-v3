@@ -3,11 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import {
-  AuthCodeInput,
-  EmailInput,
-  PasswordInput,
-} from '@/components/atoms/Input';
+import { AuthCodeInput, EmailInput, PasswordInput } from '@/components/atoms/Input';
 import { useEmailVerification } from '@/hooks/useEmailVerification';
 import userService from '@/services/userService';
 
@@ -17,13 +13,10 @@ interface ResetPasswordData {
   passwordConfirm: string;
 }
 
-const validateEmail = (email: string) =>
-  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
 const validatePassword = (password: string) =>
-  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$#^!%*~?&])[A-Za-z\d@$#^!%*~?&]{8,}$/.test(
-    password
-  );
+  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$#^!%*~?&])[A-Za-z\d@$#^!%*~?&]{8,}$/.test(password);
 
 const PasswordResetForm = () => {
   const navigate = useNavigate();
@@ -66,15 +59,11 @@ const PasswordResetForm = () => {
       if (authCodeSent && !isVerified) {
         resetVerification();
       }
-      if (!validateEmail(value.trim()))
-        errorMessage = '올바른 이메일 형식이 아닙니다.';
+      if (!validateEmail(value.trim())) errorMessage = '올바른 이메일 형식이 아닙니다.';
     } else if (name === 'password') {
       if (!validatePassword(value.trim()))
         errorMessage = '8자 이상, 숫자 및 특수문자를 포함해야 합니다.';
-      if (
-        resetData.passwordConfirm &&
-        value.trim() !== resetData.passwordConfirm.trim()
-      ) {
+      if (resetData.passwordConfirm && value.trim() !== resetData.passwordConfirm.trim()) {
         setError((prev) => ({
           ...prev,
           passwordConfirm: '비밀번호가 일치하지 않습니다.',
@@ -104,10 +93,7 @@ const PasswordResetForm = () => {
       isValid = false;
     }
 
-    if (
-      !resetData.password.trim() ||
-      !validatePassword(resetData.password.trim())
-    ) {
+    if (!resetData.password.trim() || !validatePassword(resetData.password.trim())) {
       newErrors.password = !resetData.password.trim()
         ? '비밀번호를 입력해주세요.'
         : '비밀번호는 8자 이상, 숫자 및 특수문자를 포함해야 합니다.';
@@ -138,9 +124,7 @@ const PasswordResetForm = () => {
       navigate('/login');
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
-        toast.error(
-          error.response?.data?.message || '비밀번호 재설정에 실패했습니다.'
-        );
+        toast.error(error.response?.data?.message || '비밀번호 재설정에 실패했습니다.');
       } else {
         toast.error('비밀번호 재설정에 실패했습니다.');
       }
@@ -158,9 +142,7 @@ const PasswordResetForm = () => {
   return (
     <div className="bg-white rounded-[0.925rem] shadow-[0_0_0.9375rem_rgba(0,0,0,0.1)] w-[20rem] px-[2rem] py-[2rem] sm:w-[23rem] sm:px-[2.5rem] sm:py-[2.5rem] lg:w-[26rem] lg:px-[3rem] lg:py-[3rem]">
       <form onSubmit={handleResetSubmit} className="lg:block">
-        <span className="font-medium text-gray-900 text-base sm:text-lg">
-          비밀번호 재설정
-        </span>
+        <span className="font-medium text-gray-900 text-base sm:text-lg">비밀번호 재설정</span>
         <div className="space-y-[0.25rem] sm:space-y-[0.5rem]">
           <EmailInput
             id="reset-email"
@@ -182,11 +164,7 @@ const PasswordResetForm = () => {
               onClick={sendCode}
               disabled={isSending}
             >
-              {isSending
-                ? '발송 중...'
-                : authCodeSent
-                  ? '인증번호 재발송'
-                  : '인증번호 발송'}
+              {isSending ? '발송 중...' : authCodeSent ? '인증번호 재발송' : '인증번호 발송'}
             </button>
           )}
 
@@ -200,14 +178,8 @@ const PasswordResetForm = () => {
               onVerifyClick={verifyCode}
               isVerified={isVerified}
               status={authCodeStatus}
-              error={
-                authCodeStatus === 'error'
-                  ? '인증 코드가 일치하지 않습니다.'
-                  : undefined
-              }
-              successText={
-                authCodeStatus === 'success' ? '인증되었습니다.' : undefined
-              }
+              error={authCodeStatus === 'error' ? '인증 코드가 일치하지 않습니다.' : undefined}
+              successText={authCodeStatus === 'success' ? '인증되었습니다.' : undefined}
             />
           )}
 

@@ -43,9 +43,7 @@ const LoginEmailVerificationForm = ({ memberId, onSuccess }: Props) => {
 
   return (
     <div className="bg-white rounded-lg shadow px-6 py-8 w-[20rem] sm:w-[25rem] lg:w-[28rem]">
-      <h1 className="text-center text-xl sm:text-2xl font-bold text-gray-900 mb-4">
-        이메일 인증
-      </h1>
+      <h1 className="text-center text-xl sm:text-2xl font-bold text-gray-900 mb-4">이메일 인증</h1>
       <p className="text-center text-sm text-gray-700 mb-6">
         로그인을 위해 이메일 인증이 필요합니다. <br />
         이메일을 입력 후 인증번호를 요청해주세요.
@@ -83,14 +81,8 @@ const LoginEmailVerificationForm = ({ memberId, onSuccess }: Props) => {
             onVerifyClick={verifyCode}
             isVerified={isVerified}
             status={authCodeStatus}
-            error={
-              authCodeStatus === 'error'
-                ? '인증 코드가 일치하지 않습니다.'
-                : undefined
-            }
-            successText={
-              authCodeStatus === 'success' ? '인증되었습니다.' : undefined
-            }
+            error={authCodeStatus === 'error' ? '인증 코드가 일치하지 않습니다.' : undefined}
+            successText={authCodeStatus === 'success' ? '인증되었습니다.' : undefined}
             autoComplete="one-time-code"
           />
         )}

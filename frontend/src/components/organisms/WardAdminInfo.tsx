@@ -4,19 +4,12 @@ import { toast } from 'react-toastify';
 
 import { TempNurseButton } from '@/components/atoms/Button';
 import { Icon } from '@/components/atoms/Icon';
-import {
-  HistoryModal,
-  NurseAssignModal,
-} from '@/components/organisms/WardAdminModal';
+import { HistoryModal, NurseAssignModal } from '@/components/organisms/WardAdminModal';
 import WardAdminTemp from '@/components/organisms/WardAdminTemp';
 
-import {
-  wardService,
-  WaitingNurseInfo,
-  WardInfo,
-} from '@/services/wardService';
+import { MAX_TEMP_NURSES, MAX_TOTAL_NURSES } from '@/pages/WardAdmin';
+import { WaitingNurseInfo, WardInfo, wardService } from '@/services/wardService';
 import useUserAuthStore from '@/stores/userAuthStore';
-import { MAX_TOTAL_NURSES, MAX_TEMP_NURSES } from '@/pages/WardAdmin';
 
 interface WardAdminInfoProps {
   wardInfo: WardInfo;
@@ -74,30 +67,23 @@ const WardAdminInfo = ({ wardInfo, onAddTempNurse }: WardAdminInfoProps) => {
 
   const handleGoToAutoGenerate = () => {
     const today = new Date();
-    navigate(
-      `/shift-admin?year=${today.getFullYear()}&month=${today.getMonth() + 1}`
-    );
+    navigate(`/shift-admin?year=${today.getFullYear()}&month=${today.getMonth() + 1}`);
   };
 
   const { userInfo } = useUserAuthStore();
   const isDemo = userInfo?.isDemo;
 
   const handleOpenTempModal = () => {
-    const currentTempNurses =
-      wardInfo.nurses?.filter((nurse) => !nurse.isSynced)?.length || 0;
+    const currentTempNurses = wardInfo.nurses?.filter((nurse) => !nurse.isSynced)?.length || 0;
     const totalNurses = wardInfo.nursesTotalCnt;
 
     if (totalNurses >= MAX_TOTAL_NURSES) {
-      toast.warning(
-        `병동 최대 인원(${MAX_TOTAL_NURSES}명)을 초과할 수 없습니다.`
-      );
+      toast.warning(`병동 최대 인원(${MAX_TOTAL_NURSES}명)을 초과할 수 없습니다.`);
       return;
     }
 
     if (currentTempNurses >= MAX_TEMP_NURSES) {
-      toast.warning(
-        `임시 간호사는 최대 ${MAX_TEMP_NURSES}명까지만 추가할 수 있습니다.`
-      );
+      toast.warning(`임시 간호사는 최대 ${MAX_TEMP_NURSES}명까지만 추가할 수 있습니다.`);
       return;
     }
 
@@ -110,17 +96,13 @@ const WardAdminInfo = ({ wardInfo, onAddTempNurse }: WardAdminInfoProps) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           <div className="bg-white rounded-xl p-2.5 shadow-[0_0.25rem_0.75rem_rgba(0,0,0,0.1)]">
             <div className="flex items-center justify-between mb-1">
-              <h3 className="text-[0.95rem] text-gray-600 font-medium">
-                병동 정보
-              </h3>
+              <h3 className="text-[0.95rem] text-gray-600 font-medium">병동 정보</h3>
               <button
                 onClick={handleGoToAutoGenerate}
                 className="flex items-center justify-center gap-1 py-1 px-3 bg-primary hover:bg-primary-dark rounded-lg transition-colors"
               >
                 <Icon name="auto" size={14} className="text-white" />
-                <span className="text-[0.8rem] text-white">
-                  근무표 생성하기
-                </span>
+                <span className="text-[0.8rem] text-white">근무표 생성하기</span>
               </button>
             </div>
             <p className="font-semibold border border-gray-300 rounded-[0.375rem] px-3 py-1 text-center">
@@ -130,9 +112,7 @@ const WardAdminInfo = ({ wardInfo, onAddTempNurse }: WardAdminInfoProps) => {
 
           <div className="bg-white rounded-xl p-2.5 shadow-[0_0.25rem_0.75rem_rgba(0,0,0,0.1)]">
             <div className="flex items-center justify-between mb-1">
-              <h3 className="text-[0.95rem] text-gray-600 font-medium">
-                병동 인원
-              </h3>
+              <h3 className="text-[0.95rem] text-gray-600 font-medium">병동 인원</h3>
               <TempNurseButton onClick={handleOpenTempModal} isDemo={isDemo} />
             </div>
             <p className="font-semibold border border-gray-300 rounded-[0.375rem] px-3 py-1 text-center">
@@ -142,9 +122,7 @@ const WardAdminInfo = ({ wardInfo, onAddTempNurse }: WardAdminInfoProps) => {
 
           <div className="bg-white rounded-xl p-2.5 shadow-[0_0.25rem_0.75rem_rgba(0,0,0,0.1)]">
             <div className="flex items-center justify-between mb-1">
-              <h3 className="text-[0.95rem] text-gray-600 font-medium">
-                병동 코드
-              </h3>
+              <h3 className="text-[0.95rem] text-gray-600 font-medium">병동 코드</h3>
               <button
                 onClick={handleCopyCode}
                 disabled={isDemo}
@@ -165,9 +143,7 @@ const WardAdminInfo = ({ wardInfo, onAddTempNurse }: WardAdminInfoProps) => {
 
           <div className="bg-white rounded-xl p-2.5 shadow-[0_0.25rem_0.75rem_rgba(0,0,0,0.1)]">
             <div className="flex items-center justify-between mb-1">
-              <h3 className="text-[0.95rem] text-gray-600 font-medium">
-                입장 신청
-              </h3>
+              <h3 className="text-[0.95rem] text-gray-600 font-medium">입장 신청</h3>
               <button
                 onClick={handleOpenNurseWaitModal}
                 disabled={isDemo}
@@ -214,9 +190,7 @@ const WardAdminInfo = ({ wardInfo, onAddTempNurse }: WardAdminInfoProps) => {
         onSelectNurse={(nurse) => {
           const current = wardInfo.nursesTotalCnt ?? 0;
           if (current + 1 > MAX_TOTAL_NURSES) {
-            toast.warning(
-              `병동 최대 인원(${MAX_TOTAL_NURSES}명)을 초과할 수 없습니다.`
-            );
+            toast.warning(`병동 최대 인원(${MAX_TOTAL_NURSES}명)을 초과할 수 없습니다.`);
             setIsHistoryModalOpen(false); // 토스트 후 모달 닫기
             return;
           }
@@ -243,9 +217,7 @@ const WardAdminInfo = ({ wardInfo, onAddTempNurse }: WardAdminInfoProps) => {
         onClose={() => setIsTempModalOpen(false)}
         onConfirm={handleTempNurseAdd}
         currentNurseCount={wardInfo.nursesTotalCnt}
-        currentTempNurses={
-          wardInfo.nurses?.filter((nurse) => !nurse.isSynced)?.length || 0
-        }
+        currentTempNurses={wardInfo.nurses?.filter((nurse) => !nurse.isSynced)?.length || 0}
       />
     </div>
   );

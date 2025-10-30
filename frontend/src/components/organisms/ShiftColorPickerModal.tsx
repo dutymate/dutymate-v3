@@ -37,11 +37,7 @@ const ShiftColorPickerModal = ({
 
   if (!open) return null;
 
-  const handleColorSelect = (
-    type: DutyType,
-    color: string,
-    mode: 'bg' | 'text'
-  ) => {
+  const handleColorSelect = (type: DutyType, color: string, mode: 'bg' | 'text') => {
     setLocalColors((prev) => ({
       ...prev,
       [type]: { ...prev[type], [mode]: color },
@@ -107,13 +103,8 @@ const ShiftColorPickerModal = ({
         {/* 미리보기 영역 */}
         <div className="px-6 pt-4 pb-2 bg-gray-50 border-b">
           <div className="flex justify-between items-center">
-            <p className="text-sm text-gray-600 mb-2">
-              미리보기 (클릭해서 색상 변경)
-            </p>
-            <button
-              className="flex items-center gap-1 mb-2"
-              onClick={handleResetColor}
-            >
+            <p className="text-sm text-gray-600 mb-2">미리보기 (클릭해서 색상 변경)</p>
+            <button className="flex items-center gap-1 mb-2" onClick={handleResetColor}>
               <Icon name="reset" size={12} />
               <p className="text-xs text-gray-600">색상 초기화하기</p>
             </button>
@@ -178,9 +169,7 @@ const ShiftColorPickerModal = ({
                 <div className="w-full flex justify-center px-0 max-w-none">
                   <HexColorPicker
                     color={localColors[activeType].bg}
-                    onChange={(color) =>
-                      handleColorSelect(activeType, color, 'bg')
-                    }
+                    onChange={(color) => handleColorSelect(activeType, color, 'bg')}
                     className="w-full"
                     style={{ width: '100%' }}
                   />
@@ -189,9 +178,7 @@ const ShiftColorPickerModal = ({
                 <div className="w-full flex justify-center px-0 max-w-none">
                   <HexColorPicker
                     color={localColors[activeType].text}
-                    onChange={(color) =>
-                      handleColorSelect(activeType, color, 'text')
-                    }
+                    onChange={(color) => handleColorSelect(activeType, color, 'text')}
                     className="w-full"
                     style={{ width: '100%' }}
                   />

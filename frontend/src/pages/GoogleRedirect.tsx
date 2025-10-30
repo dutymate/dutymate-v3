@@ -3,22 +3,16 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import PageLoadingSpinner from '@/components/atoms/Loadingspinner';
 import { SEO } from '@/components/SEO';
-import {
-  ApiErrorResponse,
-  LoginResponse,
-  userService,
-} from '@/services/userService';
+import PageLoadingSpinner from '@/components/atoms/Loadingspinner';
+import { ApiErrorResponse, LoginResponse, userService } from '@/services/userService';
 import { useLoadingStore } from '@/stores/loadingStore';
 import useUserAuthStore from '@/stores/userAuthStore';
 
 export function GoogleRedirect() {
   const navigate = useNavigate();
   const userAuthStore = useUserAuthStore();
-  const code: string | null = new URL(window.location.href).searchParams.get(
-    'code'
-  );
+  const code: string | null = new URL(window.location.href).searchParams.get('code');
 
   useEffect(() => {
     if (!code) {

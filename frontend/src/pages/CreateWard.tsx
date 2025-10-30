@@ -3,12 +3,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import CreateWardForm from '@/components/organisms/CreateWardForm';
-import LandingTemplate from '@/components/templates/LandingTemplate';
 import { SEO } from '@/components/SEO';
+import CreateWardForm from '@/components/organisms/CreateWardForm';
+import Footer from '@/components/organisms/Footer';
+import LandingTemplate from '@/components/templates/LandingTemplate';
 import { HospitalInfo, wardService } from '@/services/wardService';
 import useUserAuthStore from '@/stores/userAuthStore';
-import Footer from '@/components/organisms/Footer';
 
 const CreateWard = () => {
   const navigate = useNavigate();
@@ -81,10 +81,7 @@ const CreateWard = () => {
 
   return (
     <>
-      <SEO
-        title="병동 생성 | Dutymate"
-        description="병동 생성을 위한 기본 정보를 입력해주세요."
-      />
+      <SEO title="병동 생성 | Dutymate" description="병동 생성을 위한 기본 정보를 입력해주세요." />
       <div className="min-h-screen flex flex-col">
         <LandingTemplate showIntroText={false}>
           <CreateWardForm

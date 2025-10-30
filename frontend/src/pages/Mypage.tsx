@@ -4,17 +4,17 @@ import { IoMdMenu } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import { SEO } from '@/components/SEO';
 import { Button } from '@/components/atoms/Button';
 import DemoTimer from '@/components/atoms/DemoTimer';
 import Title from '@/components/atoms/Title';
+import MSidebar from '@/components/organisms/MSidebar';
 import MypagePassword from '@/components/organisms/MypagePassword';
 import MypageProfile from '@/components/organisms/MypageProfile';
-import MSidebar from '@/components/organisms/MSidebar';
 import Sidebar from '@/components/organisms/WSidebar';
-import { SEO } from '@/components/SEO';
 import { ApiErrorResponse, profileService } from '@/services/profileService';
-import useUserAuthStore from '@/stores/userAuthStore';
 import userService from '@/services/userService';
+import useUserAuthStore from '@/stores/userAuthStore';
 import { navigateToLanding } from '@/utils/navigation';
 
 const Mypage = () => {
@@ -83,18 +83,12 @@ const Mypage = () => {
 
   return (
     <>
-      <SEO
-        title="마이페이지 | Dutymate"
-        description="듀티메이트의 마이페이지입니다."
-      />
+      <SEO title="마이페이지 | Dutymate" description="듀티메이트의 마이페이지입니다." />
 
       <div className="w-full min-h-screen flex flex-row bg-[#F4F4F4]">
         {/* 데스크톱 Sidebar */}
         <div className="hidden lg:block w-[14.875rem] shrink-0">
-          <Sidebar
-            userType={userInfo?.role as 'HN' | 'RN'}
-            isDemo={isDemo ?? false}
-          />
+          <Sidebar userType={userInfo?.role as 'HN' | 'RN'} isDemo={isDemo ?? false} />
         </div>
         {/* 모바일 Sidebar */}
         <MSidebar
@@ -115,9 +109,7 @@ const Mypage = () => {
             </button>
             <div className="flex-1 min-w-0">
               <h1 className="text-lg font-bold truncate">마이페이지</h1>
-              <p className="text-sm text-gray-500 truncate">
-                나의 정보를 확인해보세요
-              </p>
+              <p className="text-sm text-gray-500 truncate">나의 정보를 확인해보세요</p>
             </div>
             {!isDemo ? (
               <Button

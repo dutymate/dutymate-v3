@@ -6,10 +6,7 @@ interface LandingTemplateProps {
   showIntroText?: boolean;
 }
 
-const LandingTemplate: React.FC<LandingTemplateProps> = ({
-  children,
-  showIntroText = false,
-}) => {
+const LandingTemplate: React.FC<LandingTemplateProps> = ({ children, showIntroText = false }) => {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
 
@@ -59,9 +56,7 @@ const LandingTemplate: React.FC<LandingTemplateProps> = ({
       <div className="w-full h-screen flex flex-col lg:flex-row">
         {/* 모바일 레이아웃 */}
         {isMobile && (
-          <div className="flex flex-col h-screen overflow-hidden">
-            {renderContent()}
-          </div>
+          <div className="flex flex-col h-screen overflow-hidden">{renderContent()}</div>
         )}
 
         {/* 데스크톱 레이아웃 */}

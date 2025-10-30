@@ -19,10 +19,7 @@ const RemoveMemberModal: React.FC<RemoveMemberModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
       <div className="absolute inset-0" onClick={onClose} />
       <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-xs p-6 flex flex-col items-center z-10">
-        <button
-          className="absolute top-4 right-4 text-gray-400 text-2xl"
-          onClick={onClose}
-        >
+        <button className="absolute top-4 right-4 text-gray-400 text-2xl" onClick={onClose}>
           ×
         </button>
         <h2 className="text-lg font-bold mb-4">멤버 관리</h2>

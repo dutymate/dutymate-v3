@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { RecommendedDate } from '@/types/group';
 import useMediaQuery from '@/hooks/useMediaQuery';
-import ShareDateModal from './ShareDateModal';
+import { RecommendedDate } from '@/types/group';
 import { getDayOfWeekKo } from '@/utils/dateUtils';
 import { toPng } from 'html-to-image';
+import React, { useState } from 'react';
+import ShareDateModal from './ShareDateModal';
 
 interface DateSuggestionModalProps {
   open: boolean;
@@ -94,26 +94,17 @@ const DateSuggestionModal: React.FC<DateSuggestionModalProps> = ({
         id="date-suggestion-capture"
         className={`
           relative bg-white rounded-t-2xl lg:rounded-2xl shadow-xl w-full
-          ${
-            isMobile
-              ? 'max-w-full pb-4 pt-2 px-4 animate-slideup'
-              : 'max-w-md p-5'
-          }
+          ${isMobile ? 'max-w-full pb-4 pt-2 px-4 animate-slideup' : 'max-w-md p-5'}
           flex flex-col
           z-10
           max-h-[80vh]
         `}
         style={isMobile ? { bottom: 0 } : {}}
       >
-        <button
-          className="absolute top-3 right-3 text-gray-400 text-xl"
-          onClick={onClose}
-        >
+        <button className="absolute top-3 right-3 text-gray-400 text-xl" onClick={onClose}>
           ×
         </button>
-        <div
-          className={`text-lg font-semibold text-center ${isMobile ? 'my-1' : 'mt-0 mb-2'}`}
-        >
+        <div className={`text-lg font-semibold text-center ${isMobile ? 'my-1' : 'mt-0 mb-2'}`}>
           추천 날짜 리스트
         </div>
         <div
@@ -124,9 +115,7 @@ const DateSuggestionModal: React.FC<DateSuggestionModalProps> = ({
             .sort((a, b) => {
               const order = { BEST: 0, OKAY: 1, HARD: 2 };
               return (
-                order[
-                  (a.message?.lunch || 'HARD') as 'BEST' | 'OKAY' | 'HARD'
-                ] -
+                order[(a.message?.lunch || 'HARD') as 'BEST' | 'OKAY' | 'HARD'] -
                 order[(b.message?.lunch || 'HARD') as 'BEST' | 'OKAY' | 'HARD']
               );
             })
@@ -136,14 +125,8 @@ const DateSuggestionModal: React.FC<DateSuggestionModalProps> = ({
               const dayOfWeek = getDayOfWeekKo(year, month, day);
               const formattedDate = `${year}년 ${month}월 ${day}일 (${dayOfWeek})`;
 
-              const lunchValue = (item.message?.lunch || 'HARD') as
-                | 'BEST'
-                | 'OKAY'
-                | 'HARD';
-              const dinnerValue = (item.message?.dinner || 'HARD') as
-                | 'BEST'
-                | 'OKAY'
-                | 'HARD';
+              const lunchValue = (item.message?.lunch || 'HARD') as 'BEST' | 'OKAY' | 'HARD';
+              const dinnerValue = (item.message?.dinner || 'HARD') as 'BEST' | 'OKAY' | 'HARD';
 
               return (
                 <div
@@ -160,21 +143,15 @@ const DateSuggestionModal: React.FC<DateSuggestionModalProps> = ({
                         if (lunchValue === dinnerValue) {
                           if (lunchValue === 'BEST') {
                             return (
-                              <span style={{ color: '#F37C4C' }}>
-                                점심과 저녁 모두 추천해요
-                              </span>
+                              <span style={{ color: '#F37C4C' }}>점심과 저녁 모두 추천해요</span>
                             );
                           } else if (lunchValue === 'OKAY') {
                             return (
-                              <span style={{ color: '#F5A281' }}>
-                                점심과 저녁 모두 가능해요
-                              </span>
+                              <span style={{ color: '#F5A281' }}>점심과 저녁 모두 가능해요</span>
                             );
                           } else {
                             return (
-                              <span style={{ color: '#F8CFC0' }}>
-                                점심과 저녁 모두 어려워요
-                              </span>
+                              <span style={{ color: '#F8CFC0' }}>점심과 저녁 모두 어려워요</span>
                             );
                           }
                         }
@@ -190,33 +167,21 @@ const DateSuggestionModal: React.FC<DateSuggestionModalProps> = ({
                         }
                         if (bestValue === 'BEST') {
                           return bestType === 'lunch' ? (
-                            <span style={{ color: '#F37C4C' }}>
-                              점심을 추천해요
-                            </span>
+                            <span style={{ color: '#F37C4C' }}>점심을 추천해요</span>
                           ) : (
-                            <span style={{ color: '#F37C4C' }}>
-                              저녁을 추천해요
-                            </span>
+                            <span style={{ color: '#F37C4C' }}>저녁을 추천해요</span>
                           );
                         } else if (bestValue === 'OKAY') {
                           return bestType === 'lunch' ? (
-                            <span style={{ color: '#F5A281' }}>
-                              점심이 가능해요
-                            </span>
+                            <span style={{ color: '#F5A281' }}>점심이 가능해요</span>
                           ) : (
-                            <span style={{ color: '#F5A281' }}>
-                              저녁이 가능해요
-                            </span>
+                            <span style={{ color: '#F5A281' }}>저녁이 가능해요</span>
                           );
                         } else {
                           return bestType === 'lunch' ? (
-                            <span style={{ color: '#F8CFC0' }}>
-                              점심은 잡기 어려워요
-                            </span>
+                            <span style={{ color: '#F8CFC0' }}>점심은 잡기 어려워요</span>
                           ) : (
-                            <span style={{ color: '#F8CFC0' }}>
-                              저녁은 잡기 어려워요
-                            </span>
+                            <span style={{ color: '#F8CFC0' }}>저녁은 잡기 어려워요</span>
                           );
                         }
                       })()}
@@ -231,9 +196,7 @@ const DateSuggestionModal: React.FC<DateSuggestionModalProps> = ({
                           className={`px-2 py-0.5 rounded border border-base-muted font-semibold text-xs ${getBadgeBg(m.duty)}`}
                           style={{ minWidth: 'fit-content' }}
                         >
-                          <span className="text-base-foreground mr-0.5">
-                            {m.name}
-                          </span>{' '}
+                          <span className="text-base-foreground mr-0.5">{m.name}</span>{' '}
                           <span className="text-xs">{m.duty}</span>
                         </span>
                       ))}

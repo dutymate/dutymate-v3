@@ -89,11 +89,7 @@ function RequestStatusLayer({
         </span>
       </div>
       {isHovered && (
-        <RequestMessage
-          message={message}
-          targetRef={containerRef}
-          isVisible={isHovered}
-        />
+        <RequestMessage message={message} targetRef={containerRef} isVisible={isHovered} />
       )}
     </div>
   );

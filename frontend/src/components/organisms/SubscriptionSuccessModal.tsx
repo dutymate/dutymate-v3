@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import { Button } from '@/components/atoms/Button';
+import { useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
 import { FaRocket } from 'react-icons/fa';
 
@@ -65,12 +65,8 @@ const SubscriptionSuccessModal = ({
           {/* 메시지 표시 */}
           <div className="bg-primary-10 rounded-xl p-6 mb-6">
             <p className="text-lg text-base-foreground mb-2">자동 생성 기능</p>
-            <p className="text-4xl font-bold text-primary-dark mb-2">
-              {autoGenCnt}회 무료
-            </p>
-            <p className="text-lg text-base-foreground">
-              충전이 완료되었습니다!
-            </p>
+            <p className="text-4xl font-bold text-primary-dark mb-2">{autoGenCnt}회 무료</p>
+            <p className="text-lg text-base-foreground">충전이 완료되었습니다!</p>
           </div>
 
           {/* 설명 */}

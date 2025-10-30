@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
 import { IoMdMenu } from 'react-icons/io';
 
+import { SEO } from '@/components/SEO';
 import DemoTimer from '@/components/atoms/DemoTimer';
 import PageLoadingSpinner from '@/components/atoms/Loadingspinner';
+import Title from '@/components/atoms/Title';
 import HistoryList from '@/components/organisms/HistoryList';
 import MSidebar from '@/components/organisms/MSidebar';
 import RuleCheckList from '@/components/organisms/RuleCheckList';
 import ShiftAdminTable from '@/components/organisms/ShiftAdminTable';
 import Sidebar from '@/components/organisms/WSidebar';
-import { SEO } from '@/components/SEO';
+import { WardRequest, requestService } from '@/services/requestService';
+import { useRequestCountStore } from '@/stores/requestCountStore';
 import useShiftStore from '@/stores/shiftStore';
 import useUserAuthStore from '@/stores/userAuthStore';
-import Title from '@/components/atoms/Title';
-import { requestService, WardRequest } from '@/services/requestService';
-import { useRequestCountStore } from '@/stores/requestCountStore';
 import { navigateToLanding } from '@/utils/navigation';
 
 const DutyManagement = () => {
@@ -71,17 +71,10 @@ const DutyManagement = () => {
     const fetchRequests = async () => {
       if (userInfo?.role === 'HN') {
         try {
-          const currentYear = urlYear
-            ? parseInt(urlYear)
-            : new Date().getFullYear();
-          const currentMonth = urlMonth
-            ? parseInt(urlMonth)
-            : new Date().getMonth() + 1;
+          const currentYear = urlYear ? parseInt(urlYear) : new Date().getFullYear();
+          const currentMonth = urlMonth ? parseInt(urlMonth) : new Date().getMonth() + 1;
 
-          const requests = await requestService.getWardRequestsByDate(
-            currentYear,
-            currentMonth
-          );
+          const requests = await requestService.getWardRequestsByDate(currentYear, currentMonth);
           // HOLD 상태의 요청만 카운트
           const pendingCount = requests.filter(
             (request: WardRequest) => request.status === 'HOLD'
@@ -111,17 +104,11 @@ const DutyManagement = () => {
 
   return (
     <>
-      <SEO
-        title="듀티표 관리 | Dutymate"
-        description="듀티표를 관리해보세요."
-      />
+      <SEO title="듀티표 관리 | Dutymate" description="듀티표를 관리해보세요." />
       <div className="w-full h-screen flex flex-row bg-[#F4F4F4]">
         {/* 데스크톱 Sidebar */}
         <div className="hidden lg:block w-[14.875rem] shrink-0">
-          <Sidebar
-            userType={userInfo?.role as 'HN' | 'RN'}
-            isDemo={isDemo ?? false}
-          />
+          <Sidebar userType={userInfo?.role as 'HN' | 'RN'} isDemo={isDemo ?? false} />
         </div>
 
         {/* 모바일 Sidebar */}
