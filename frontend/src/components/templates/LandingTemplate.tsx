@@ -1,3 +1,4 @@
+import { useIsApp } from '@/hooks/useIsApp';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,6 +10,7 @@ interface LandingTemplateProps {
 const LandingTemplate: React.FC<LandingTemplateProps> = ({ children, showIntroText = false }) => {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
+  const isApp = useIsApp();
 
   useEffect(() => {
     const handleResize = () => {
@@ -51,8 +53,12 @@ const LandingTemplate: React.FC<LandingTemplateProps> = ({ children, showIntroTe
     </div>
   );
 
+  const bgClass = isApp
+    ? 'bg-primary-bg' // 단색
+    : 'bg-base-muted-30 animate-wave-bg'; // 파도 애니메이션
+
   return (
-    <div className="w-full h-screen bg-base-muted-30 animate-wave-bg">
+    <div className={`w-full h-screen ${bgClass}`}>
       <div className="w-full h-screen flex flex-col lg:flex-row">
         {/* 모바일 레이아웃 */}
         {isMobile && (

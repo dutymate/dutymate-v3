@@ -1,21 +1,22 @@
-import { AxiosError } from 'axios';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { AxiosError } from "axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-import { SEO } from '@/components/SEO';
-import ExtraInfoForm from '@/components/organisms/ExtraInfoForm';
-import Footer from '@/components/organisms/Footer';
-import LandingTemplate from '@/components/templates/LandingTemplate';
-import userService from '@/services/userService';
-import useUserAuthStore from '@/stores/userAuthStore';
+import { SEO } from "@/components/SEO";
+import ExtraInfoForm from "@/components/organisms/ExtraInfoForm";
+import Footer from "@/components/organisms/Footer";
+import LandingTemplate from "@/components/templates/LandingTemplate";
+import userService from "@/services/userService";
+import useUserAuthStore from "@/stores/userAuthStore";
+import { useIsApp } from "@/hooks/useIsApp";
 
 // Mock 응답 데이터 import (임시로 주석 처리)
 // import mockResponse from "../services/response-json/user/PostApiMemberInfo.json";
 interface FormData {
   grade: number;
-  gender: 'F' | 'M';
-  role: 'RN' | 'HN';
+  gender: "F" | "M";
+  role: "RN" | "HN";
 }
 
 const ExtraInfo = () => {
@@ -23,9 +24,10 @@ const ExtraInfo = () => {
   const { setAdditionalInfo } = useUserAuthStore();
   const [formData, setFormData] = useState<FormData>({
     grade: 0,
-    gender: 'F',
-    role: 'RN',
+    gender: "F",
+    role: "RN",
   });
+  const isApp = useIsApp();
 
   const handleSubmit = async (data: FormData) => {
     // console.log("ExtraInfo handleSubmit 호출됨:", data);
@@ -52,40 +54,40 @@ const ExtraInfo = () => {
 
       // console.log("전역 상태 업데이트 완료");
 
-      toast.success('회원 정보 입력이 완료되었습니다.');
+      toast.success("회원 정보 입력이 완료되었습니다.");
 
       // 명확한 타입 체크 추가
       setTimeout(() => {
-        if (response && response.role === 'HN') {
+        if (response && response.role === "HN") {
           // console.log("수간호사로 병동 생성 페이지로 이동");
-          navigate('/create-ward');
-        } else if (response && response.role === 'RN') {
+          navigate("/create-ward");
+        } else if (response && response.role === "RN") {
           // console.log("평간호사로 병동 입장 페이지로 이동");
-          navigate('/my-shift');
+          navigate("/my-shift");
         } else {
-          console.error('Invalid role in response:', response);
-          toast.error('역할 정보가 올바르지 않습니다.');
-          navigate('/error');
+          console.error("Invalid role in response:", response);
+          toast.error("역할 정보가 올바르지 않습니다.");
+          navigate("/error");
         }
       }, 1000);
     } catch (error) {
-      console.error('부가 정보 제출 중 에러 발생:', error);
+      console.error("부가 정보 제출 중 에러 발생:", error);
       if (error instanceof Error) {
-        if (error.message === '서버 연결 실패') {
-          toast.error('잠시 후 다시 시도해주세요.');
+        if (error.message === "서버 연결 실패") {
+          toast.error("잠시 후 다시 시도해주세요.");
           return;
         }
-        if (error.message === 'UNAUTHORIZED') {
-          navigate('/login');
+        if (error.message === "UNAUTHORIZED") {
+          navigate("/login");
           return;
         }
       }
       if ((error as AxiosError)?.response?.status === 400) {
-        toast.error('부가 정보 저장에 실패했습니다.');
+        toast.error("부가 정보 저장에 실패했습니다.");
         return;
       }
       // 그 외의 모든 에러는 에러 페이지로 이동
-      navigate('/error');
+      navigate("/error");
     }
   };
 
@@ -101,9 +103,11 @@ const ExtraInfo = () => {
             <ExtraInfoForm initialData={formData} onSubmit={handleSubmit} />
           </div>
         </LandingTemplate>
-        <div className="mt-auto">
-          <Footer />
-        </div>
+        {!isApp && (
+          <div className="mt-auto">
+            <Footer />
+          </div>
+        )}
       </div>
     </>
   );

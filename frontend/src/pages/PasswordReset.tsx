@@ -1,9 +1,12 @@
-import { SEO } from '@/components/SEO';
-import Footer from '@/components/organisms/Footer';
-import PasswordResetForm from '@/components/organisms/PasswordResetForm';
-import LandingTemplate from '@/components/templates/LandingTemplate';
+import { SEO } from "@/components/SEO";
+import Footer from "@/components/organisms/Footer";
+import PasswordResetForm from "@/components/organisms/PasswordResetForm";
+import LandingTemplate from "@/components/templates/LandingTemplate";
+import { useIsApp } from "@/hooks/useIsApp";
 
 const PasswordReset = () => {
+  const isApp = useIsApp();
+
   return (
     <>
       <SEO
@@ -14,9 +17,11 @@ const PasswordReset = () => {
         <LandingTemplate showIntroText={false}>
           <PasswordResetForm />
         </LandingTemplate>
-        <div className="mt-auto">
-          <Footer />
-        </div>
+        {!isApp && (
+          <div className="mt-auto">
+            <Footer />
+          </div>
+        )}
       </div>
     </>
   );

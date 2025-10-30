@@ -1,39 +1,44 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import { SEO } from '@/components/SEO';
-import Footer from '@/components/organisms/Footer';
-import LoginEmailVerificationForm from '@/components/organisms/LoginEmailVerificationForm';
-import LoginForm from '@/components/organisms/LoginForm';
-import LandingTemplate from '@/components/templates/LandingTemplate';
-import { useLoginStepStore } from '@/stores/useLoginStepStore';
+import { SEO } from "@/components/SEO";
+import Footer from "@/components/organisms/Footer";
+import LoginEmailVerificationForm from "@/components/organisms/LoginEmailVerificationForm";
+import LoginForm from "@/components/organisms/LoginForm";
+import LandingTemplate from "@/components/templates/LandingTemplate";
+import { useLoginStepStore } from "@/stores/useLoginStepStore";
+import { useIsApp } from "@/hooks/useIsApp";
 
 const Login = () => {
   const { step, setStep } = useLoginStepStore();
   const [pendingMemberId, setPendingMemberId] = useState<number | null>(null);
-  const [pendingEmail, setPendingEmail] = useState<string>('');
+  const [pendingEmail, setPendingEmail] = useState<string>("");
+  const isApp = useIsApp();
 
   useEffect(() => {
-    setStep('login');
+    setStep("login");
     // 일반 로그인 페이지 진입 시만 토큰 삭제
-    sessionStorage.removeItem('user-auth-storage');
+    sessionStorage.removeItem("user-auth-storage");
   }, []);
 
   const handleRequireVerification = (memberId: number, email: string) => {
     setPendingMemberId(memberId);
     setPendingEmail(email);
-    setStep('verify');
+    setStep("verify");
   };
 
   const handleVerificationSuccess = () => {
-    setStep('login');
+    setStep("login");
   };
 
   return (
     <>
-      <SEO title="로그인 | Dutymate" description="듀티메이트의 로그인 페이지입니다." />
+      <SEO
+        title="로그인 | Dutymate"
+        description="듀티메이트의 로그인 페이지입니다."
+      />
       <div className="min-h-screen flex flex-col">
         <LandingTemplate showIntroText={false}>
-          {step === 'login' ? (
+          {step === "login" ? (
             <LoginForm onRequireVerification={handleRequireVerification} />
           ) : (
             <LoginEmailVerificationForm
@@ -43,9 +48,11 @@ const Login = () => {
             />
           )}
         </LandingTemplate>
-        <div className="mt-auto">
-          <Footer />
-        </div>
+        {!isApp && (
+          <div className="mt-auto">
+            <Footer />
+          </div>
+        )}
       </div>
     </>
   );
