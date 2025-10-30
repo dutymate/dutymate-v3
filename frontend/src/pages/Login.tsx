@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 
+import { SEO } from '@/components/SEO';
+import Footer from '@/components/organisms/Footer';
 import LoginEmailVerificationForm from '@/components/organisms/LoginEmailVerificationForm';
 import LoginForm from '@/components/organisms/LoginForm';
 import LandingTemplate from '@/components/templates/LandingTemplate';
-import { SEO } from '@/components/SEO';
 import { useLoginStepStore } from '@/stores/useLoginStepStore';
-import Footer from '@/components/organisms/Footer';
 
 const Login = () => {
   const { step, setStep } = useLoginStepStore();
@@ -30,10 +30,7 @@ const Login = () => {
 
   return (
     <>
-      <SEO
-        title="로그인 | Dutymate"
-        description="듀티메이트의 로그인 페이지입니다."
-      />
+      <SEO title="로그인 | Dutymate" description="듀티메이트의 로그인 페이지입니다." />
       <div className="min-h-screen flex flex-col">
         <LandingTemplate showIntroText={false}>
           {step === 'login' ? (

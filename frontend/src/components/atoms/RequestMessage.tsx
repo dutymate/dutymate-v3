@@ -1,6 +1,6 @@
+import { throttle } from 'lodash';
 import { RefObject, useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { throttle } from 'lodash';
 
 interface RequestMessageProps {
   message: string;
@@ -8,11 +8,7 @@ interface RequestMessageProps {
   isVisible: boolean;
 }
 
-function RequestMessage({
-  message,
-  targetRef,
-  isVisible,
-}: RequestMessageProps) {
+function RequestMessage({ message, targetRef, isVisible }: RequestMessageProps) {
   const [position, setPosition] = useState({ top: 0, left: 0 });
 
   const updatePosition = useCallback(() => {

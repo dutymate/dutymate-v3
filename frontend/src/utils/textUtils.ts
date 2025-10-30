@@ -33,10 +33,7 @@ export const hasCompleteKoreanChars = (str: string): boolean => {
  * @param delay 지연 시간(ms)
  * @returns 디바운스 처리된 함수
  */
-export const debounce = <T extends (...args: any[]) => any>(
-  func: T,
-  delay: number
-) => {
+export const debounce = <T extends (...args: any[]) => any>(func: T, delay: number) => {
   let timeoutId: NodeJS.Timeout | null = null;
 
   return (...args: Parameters<T>) => {

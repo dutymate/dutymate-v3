@@ -30,9 +30,7 @@ const MypageExitConfirmModal = ({
           message: (
             <>
               병동을 생성하면{' '}
-              <span className="text-duty-night font-bold">
-                기존 작성한 근무표 데이터가 삭제
-              </span>
+              <span className="text-duty-night font-bold">기존 작성한 근무표 데이터가 삭제</span>
               됩니다.
               <br />
               계속 진행하시겠습니까?
@@ -51,9 +49,7 @@ const MypageExitConfirmModal = ({
               <>
                 승인을 기다리는 간호사가 있습니다. 병동을 나가면
                 <br />
-                <span className="text-duty-night font-bold">
-                  대기중인 모든 신청이 거절
-                </span>
+                <span className="text-duty-night font-bold">대기중인 모든 신청이 거절</span>
                 됩니다.
                 <br />
                 계속 진행하시겠습니까?
@@ -70,9 +66,7 @@ const MypageExitConfirmModal = ({
           message: (
             <>
               병동을 나가면{' '}
-              <span className="text-duty-night font-bold">
-                근무표의 모든 데이터가 삭제
-              </span>
+              <span className="text-duty-night font-bold">근무표의 모든 데이터가 삭제</span>
               됩니다.
               <br />
               계속 진행하시겠습니까?
@@ -88,10 +82,7 @@ const MypageExitConfirmModal = ({
           title: '회원 탈퇴를 진행할까요?',
           message: (
             <>
-              탈퇴하면{' '}
-              <span className="text-red-500 font-medium">
-                계정 정보가 즉시 비활성화
-              </span>
+              탈퇴하면 <span className="text-red-500 font-medium">계정 정보가 즉시 비활성화</span>
               되며,
               <br />
               모든 데이터는 복구할 수 없습니다.
@@ -114,14 +105,8 @@ const MypageExitConfirmModal = ({
     }
   };
 
-  const {
-    title,
-    message,
-    cancelText,
-    confirmText,
-    confirmColor,
-    confirmStyle,
-  } = getModalContent(exitRequestType);
+  const { title, message, cancelText, confirmText, confirmColor, confirmStyle } =
+    getModalContent(exitRequestType);
 
   return (
     <div

@@ -1,20 +1,20 @@
+import { SEO } from '@/components/SEO';
+import PageLoadingSpinner from '@/components/atoms/Loadingspinner';
+import CheckMemberModal from '@/components/organisms/Group/CheckMemberModal';
+import EditGroupModal from '@/components/organisms/Group/EditGroupModal';
+import ExitGroupModal from '@/components/organisms/Group/ExitGroupModal';
+import GroupLayout from '@/components/organisms/Group/GroupLayout';
+import InviteMemberModal from '@/components/organisms/Group/InviteMemberModal';
+import RemoveMemberModal from '@/components/organisms/Group/RemoveMemberModal';
+import { groupService } from '@/services/groupService';
+import { useLoadingStore } from '@/stores/loadingStore';
+import useUserAuthStore from '@/stores/userAuthStore';
+import { Group, GroupMember } from '@/types/group';
+import { useEffect, useState } from 'react';
 import { FaCrown, FaUserFriends, FaUserPlus } from 'react-icons/fa';
 import { HiOutlinePencil } from 'react-icons/hi2';
 import { useNavigate, useParams } from 'react-router-dom';
-import GroupLayout from '@/components/organisms/Group/GroupLayout';
-import CheckMemberModal from '@/components/organisms/Group/CheckMemberModal';
-import EditGroupModal from '@/components/organisms/Group/EditGroupModal';
-import InviteMemberModal from '@/components/organisms/Group/InviteMemberModal';
-import ExitGroupModal from '@/components/organisms/Group/ExitGroupModal';
-import RemoveMemberModal from '@/components/organisms/Group/RemoveMemberModal';
-import { useState, useEffect } from 'react';
-import { groupService } from '@/services/groupService';
 import { toast } from 'react-toastify';
-import { Group, GroupMember } from '@/types/group';
-import PageLoadingSpinner from '@/components/atoms/Loadingspinner';
-import { useLoadingStore } from '@/stores/loadingStore';
-import { SEO } from '@/components/SEO';
-import useUserAuthStore from '@/stores/userAuthStore';
 
 const GroupMemberPage = () => {
   const { groupId } = useParams();
@@ -26,9 +26,7 @@ const GroupMemberPage = () => {
   const [exitModalOpen, setExitModalOpen] = useState(false);
   const [groupInfo, setGroupInfo] = useState<Group | null>(null);
   const [removeModalOpen, setRemoveModalOpen] = useState(false);
-  const [removeTargetMember, setRemoveTargetMember] = useState<
-    number | undefined
-  >(undefined);
+  const [removeTargetMember, setRemoveTargetMember] = useState<number | undefined>(undefined);
   const [members, setMembers] = useState<GroupMember[]>([]);
   const [selectedMembers, setSelectedMembers] = useState<number[]>([]);
   const [inviteLink, setInviteLink] = useState<string>('');
@@ -62,8 +60,7 @@ const GroupMemberPage = () => {
             memberId: member.memberId,
             name: member.name,
             isLeader: member.isLeader,
-            createdAt:
-              member.createdAt || new Date().toISOString().slice(0, 10),
+            createdAt: member.createdAt || new Date().toISOString().slice(0, 10),
           }));
 
           setMembers(memberList);
@@ -112,9 +109,7 @@ const GroupMemberPage = () => {
       await groupService.removeGroupMember(Number(groupId), removeTargetMember);
 
       // 1. 멤버 삭제
-      const updatedMembers = members.filter(
-        (m) => m.memberId !== removeTargetMember
-      );
+      const updatedMembers = members.filter((m) => m.memberId !== removeTargetMember);
       // 2. 인원수 감소
       const updatedGroupInfo = {
         ...groupInfo,
@@ -198,14 +193,8 @@ const GroupMemberPage = () => {
 
   return (
     <>
-      <SEO
-        title="그룹 | Dutymate"
-        description="동료 간호사들과 근무표를 공유하는 공간입니다."
-      />
-      <GroupLayout
-        title="그룹 관리"
-        subtitle="소속 인원과 정보를 관리할 수 있습니다."
-      >
+      <SEO title="그룹 | Dutymate" description="동료 간호사들과 근무표를 공유하는 공간입니다." />
+      <GroupLayout title="그룹 관리" subtitle="소속 인원과 정보를 관리할 수 있습니다.">
         <div className="space-y-3 px-4 lg:px-0">
           <div className="flex mb-3">
             <button
@@ -238,8 +227,7 @@ const GroupMemberPage = () => {
                     <HiOutlinePencil className="text-gray-400 text-lg" />
                   </button>
                   <span className="flex items-center text-gray-500 text-sm ml-2">
-                    <FaUserFriends className="mr-1" />{' '}
-                    {groupInfo.groupMemberCount}
+                    <FaUserFriends className="mr-1" /> {groupInfo.groupMemberCount}
                   </span>
                 </div>
                 <div className="flex items-center w-full mt-1">
@@ -279,8 +267,7 @@ const GroupMemberPage = () => {
                         <div className="flex justify-center">
                           {m.isLeader ? (
                             <span className="flex items-center bg-yellow-100 text-yellow-700 font-bold px-3 py-1 rounded-lg text-sm truncate">
-                              <FaCrown className="mr-1 text-yellow-400" />{' '}
-                              {m.name}
+                              <FaCrown className="mr-1 text-yellow-400" /> {m.name}
                             </span>
                           ) : (
                             <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-lg text-sm truncate">
@@ -289,9 +276,7 @@ const GroupMemberPage = () => {
                           )}
                         </div>
                       </td>
-                      <td className="text-gray-500 text-sm py-2">
-                        {m.createdAt}
-                      </td>
+                      <td className="text-gray-500 text-sm py-2">{m.createdAt}</td>
                       <td className="py-2">
                         {!m.isLeader && isCurrentUserLeader && (
                           <button
@@ -356,9 +341,7 @@ const GroupMemberPage = () => {
         <RemoveMemberModal
           open={removeModalOpen}
           onClose={() => setRemoveModalOpen(false)}
-          memberName={
-            members.find((m) => m.memberId === removeTargetMember)?.name
-          }
+          memberName={members.find((m) => m.memberId === removeTargetMember)?.name}
           onRemove={handleRemoveMember}
         />
       </GroupLayout>

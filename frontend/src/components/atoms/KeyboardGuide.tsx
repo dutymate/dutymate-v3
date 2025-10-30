@@ -8,33 +8,23 @@ const KeyboardGuide = () => {
         <span className="text-xs font-bold text-gray-500">입력 키</span>
         <div className="flex items-center gap-1">
           <DutyBadgeEng type="D" size="xs" />
-          <kbd className="px-1 py-0.5 bg-gray-100 rounded font-medium text-gray-600">
-            D
-          </kbd>
+          <kbd className="px-1 py-0.5 bg-gray-100 rounded font-medium text-gray-600">D</kbd>
         </div>
         <div className="flex items-center gap-1">
           <DutyBadgeEng type="E" size="xs" />
-          <kbd className="px-1 py-0.5 bg-gray-100 rounded font-medium text-gray-600">
-            E
-          </kbd>
+          <kbd className="px-1 py-0.5 bg-gray-100 rounded font-medium text-gray-600">E</kbd>
         </div>
         <div className="flex items-center gap-1">
           <DutyBadgeEng type="N" size="xs" />
-          <kbd className="px-1 py-0.5 bg-gray-100 rounded font-medium text-gray-600">
-            N
-          </kbd>
+          <kbd className="px-1 py-0.5 bg-gray-100 rounded font-medium text-gray-600">N</kbd>
         </div>
         <div className="flex items-center gap-1">
           <DutyBadgeEng type="O" size="xs" />
-          <kbd className="px-1 py-0.5 bg-gray-100 rounded font-medium text-gray-600">
-            O
-          </kbd>
+          <kbd className="px-1 py-0.5 bg-gray-100 rounded font-medium text-gray-600">O</kbd>
         </div>
         <div className="flex items-center gap-1">
           <DutyBadgeEng type="M" size="xs" />
-          <kbd className="px-1 py-0.5 bg-gray-100 rounded font-medium text-gray-600">
-            M
-          </kbd>
+          <kbd className="px-1 py-0.5 bg-gray-100 rounded font-medium text-gray-600">M</kbd>
         </div>
       </div>
 
@@ -44,15 +34,9 @@ const KeyboardGuide = () => {
       <div className="flex items-center gap-1">
         <span className="text-xs font-bold text-gray-500">삭제</span>
         <div className="flex gap-1">
-          <kbd className="px-1 py-0.5 bg-gray-100 rounded font-medium text-gray-600">
-            X
-          </kbd>
-          <kbd className="px-1 py-0.5 bg-gray-100 rounded font-medium text-gray-600">
-            Delete
-          </kbd>
-          <kbd className="px-1 py-0.5 bg-gray-100 rounded font-medium text-gray-600">
-            Backspace
-          </kbd>
+          <kbd className="px-1 py-0.5 bg-gray-100 rounded font-medium text-gray-600">X</kbd>
+          <kbd className="px-1 py-0.5 bg-gray-100 rounded font-medium text-gray-600">Delete</kbd>
+          <kbd className="px-1 py-0.5 bg-gray-100 rounded font-medium text-gray-600">Backspace</kbd>
         </div>
       </div>
 
@@ -62,9 +46,7 @@ const KeyboardGuide = () => {
       <div className="flex items-center gap-1">
         <span className="text-xs font-bold text-gray-500">이동</span>
         <div className="flex gap-0.5">
-          <kbd className="px-1 py-0.5 bg-gray-100 rounded font-medium text-gray-600">
-            ← → ↑ ↓
-          </kbd>
+          <kbd className="px-1 py-0.5 bg-gray-100 rounded font-medium text-gray-600">← → ↑ ↓</kbd>
         </div>
       </div>
     </div>

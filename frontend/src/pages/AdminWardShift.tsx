@@ -1,10 +1,10 @@
-import { useEffect, useState, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import { SEO } from '@/components/SEO';
 import PageLoadingSpinner from '@/components/atoms/Loadingspinner';
 import ShiftAdminTable from '@/components/organisms/ShiftAdminTable';
-import { SEO } from '@/components/SEO';
 import { adminService } from '@/services/adminService';
 import type { DutyInfo } from '@/services/dutyService';
 
@@ -21,12 +21,7 @@ const AdminWardShift = () => {
 
       try {
         setLoading(true);
-        const data = await adminService.getWardDuty(
-          parseInt(wardId),
-          year,
-          month,
-          historyIdx
-        );
+        const data = await adminService.getWardDuty(parseInt(wardId), year, month, historyIdx);
         setDutyInfo(data);
         setError(null);
       } catch (err) {
@@ -65,10 +60,7 @@ const AdminWardShift = () => {
 
   return (
     <>
-      <SEO
-        title={`병동 스케줄 관리 | Dutymate`}
-        description="관리자용 병동 스케줄 관리 페이지"
-      />
+      <SEO title={`병동 스케줄 관리 | Dutymate`} description="관리자용 병동 스케줄 관리 페이지" />
       <div className="min-h-screen bg-[#F4F4F4] p-8">
         <div className="max-w-[1400px] mx-auto">
           {/* 헤더 */}
@@ -80,12 +72,8 @@ const AdminWardShift = () => {
               ← 병동 목록
             </button>
             <div>
-              <h1 className="text-3xl font-bold text-gray-800">
-                병동 스케줄 관리
-              </h1>
-              <p className="text-sm text-gray-500 mt-1">
-                관리자 전용 - 병동 ID: {wardId}
-              </p>
+              <h1 className="text-3xl font-bold text-gray-800">병동 스케줄 관리</h1>
+              <p className="text-sm text-gray-500 mt-1">관리자 전용 - 병동 ID: {wardId}</p>
             </div>
           </div>
 
@@ -93,8 +81,8 @@ const AdminWardShift = () => {
           <div className="flex flex-col gap-4 pb-8">
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-2">
               <p className="text-sm text-yellow-800">
-                ⚠️ 관리자 모드: 조회 전용입니다. 수정이 필요한 경우 해당 병동의
-                수간호사 계정으로 로그인하세요.
+                ⚠️ 관리자 모드: 조회 전용입니다. 수정이 필요한 경우 해당 병동의 수간호사 계정으로
+                로그인하세요.
               </p>
             </div>
             <div

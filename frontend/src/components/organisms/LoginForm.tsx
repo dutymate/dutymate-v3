@@ -16,10 +16,7 @@ interface LoginFormProps {
 
 // 이메일 형식 검증
 const validateEmail = (email: string) => {
-  return (
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) &&
-    !email.includes('@dutymate.demo')
-  );
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && !email.includes('@dutymate.demo');
 };
 
 const LoginForm = ({ onRequireVerification }: LoginFormProps) => {
@@ -129,10 +126,7 @@ const LoginForm = ({ onRequireVerification }: LoginFormProps) => {
       }
     } catch (error: any) {
       // 이메일 인증이 안 된 경우,
-      if (
-        error?.status === 'BAD_REQUEST' &&
-        error?.message === '이메일 인증을 진행해주세요.'
-      ) {
+      if (error?.status === 'BAD_REQUEST' && error?.message === '이메일 인증을 진행해주세요.') {
         const memberId = error.memberId;
         onRequireVerification(memberId, loginData.email);
         return;
@@ -224,10 +218,7 @@ const LoginForm = ({ onRequireVerification }: LoginFormProps) => {
         </div>
         <div>
           <span className="text-gray-600">비밀번호를 잊으셨나요? </span>
-          <Link
-            to="/password-reset"
-            className="text-primary-dark hover:underline"
-          >
+          <Link to="/password-reset" className="text-primary-dark hover:underline">
             비밀번호 재설정
           </Link>
         </div>

@@ -39,9 +39,7 @@ export const adminService = {
       .then((response) => response.data)
       .catch((error) => {
         if (error.code === 'ERR_NETWORK') {
-          console.error(
-            '서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.'
-          );
+          console.error('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
           throw new Error('서버 연결 실패');
         }
         if (error.response) {
@@ -70,12 +68,7 @@ export const adminService = {
    * @param history - 히스토리 인덱스 (선택)
    * @returns 병동 듀티 정보
    */
-  getWardDuty: (
-    wardId: number,
-    year?: number,
-    month?: number,
-    history?: number
-  ) => {
+  getWardDuty: (wardId: number, year?: number, month?: number, history?: number) => {
     return axiosInstance
       .get<DutyInfo>(`/admin/wards/${wardId}/duty`, {
         params: { year, month, history },
@@ -83,9 +76,7 @@ export const adminService = {
       .then((response) => response.data)
       .catch((error) => {
         if (error.code === 'ERR_NETWORK') {
-          console.error(
-            '서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.'
-          );
+          console.error('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
           throw new Error('서버 연결 실패');
         }
         if (error.response) {
@@ -112,11 +103,7 @@ export const adminService = {
    * @param maxNurseCount - 최대 간호사 수
    * @param maxTempNurseCount - 최대 임시 간호사 수
    */
-  updateWardCapacity: (
-    wardId: number,
-    maxNurseCount: number,
-    maxTempNurseCount: number
-  ) => {
+  updateWardCapacity: (wardId: number, maxNurseCount: number, maxTempNurseCount: number) => {
     return axiosInstance
       .patch(`/admin/wards/${wardId}/capacity`, {
         maxNurseCount,
@@ -125,9 +112,7 @@ export const adminService = {
       .then((response) => response.data)
       .catch((error) => {
         if (error.code === 'ERR_NETWORK') {
-          console.error(
-            '서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.'
-          );
+          console.error('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
           throw new Error('서버 연결 실패');
         }
         if (error.response) {
@@ -158,9 +143,7 @@ export const adminService = {
       .then((response) => response.data)
       .catch((error) => {
         if (error.code === 'ERR_NETWORK') {
-          console.error(
-            '서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.'
-          );
+          console.error('서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.');
           throw new Error('서버 연결 실패');
         }
         if (error.response) {

@@ -1,20 +1,14 @@
-import {
-  forwardRef,
-  useEffect,
-  useState,
-  useImperativeHandle,
-  useRef,
-} from 'react';
-import { toast } from 'react-toastify';
 import { ApprovalBtn } from '@/components/atoms/ApprovalBtn';
+import { Button } from '@/components/atoms/Button';
 import { DutyBadgeKor } from '@/components/atoms/DutyBadgeKor';
-import { requestService, WardRequest } from '@/services/requestService.ts';
+import { Icon } from '@/components/atoms/Icon';
+import { WardRequest, requestService } from '@/services/requestService.ts';
 import { useLoadingStore } from '@/stores/loadingStore';
 import { useRequestCountStore } from '@/stores/requestCountStore';
-import { Icon } from '@/components/atoms/Icon';
-import { Button } from '@/components/atoms/Button';
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { FaPlus, FaTrash } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
+import { toast } from 'react-toastify';
 
 interface ReqAdminTableProps {
   requests?: WardRequest[];
@@ -130,9 +124,7 @@ const ReqAdminTable = forwardRef<ReqAdminTableRef, ReqAdminTableProps>(
       status: 'ACCEPTED' | 'DENIED' | 'HOLD'
     ) => {
       // 이전 상태 저장
-      const prevRequest = requests.find(
-        (request) => request.requestId === requestId
-      );
+      const prevRequest = requests.find((request) => request.requestId === requestId);
       if (!prevRequest) return;
 
       // 즉시 UI 업데이트
@@ -146,9 +138,7 @@ const ReqAdminTable = forwardRef<ReqAdminTableRef, ReqAdminTableProps>(
       const updatedRequests = requests.map((request) =>
         request.requestId === requestId ? { ...request, status } : request
       );
-      const pendingCount = updatedRequests.filter(
-        (request) => request.status === 'HOLD'
-      ).length;
+      const pendingCount = updatedRequests.filter((request) => request.status === 'HOLD').length;
       setRequestCount(pendingCount);
 
       try {
@@ -162,15 +152,11 @@ const ReqAdminTable = forwardRef<ReqAdminTableRef, ReqAdminTableProps>(
         // API 호출 실패 시 이전 상태로 복구
         setRequests((prevRequests) =>
           prevRequests.map((request) =>
-            request.requestId === requestId
-              ? { ...request, status: prevRequest.status }
-              : request
+            request.requestId === requestId ? { ...request, status: prevRequest.status } : request
           )
         );
         // 이전 상태로 카운트 복구
-        const previousPendingCount = requests.filter(
-          (request) => request.status === 'HOLD'
-        ).length;
+        const previousPendingCount = requests.filter((request) => request.status === 'HOLD').length;
         setRequestCount(previousPendingCount);
         toast.error('요청 상태 변경에 실패했습니다');
       }
@@ -187,18 +173,14 @@ const ReqAdminTable = forwardRef<ReqAdminTableRef, ReqAdminTableProps>(
 
     // 검색 필터링
     const filteredRequests = requests
-      .filter((request) =>
-        request.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+      .filter((request) => request.name.toLowerCase().includes(searchTerm.toLowerCase()))
       .sort((a, b) => {
         // HOLD 상태를 우선 정렬
         if (a.status === 'HOLD' && b.status !== 'HOLD') return -1;
         if (a.status !== 'HOLD' && b.status === 'HOLD') return 1;
 
         // HOLD 상태가 아닌 경우 createdAt으로 정렬 (최신순)
-        return (
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
       });
 
     // 페이지네이션 계산
@@ -225,10 +207,7 @@ const ReqAdminTable = forwardRef<ReqAdminTableRef, ReqAdminTableProps>(
     // 모달 외부 클릭 감지
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
-        if (
-          memoModalRef.current &&
-          !memoModalRef.current.contains(event.target as Node)
-        ) {
+        if (memoModalRef.current && !memoModalRef.current.contains(event.target as Node)) {
           closeMemoModal();
         }
       };
@@ -335,9 +314,7 @@ const ReqAdminTable = forwardRef<ReqAdminTableRef, ReqAdminTableProps>(
                 color="primary"
                 onClick={onCreateRequest}
                 className={`whitespace-nowrap ${
-                  isMobile
-                    ? 'px-2 py-2 text-xs'
-                    : 'py-0.5 px-1.5 sm:py-1 sm:px-2'
+                  isMobile ? 'px-2 py-2 text-xs' : 'py-0.5 px-1.5 sm:py-1 sm:px-2'
                 }`}
               >
                 <div className="flex items-center gap-1 relative group">
@@ -414,17 +391,7 @@ const ReqAdminTable = forwardRef<ReqAdminTableRef, ReqAdminTableProps>(
               <tbody>
                 {currentRequests.length === 0 ? (
                   <tr>
-                    <td
-                      colSpan={
-                        isMobile
-                          ? hideDeleteButton
-                            ? 4
-                            : 5
-                          : hideDeleteButton
-                            ? 5
-                            : 6
-                      }
-                    >
+                    <td colSpan={isMobile ? (hideDeleteButton ? 4 : 5) : hideDeleteButton ? 5 : 6}>
                       <div className="flex items-center justify-center h-[25rem] text-gray-500">
                         요청 내역이 없습니다.
                       </div>
@@ -432,10 +399,7 @@ const ReqAdminTable = forwardRef<ReqAdminTableRef, ReqAdminTableProps>(
                   </tr>
                 ) : (
                   currentRequests.map((request) => (
-                    <tr
-                      key={request.requestId}
-                      className="border-b border-gray-100"
-                    >
+                    <tr key={request.requestId} className="border-b border-gray-100">
                       {/* 모바일: 이름과 날짜 합쳐서 표시 */}
                       <td className="md:hidden w-[4rem] lg:w-[11.25rem] p-[0.25rem]">
                         <div className="flex flex-col items-center">
@@ -480,13 +444,9 @@ const ReqAdminTable = forwardRef<ReqAdminTableRef, ReqAdminTableProps>(
                         {request.memo ? (
                           <button
                             className="text-[0.875rem] lg:text-[1rem] text-gray-600 hover:text-primary flex items-center justify-center w-full"
-                            onClick={(e) =>
-                              showMemoModal(request.requestId, request.memo, e)
-                            }
+                            onClick={(e) => showMemoModal(request.requestId, request.memo, e)}
                           >
-                            <span className="truncate text-left w-full">
-                              {request.memo}
-                            </span>
+                            <span className="truncate text-left w-full">{request.memo}</span>
                           </button>
                         ) : (
                           <span className="text-[0.875rem] lg:text-[1rem] text-gray-400 text-center block">
@@ -498,21 +458,13 @@ const ReqAdminTable = forwardRef<ReqAdminTableRef, ReqAdminTableProps>(
                         {request.memo ? (
                           <button
                             className="text-xs text-gray-500 hover:text-primary flex items-center justify-center w-full whitespace-nowrap"
-                            onClick={(e) =>
-                              showMemoModal(request.requestId, request.memo, e)
-                            }
+                            onClick={(e) => showMemoModal(request.requestId, request.memo, e)}
                           >
-                            <Icon
-                              name="message"
-                              size={12}
-                              className="mr-0.5 flex-shrink-0"
-                            />
+                            <Icon name="message" size={12} className="mr-0.5 flex-shrink-0" />
                             <span className="underline truncate">사유</span>
                           </button>
                         ) : (
-                          <span className="text-xs text-gray-400 text-center block">
-                            -
-                          </span>
+                          <span className="text-xs text-gray-400 text-center block">-</span>
                         )}
                       </td>
                       <td className="w-[8rem] lg:w-[11.25rem] p-[0.25rem]">
@@ -520,25 +472,13 @@ const ReqAdminTable = forwardRef<ReqAdminTableRef, ReqAdminTableProps>(
                           <div className="scale-[0.65] lg:scale-90 transform-gpu">
                             <ApprovalBtn
                               onApprove={() =>
-                                handleStatusChange(
-                                  request.requestId,
-                                  request.memberId,
-                                  'ACCEPTED'
-                                )
+                                handleStatusChange(request.requestId, request.memberId, 'ACCEPTED')
                               }
                               onReject={() =>
-                                handleStatusChange(
-                                  request.requestId,
-                                  request.memberId,
-                                  'DENIED'
-                                )
+                                handleStatusChange(request.requestId, request.memberId, 'DENIED')
                               }
                               onHold={() =>
-                                handleStatusChange(
-                                  request.requestId,
-                                  request.memberId,
-                                  'HOLD'
-                                )
+                                handleStatusChange(request.requestId, request.memberId, 'HOLD')
                               }
                               currentStatus={request.status}
                             />
@@ -578,21 +518,19 @@ const ReqAdminTable = forwardRef<ReqAdminTableRef, ReqAdminTableProps>(
               >
                 이전
               </button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                (page) => (
-                  <button
-                    key={page}
-                    onClick={() => handlePageChange(page)}
-                    className={`w-8 h-8 rounded-md text-sm ${
-                      currentPage === page
-                        ? 'bg-primary text-white'
-                        : 'text-gray-600 hover:bg-gray-100'
-                    }`}
-                  >
-                    {page}
-                  </button>
-                )
-              )}
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <button
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={`w-8 h-8 rounded-md text-sm ${
+                    currentPage === page
+                      ? 'bg-primary text-white'
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  {page}
+                </button>
+              ))}
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
@@ -611,26 +549,18 @@ const ReqAdminTable = forwardRef<ReqAdminTableRef, ReqAdminTableProps>(
         {/* 메모 모달 */}
         {viewingMemo && (
           <div className="fixed inset-0 z-[60] flex items-center justify-center">
-            <div
-              className="absolute inset-0 bg-black bg-opacity-30"
-              onClick={closeMemoModal}
-            ></div>
+            <div className="absolute inset-0 bg-black bg-opacity-30" onClick={closeMemoModal}></div>
             <div
               ref={memoModalRef}
               className="bg-white rounded-lg shadow-lg p-3 max-w-[75%] sm:max-w-xs w-full z-[70] relative mx-3"
             >
               <div className="flex justify-between items-center mb-2">
                 <h3 className="text-sm font-medium">사유</h3>
-                <button
-                  onClick={closeMemoModal}
-                  className="text-gray-500 hover:text-gray-700"
-                >
+                <button onClick={closeMemoModal} className="text-gray-500 hover:text-gray-700">
                   <Icon name="close" size={16} />
                 </button>
               </div>
-              <p className="text-sm text-gray-700 break-words">
-                {viewingMemo.memo}
-              </p>
+              <p className="text-sm text-gray-700 break-words">{viewingMemo.memo}</p>
             </div>
           </div>
         )}
@@ -653,17 +583,13 @@ const ReqAdminTable = forwardRef<ReqAdminTableRef, ReqAdminTableProps>(
               <div className="p-6 relative">
                 {/* 닫기 버튼 */}
                 <button
-                  onClick={() =>
-                    setDeleteModal({ isOpen: false, requestId: null })
-                  }
+                  onClick={() => setDeleteModal({ isOpen: false, requestId: null })}
                   className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors"
                 >
                   <IoMdClose size={20} />
                 </button>
                 {/* 제목 */}
-                <h2 className="text-[1.125rem] font-semibold text-center mb-4 w-full">
-                  요청 삭제
-                </h2>
+                <h2 className="text-[1.125rem] font-semibold text-center mb-4 w-full">요청 삭제</h2>
 
                 {/* 안내 멘트 */}
                 <p className="text-left mb-6 text-[0.9375rem]">
@@ -675,9 +601,7 @@ const ReqAdminTable = forwardRef<ReqAdminTableRef, ReqAdminTableProps>(
                   <Button
                     size="lg"
                     color="muted"
-                    onClick={() =>
-                      setDeleteModal({ isOpen: false, requestId: null })
-                    }
+                    onClick={() => setDeleteModal({ isOpen: false, requestId: null })}
                     className="flex-1 bg-[#F1F1F1] hover:bg-[#E5E5E5] active:bg-[#DADADA] text-black font-normal rounded-xl py-3 sm:py-2.5 text-[0.9375rem] sm:text-sm transition-colors min-h-[3rem] sm:min-h-[2.5rem]"
                   >
                     취소

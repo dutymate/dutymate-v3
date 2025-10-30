@@ -1,12 +1,12 @@
+import { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Slide, ToastContainer } from 'react-toastify';
-import { useEffect } from 'react';
 
 import PageLoadingSpinner from '@/components/atoms/Loadingspinner';
 import ChannelTalkLoader from '@/components/organisms/ChannelTalkLoader';
+import { isMobileApp } from '@/lib/mobileApp';
 // import SurveyProvider from '@/components/organisms/SurveyProvider';
 import Router from '@/routes/Router';
-import { isMobileApp } from '@/lib/mobileApp';
 
 import 'react-toastify/dist/ReactToastify.css';
 import './toast.css';
@@ -36,24 +36,24 @@ function App() {
   return (
     <BrowserRouter>
       {/* <SurveyProvider> */}
-        {!isMobileApp() && <ChannelTalkLoader />}
-        <PageLoadingSpinner />
-        <Router />
-        <ToastContainer
-          position="top-center"
-          autoClose={1000}
-          hideProgressBar
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss={false}
-          draggable
-          pauseOnHover={false}
-          theme="light"
-          stacked
-          transition={Slide}
-          className="custom-toast-container"
-        />
+      {!isMobileApp() && <ChannelTalkLoader />}
+      <PageLoadingSpinner />
+      <Router />
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover={false}
+        theme="light"
+        stacked
+        transition={Slide}
+        className="custom-toast-container"
+      />
       {/* </SurveyProvider> */}
     </BrowserRouter>
   );

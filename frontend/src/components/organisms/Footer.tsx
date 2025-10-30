@@ -1,8 +1,8 @@
-import { FaInstagram, FaYoutube, FaTwitter } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import axiosInstance from '@/lib/axios';
 import channelService from '@/services/channelService';
 import { useEffect, useState } from 'react';
-import axiosInstance from '@/lib/axios';
+import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 interface Notice {
   noticeId: number;
@@ -75,9 +75,7 @@ const Footer = () => {
 
           {/* 소셜 미디어 섹션 */}
           <div className="space-y-2 sm:space-y-3">
-            <h3 className="text-base sm:text-lg font-bold text-gray-800">
-              소셜 미디어
-            </h3>
+            <h3 className="text-base sm:text-lg font-bold text-gray-800">소셜 미디어</h3>
             <div className="flex space-x-3">
               <a
                 href="https://www.instagram.com/dutymate_net"
@@ -109,9 +107,7 @@ const Footer = () => {
 
         {/* 저작권 정보 */}
         <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200">
-          <p className="text-xs text-center text-gray-500">
-            © 2025 Dutymate. All rights reserved.
-          </p>
+          <p className="text-xs text-center text-gray-500">© 2025 Dutymate. All rights reserved.</p>
         </div>
       </div>
     </footer>

@@ -3,21 +3,21 @@ import { IoMdMenu } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import { SEO } from '@/components/SEO';
 import DemoTimer from '@/components/atoms/DemoTimer';
 import Title from '@/components/atoms/Title';
 import KakaoPlaceModal from '@/components/organisms/KakaoPlaceModal';
 import MSidebar from '@/components/organisms/MSidebar';
 import MyShiftCalendar from '@/components/organisms/MyShiftCalendar';
 import TodayShiftModal from '@/components/organisms/TodayShiftModal';
-import WorkCRUDModal from '@/components/organisms/WorkCRUDModal';
 import Sidebar from '@/components/organisms/WSidebar';
-import { SEO } from '@/components/SEO';
+import WorkCRUDModal from '@/components/organisms/WorkCRUDModal';
 import type { ScheduleType } from '@/services/calendarService';
-import { dutyService, MyDuty } from '@/services/dutyService';
+import { MyDuty, dutyService } from '@/services/dutyService';
 import { useLoadingStore } from '@/stores/loadingStore';
 import useUserAuthStore from '@/stores/userAuthStore';
-import { convertDutyTypeSafe, getDutyColors } from '@/utils/dutyUtils';
 import { CalendarEvent } from '@/types/calendar';
+import { convertDutyTypeSafe, getDutyColors } from '@/utils/dutyUtils';
 
 // 일정 색상 클래스 매핑 - 사용자 색상 대신 일정 색상용으로만 유지
 const colorClassMap: Record<string, string> = {
@@ -33,9 +33,9 @@ const colorClassMap: Record<string, string> = {
 
 const MyShift = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [selectedDuty, setSelectedDuty] = useState<
-    'day' | 'evening' | 'night' | 'off' | 'mid'
-  >('day');
+  const [selectedDuty, setSelectedDuty] = useState<'day' | 'evening' | 'night' | 'off' | 'mid'>(
+    'day'
+  );
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [myDutyData, setMyDutyData] = useState<MyDuty | null>(null);
   const [dayDutyData, setDayDutyData] = useState<{
@@ -51,9 +51,7 @@ const MyShift = () => {
   const navigate = useNavigate();
 
   // 날짜별 일정(메모) 상태
-  const [schedulesByDate, setSchedulesByDate] = useState<
-    Record<string, ScheduleType[]>
-  >({});
+  const [schedulesByDate, setSchedulesByDate] = useState<Record<string, ScheduleType[]>>({});
 
   // 카카오맵 모달 상태
   const [isPlaceModalOpen, setIsPlaceModalOpen] = useState(false);
@@ -70,8 +68,7 @@ const MyShift = () => {
   const [isWorkInputMode, setIsWorkInputMode] = useState(false);
 
   // 근무 입력용 선택 날짜
-  const [workInputSelectedDate, setWorkInputSelectedDate] =
-    useState<Date | null>(null);
+  const [workInputSelectedDate, setWorkInputSelectedDate] = useState<Date | null>(null);
 
   // 사용자 색상 정보를 이용한 duty 색상 설정 - 유틸리티 함수 사용
   const dutyColors = getDutyColors(userInfo?.color);
@@ -83,9 +80,7 @@ const MyShift = () => {
   }, [userInfo?.color]);
 
   // CalendarEvent를 ScheduleType으로 변환하는 함수
-  const convertCalendarEventToSchedule = (
-    event: CalendarEvent
-  ): ScheduleType => {
+  const convertCalendarEventToSchedule = (event: CalendarEvent): ScheduleType => {
     return {
       calendarId: event.calendarId,
       title: event.title,
@@ -102,10 +97,7 @@ const MyShift = () => {
     const fetchMyDuty = async () => {
       try {
         const today = new Date();
-        const data = await dutyService.getMyDuty(
-          today.getFullYear(),
-          today.getMonth() + 1
-        );
+        const data = await dutyService.getMyDuty(today.getFullYear(), today.getMonth() + 1);
         // console.log('data', data);
         setMyDutyData(data);
 
@@ -125,9 +117,7 @@ const MyShift = () => {
               newSchedulesByDate[dateKey] = [];
             }
 
-            newSchedulesByDate[dateKey].push(
-              convertCalendarEventToSchedule(event)
-            );
+            newSchedulesByDate[dateKey].push(convertCalendarEventToSchedule(event));
           });
 
           setSchedulesByDate(newSchedulesByDate);
@@ -238,9 +228,7 @@ const MyShift = () => {
           if (!newSchedulesByDate[dateKey]) {
             newSchedulesByDate[dateKey] = [];
           }
-          newSchedulesByDate[dateKey].push(
-            convertCalendarEventToSchedule(event)
-          );
+          newSchedulesByDate[dateKey].push(convertCalendarEventToSchedule(event));
         });
 
         setSchedulesByDate(newSchedulesByDate);
@@ -261,18 +249,12 @@ const MyShift = () => {
 
   return (
     <>
-      <SEO
-        title="나의 근무표 | Dutymate"
-        description="나의 근무 일정을 확인해보세요."
-      />
+      <SEO title="나의 근무표 | Dutymate" description="나의 근무 일정을 확인해보세요." />
 
       <div className="w-full h-screen flex flex-row bg-[#F4F4F4]">
         {/* 데스크톱 Sidebar */}
         <div className="hidden lg:block w-[14.875rem] shrink-0">
-          <Sidebar
-            userType={userInfo?.role as 'HN' | 'RN'}
-            isDemo={isDemo ?? false}
-          />
+          <Sidebar userType={userInfo?.role as 'HN' | 'RN'} isDemo={isDemo ?? false} />
         </div>
 
         {/* 모바일 Sidebar */}
@@ -295,9 +277,7 @@ const MyShift = () => {
             </button>
             <div className="flex-1">
               <h1 className="text-lg font-bold">나의 듀티표</h1>
-              <p className="text-sm text-gray-500">
-                나의 듀티표를 확인해보세요
-              </p>
+              <p className="text-sm text-gray-500">나의 듀티표를 확인해보세요</p>
             </div>
             {isDemo && <DemoTimer />}
           </div>
@@ -314,9 +294,7 @@ const MyShift = () => {
               <div className="relative flex flex-col lg:flex-1 lg:min-w-0">
                 <MyShiftCalendar
                   onDateSelect={handleDateSelect}
-                  selectedDate={
-                    isWorkInputMode ? workInputSelectedDate : selectedDate
-                  }
+                  selectedDate={isWorkInputMode ? workInputSelectedDate : selectedDate}
                   dutyData={myDutyData}
                   onMonthChange={handleMonthChange}
                   schedulesByDate={schedulesByDate}
@@ -418,10 +396,7 @@ const MyShift = () => {
         onSelect={() => {}}
       />
 
-      <div
-        className="block lg:hidden w-full"
-        style={{ height: '14rem', background: '#F4F4F4' }}
-      />
+      <div className="block lg:hidden w-full" style={{ height: '14rem', background: '#F4F4F4' }} />
     </>
   );
 };

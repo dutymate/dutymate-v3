@@ -52,9 +52,7 @@ const KakaoPlaceModal = ({ open, onClose, onSelect }: KakaoPlaceModalProps) => {
             },
             content: data[i].place_name,
           });
-          bounds.extend(
-            new window.kakao.maps.LatLng(Number(data[i].y), Number(data[i].x))
-          );
+          bounds.extend(new window.kakao.maps.LatLng(Number(data[i].y), Number(data[i].x)));
         }
         setMarkers(newMarkers);
         map.setBounds(bounds);
@@ -165,9 +163,7 @@ const KakaoPlaceModal = ({ open, onClose, onSelect }: KakaoPlaceModalProps) => {
                 }}
               >
                 {selectedPlace && selectedPlace.content === marker.content && (
-                  <div className="p-2 bg-white rounded-lg shadow-lg">
-                    {marker.content}
-                  </div>
+                  <div className="p-2 bg-white rounded-lg shadow-lg">{marker.content}</div>
                 )}
               </MapMarker>
             ))}
@@ -186,9 +182,7 @@ const KakaoPlaceModal = ({ open, onClose, onSelect }: KakaoPlaceModalProps) => {
         {/* 선택된 장소 정보 */}
         {selectedPlace && (
           <div className="mt-4 p-3 sm:p-4 bg-gray-50 rounded-lg">
-            <h3 className="font-medium text-base sm:text-lg">
-              {selectedPlace.content}
-            </h3>
+            <h3 className="font-medium text-base sm:text-lg">{selectedPlace.content}</h3>
             <p className="text-xs sm:text-sm text-gray-600">
               위도: {selectedPlace.position.lat.toFixed(6)}, 경도:{' '}
               {selectedPlace.position.lng.toFixed(6)}

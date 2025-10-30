@@ -7,18 +7,13 @@ import { Tooltip } from '@/components/atoms/Tooltip';
 import ReqShiftModal from '@/components/organisms/ReqShiftModal';
 
 import { dutyService } from '@/services/dutyService';
-import { useLoadingStore } from '@/stores/loadingStore';
-import { useUserAuthStore } from '@/stores/userAuthStore';
-import { useHolidayStore } from '@/stores/holidayStore';
-import { TeamShiftTableDownload } from '@/utils/TeamShiftTableDownload';
-import {
-  getDayOfWeekKo,
-  getDaysInMonth,
-  isWeekend,
-  isHoliday,
-} from '@/utils/dateUtils';
 import userService from '@/services/userService';
 import { wardService } from '@/services/wardService';
+import { useHolidayStore } from '@/stores/holidayStore';
+import { useLoadingStore } from '@/stores/loadingStore';
+import { useUserAuthStore } from '@/stores/userAuthStore';
+import { TeamShiftTableDownload } from '@/utils/TeamShiftTableDownload';
+import { getDayOfWeekKo, getDaysInMonth, isHoliday, isWeekend } from '@/utils/dateUtils';
 import JoinWardGuideModal from './JoinWardGuideModal';
 
 interface WardDuty {
@@ -92,10 +87,7 @@ const TeamShiftTable = () => {
         });
 
         if (userInfo.existMyWard) {
-          const data = await dutyService.getWardDuty(
-            currentDate.year,
-            currentDate.month
-          );
+          const data = await dutyService.getWardDuty(currentDate.year, currentDate.month);
           setWardDuty(data);
 
           // 공휴일 데이터도 함께 불러오기
@@ -120,9 +112,7 @@ const TeamShiftTable = () => {
     if (!tableRef.current) return;
 
     try {
-      const tableElement = tableRef.current.querySelector(
-        '.duty-table-content'
-      );
+      const tableElement = tableRef.current.querySelector('.duty-table-content');
       if (!tableElement) return;
 
       await TeamShiftTableDownload({
@@ -208,9 +198,7 @@ const TeamShiftTable = () => {
       className="bg-white rounded-[0.92375rem] shadow-[0_0_15px_rgba(0,0,0,0.1)] p-4 sm:p-6"
     >
       <div className="flex flex-col sm:flex-row items-center justify-between mb-4">
-        <div className="w-[11.25rem] hidden sm:block">
-          {/* 왼쪽 여백 공간 */}
-        </div>
+        <div className="w-[11.25rem] hidden sm:block">{/* 왼쪽 여백 공간 */}</div>
         <div className="flex items-center gap-4 sm:gap-14 mb-4 sm:mb-0">
           <button
             onClick={handlePrevMonth}
@@ -245,12 +233,7 @@ const TeamShiftTable = () => {
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
         </div>
@@ -273,11 +256,7 @@ const TeamShiftTable = () => {
               다운로드
               {userInfo?.isDemo && (
                 <div className="hidden sm:block">
-                  <Tooltip
-                    content="로그인 후 이용해주세요"
-                    className="ml-1"
-                    width="w-40"
-                  />
+                  <Tooltip content="로그인 후 이용해주세요" className="ml-1" width="w-40" />
                 </div>
               )}
             </div>
@@ -293,9 +272,7 @@ const TeamShiftTable = () => {
                 <col
                   key={`col-${day}`}
                   className={`w-[calc((100%-3rem)/31)] sm:w-[calc((100%-4rem)/31)] lg:w-[calc((100%-5.5rem)/31)] ${
-                    isWeekendDay(wardDuty.year, wardDuty.month, day)
-                      ? 'bg-base-muted-30'
-                      : ''
+                    isWeekendDay(wardDuty.year, wardDuty.month, day) ? 'bg-base-muted-30' : ''
                   }`}
                 />
               ))}
@@ -306,16 +283,8 @@ const TeamShiftTable = () => {
                   이름
                 </th>
                 {days.map((day, index) => {
-                  const dayOfWeek = getDayOfWeekKo(
-                    wardDuty.year,
-                    wardDuty.month,
-                    day
-                  );
-                  const isHolidayDate = isHoliday(
-                    wardDuty.year,
-                    wardDuty.month,
-                    day
-                  );
+                  const dayOfWeek = getDayOfWeekKo(wardDuty.year, wardDuty.month, day);
+                  const isHolidayDate = isHoliday(wardDuty.year, wardDuty.month, day);
                   return (
                     <th
                       key={day}
@@ -394,13 +363,7 @@ const TeamShiftTable = () => {
                         <div className="flex justify-center items-center">
                           <DutyBadgeEng
                             type={
-                              (shift === 'X' ? 'X' : shift) as
-                                | 'D'
-                                | 'E'
-                                | 'N'
-                                | 'O'
-                                | 'X'
-                                | 'M'
+                              (shift === 'X' ? 'X' : shift) as 'D' | 'E' | 'N' | 'O' | 'X' | 'M'
                             }
                             variant="letter"
                             size="sm"

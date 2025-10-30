@@ -57,10 +57,7 @@ const CommunityLayout = ({ title, subtitle, children }: any) => {
     <div className="w-full min-h-screen flex flex-row bg-[#F4F4F4]">
       {/* 데스크톱 Sidebar */}
       <div className="hidden lg:block w-[14.875rem] shrink-0">
-        <Sidebar
-          userType={userInfo?.role as 'HN' | 'RN'}
-          isDemo={isDemo ?? false}
-        />
+        <Sidebar userType={userInfo?.role as 'HN' | 'RN'} isDemo={isDemo ?? false} />
       </div>
 
       {/* 모바일 Sidebar */}
@@ -100,10 +97,7 @@ const CommunityLayout = ({ title, subtitle, children }: any) => {
           <Title title={title} subtitle={subtitle} />
         </div>
 
-        <Modal
-          isOpen={isNewsModalOpen}
-          onClose={() => setIsNewsModalOpen(false)}
-        >
+        <Modal isOpen={isNewsModalOpen} onClose={() => setIsNewsModalOpen(false)}>
           <CommunityNews onClose={() => setIsNewsModalOpen(false)} />
         </Modal>
 

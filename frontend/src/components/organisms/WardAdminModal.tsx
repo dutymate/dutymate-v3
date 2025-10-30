@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import { IoMdClose } from 'react-icons/io';
+import { toast } from 'react-toastify';
 
 import { ConnectButton } from '@/components/atoms/Button';
 import { Icon } from '@/components/atoms/Icon';
@@ -71,9 +71,7 @@ export const HistoryModal = ({
     >
       <div className="bg-white rounded-2xl p-6 w-full max-w-[29rem] sm:max-w-[30rem] mx-4">
         <div className="flex justify-between items-center mb-4 relative">
-          <h2 className="text-xl font-semibold text-center w-full">
-            입장 신청 내역
-          </h2>
+          <h2 className="text-xl font-semibold text-center w-full">입장 신청 내역</h2>
           <button
             onClick={onClose}
             className="text-gray-600 hover:text-gray-800 absolute right-0 p-1 rounded-lg hover:bg-gray-100 transition-colors"
@@ -96,9 +94,7 @@ export const HistoryModal = ({
                 >
                   <div className="flex items-center sm:gap-4 gap-2">
                     <div className="flex items-center gap-1 sm:gap-1.5 w-[4rem] sm:w-[5rem]">
-                      <span className="font-medium truncate text-[0.875rem]">
-                        {nurse.name}
-                      </span>
+                      <span className="font-medium truncate text-[0.875rem]">{nurse.name}</span>
                     </div>
                     <div className="flex items-center gap-0.5 sm:gap-1 w-[2.2rem] sm:w-[2.8125rem]">
                       <Icon
@@ -111,11 +107,7 @@ export const HistoryModal = ({
                       </span>
                     </div>
                     <div className="flex items-center gap-0.5 sm:gap-1 w-[2.2rem] sm:w-[2.8125rem]">
-                      <Icon
-                        name="idCard"
-                        size={0.875}
-                        className="text-gray-500 flex-shrink-0"
-                      />
+                      <Icon name="idCard" size={0.875} className="text-gray-500 flex-shrink-0" />
                       <span className="text-gray-600 text-[0.875rem] whitespace-nowrap">
                         {nurse.grade}년차
                       </span>
@@ -146,18 +138,13 @@ export const HistoryModal = ({
 };
 
 // 간호사 배정 모달
-export const NurseAssignModal = ({
-  nurse,
-  onClose,
-  fetchNurses,
-}: NurseAssignModalProps) => {
+export const NurseAssignModal = ({ nurse, onClose, fetchNurses }: NurseAssignModalProps) => {
   const [selectedNurse] = useState<number | null>(null);
   const [tempNurses, setTempNurses] = useState<TempNurse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isConnect, setIsConnect] = useState(false);
   const [tempNurse, setTempNurse] = useState<TempNurse | null>(null);
-  const [isAddNurseConfirmModalOpen, setIsAddNurseConfirmModalOpen] =
-    useState(false);
+  const [isAddNurseConfirmModalOpen, setIsAddNurseConfirmModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchTempNurses = async () => {
@@ -207,9 +194,7 @@ export const NurseAssignModal = ({
       >
         <div className="bg-white rounded-2xl p-6 w-full max-w-[29rem] sm:max-w-[30rem] mx-4">
           <div className="flex justify-between items-center mb-4 relative">
-            <h2 className="text-xl font-semibold text-center w-full">
-              간호사 배정
-            </h2>
+            <h2 className="text-xl font-semibold text-center w-full">간호사 배정</h2>
             <button
               onClick={onClose}
               className="text-gray-600 hover:text-gray-800 absolute right-0 p-1 rounded-lg hover:bg-gray-100 transition-colors"
@@ -221,14 +206,8 @@ export const NurseAssignModal = ({
           {/* 선택된 간호사 정보 */}
           <div className="flex items-center justify-center gap-4 px-3 py-2.5 bg-white rounded-xl mb-4 border border-primary-20 min-w-[18.5rem] sm:min-w-0 w-full max-w-[25rem]">
             <div className="flex items-center gap-1.5 w-[5rem]">
-              <Icon
-                name="user"
-                size={1.125}
-                className="text-gray-500 flex-shrink-0"
-              />
-              <span className="font-medium truncate text-[0.875rem]">
-                {nurse.name}
-              </span>
+              <Icon name="user" size={1.125} className="text-gray-500 flex-shrink-0" />
+              <span className="font-medium truncate text-[0.875rem]">{nurse.name}</span>
             </div>
             <div className="flex items-center gap-1 w-[2.8125rem]">
               <Icon
@@ -241,26 +220,18 @@ export const NurseAssignModal = ({
               </span>
             </div>
             <div className="flex items-center gap-1 w-[2.8125rem]">
-              <Icon
-                name="idCard"
-                size={0.875}
-                className="text-gray-500 flex-shrink-0"
-              />
+              <Icon name="idCard" size={0.875} className="text-gray-500 flex-shrink-0" />
               <span className="text-gray-600 text-[0.875rem] whitespace-nowrap">
                 {nurse.grade}년차
               </span>
             </div>
           </div>
 
-          <p className="text-sm text-gray-500 mb-3">
-            연동할 간호사를 선택해주세요.
-          </p>
+          <p className="text-sm text-gray-500 mb-3">연동할 간호사를 선택해주세요.</p>
 
           {/* 간호사 선택 리스트 */}
           <div className="bg-gray-50 rounded-xl p-4 mb-4">
-            <div className="text-[0.875rem] text-gray-600 mb-2 px-2">
-              근무자
-            </div>
+            <div className="text-[0.875rem] text-gray-600 mb-2 px-2">근무자</div>
             <div className="max-h-[17.5rem] overflow-y-auto space-y-2 pr-2">
               {isLoading ? (
                 <div className="text-center py-4">로딩 중...</div>
@@ -274,9 +245,7 @@ export const NurseAssignModal = ({
                   >
                     <div className="flex items-center gap-4">
                       <div className="flex items-center gap-1.5 w-[80px]">
-                        <span className="font-medium truncate text-sm mx-2">
-                          {tempNurse.name}
-                        </span>
+                        <span className="font-medium truncate text-sm mx-2">{tempNurse.name}</span>
                       </div>
                       <div className="flex items-center gap-1 w-[45px]">
                         <Icon
@@ -289,11 +258,7 @@ export const NurseAssignModal = ({
                         </span>
                       </div>
                       <div className="flex items-center gap-1 w-[45px]">
-                        <Icon
-                          name="idCard"
-                          size={14}
-                          className="text-gray-500 flex-shrink-0"
-                        />
+                        <Icon name="idCard" size={14} className="text-gray-500 flex-shrink-0" />
                         <span className="text-gray-600 text-sm whitespace-nowrap">
                           {tempNurse.grade}년차
                         </span>
@@ -334,9 +299,7 @@ export const NurseAssignModal = ({
       <AddNurseConfirmModal
         isOpen={isAddNurseConfirmModalOpen}
         onClose={() => setIsAddNurseConfirmModalOpen(false)}
-        onConfirm={
-          isConnect ? () => handleConnect() : handleAddNurseWithoutSynced
-        }
+        onConfirm={isConnect ? () => handleConnect() : handleAddNurseWithoutSynced}
         isConnect={isConnect}
         message={
           isConnect

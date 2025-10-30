@@ -1,11 +1,11 @@
+import axiosInstance from '@/lib/axios';
+import DOMPurify from 'dompurify';
+import { useEffect, useState } from 'react';
+import { FaChevronLeft } from 'react-icons/fa';
 // import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { FaChevronLeft } from 'react-icons/fa';
-import { useEffect, useState } from 'react';
-import axiosInstance from '@/lib/axios';
 // import { Button } from '@/components/atoms/Button';
 import { toast } from 'react-toastify';
-import DOMPurify from 'dompurify';
 import { useUserAuthStore } from '../../stores/userAuthStore';
 
 interface NoticeDetail {
@@ -283,9 +283,7 @@ const NoticeDetailPage = () => {
   };
 
   if (loading) {
-    return (
-      <div className="container mx-auto px-4 py-2 text-center">로딩 중...</div>
-    );
+    return <div className="container mx-auto px-4 py-2 text-center">로딩 중...</div>;
   }
 
   if (!notice) {
@@ -297,9 +295,7 @@ const NoticeDetailPage = () => {
         >
           <FaChevronLeft /> <span>목록으로</span>
         </button>
-        <div className="text-center text-gray-500">
-          공지사항을 찾을 수 없습니다.
-        </div>
+        <div className="text-center text-gray-500">공지사항을 찾을 수 없습니다.</div>
       </div>
     );
   }
@@ -314,9 +310,7 @@ const NoticeDetailPage = () => {
         >
           <FaChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
-        <h1 className="text-lg sm:text-2xl font-bold text-gray-800 mx-auto">
-          공지사항
-        </h1>
+        <h1 className="text-lg sm:text-2xl font-bold text-gray-800 mx-auto">공지사항</h1>
       </div>
       <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
         <div className="mb-6">
@@ -330,9 +324,7 @@ const NoticeDetailPage = () => {
               {notice.title}
             </h2>
           </div>
-          <p className="text-sm text-gray-500">
-            {new Date(notice.createdAt).toLocaleDateString()}
-          </p>
+          <p className="text-sm text-gray-500">{new Date(notice.createdAt).toLocaleDateString()}</p>
         </div>
         <div className="prose max-w-none">
           <div

@@ -1,3 +1,4 @@
+import { SEO } from '@/components/SEO';
 import DutyBadgeEng from '@/components/atoms/DutyBadgeEng';
 import PageLoadingSpinner from '@/components/atoms/Loadingspinner';
 import CheckMemberModal from '@/components/organisms/Group/CheckMemberModal';
@@ -5,7 +6,6 @@ import DateSuggestionModal from '@/components/organisms/Group/DateSuggestionModa
 import GroupLayout from '@/components/organisms/Group/GroupLayout';
 import InviteMemberModal from '@/components/organisms/Group/InviteMemberModal';
 import ShareDateModal from '@/components/organisms/Group/ShareDateModal';
-import { SEO } from '@/components/SEO';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { groupService } from '@/services/groupService';
 import { useLoadingStore } from '@/stores/loadingStore';
@@ -27,9 +27,7 @@ const GroupDetailPage = () => {
   const [sortByName, setSortByName] = useState(true);
   const [group, setGroup] = useState<Group | null>(null);
   const [loading, setLoading] = useState(true);
-  const [modalStep, setModalStep] = useState<
-    'none' | 'check' | 'date' | 'share'
-  >('none');
+  const [modalStep, setModalStep] = useState<'none' | 'check' | 'date' | 'share'>('none');
   const [inviteModalOpen, setInviteModalOpen] = useState(false);
   const isMobile = useMediaQuery('(max-width: 1023px)');
   const isSmallMobile = useMediaQuery('(max-width: 639px)');
@@ -60,27 +58,16 @@ const GroupDetailPage = () => {
       const month = currentMonth.getMonth() + 1;
 
       // 서버에서는 항상 이름순으로 데이터 요청 (정렬은 클라이언트에서 처리)
-      const response = await groupService.getGroup(
-        Number(groupId),
-        year,
-        month,
-        'name'
-      );
+      const response = await groupService.getGroup(Number(groupId), year, month, 'name');
 
       // 원본 데이터 저장
       setGroup(response);
 
       // 원본 데이터 세트를 저장 (shifts, prevShifts, nextShifts)
       setOriginalData({
-        shifts: response.shifts
-          ? JSON.parse(JSON.stringify(response.shifts))
-          : [],
-        prevShifts: response.prevShifts
-          ? JSON.parse(JSON.stringify(response.prevShifts))
-          : [],
-        nextShifts: response.nextShifts
-          ? JSON.parse(JSON.stringify(response.nextShifts))
-          : [],
+        shifts: response.shifts ? JSON.parse(JSON.stringify(response.shifts)) : [],
+        prevShifts: response.prevShifts ? JSON.parse(JSON.stringify(response.prevShifts)) : [],
+        nextShifts: response.nextShifts ? JSON.parse(JSON.stringify(response.nextShifts)) : [],
       });
 
       // 백엔드에서 받은 멤버 리스트 처리
@@ -109,12 +96,8 @@ const GroupDetailPage = () => {
 
     // 원본 데이터의 복사본 생성
     const sortedCurrentShifts = JSON.parse(JSON.stringify(originalData.shifts));
-    const sortedPrevShifts = JSON.parse(
-      JSON.stringify(originalData.prevShifts || [])
-    );
-    const sortedNextShifts = JSON.parse(
-      JSON.stringify(originalData.nextShifts || [])
-    );
+    const sortedPrevShifts = JSON.parse(JSON.stringify(originalData.prevShifts || []));
+    const sortedNextShifts = JSON.parse(JSON.stringify(originalData.nextShifts || []));
 
     // 정렬 함수 정의
     const sortMemberList = (shift: any) => {
@@ -196,16 +179,12 @@ const GroupDetailPage = () => {
   // 월 변경 핸들러 수정
   const handlePrevMonth = () => {
     // 이전 달로 변경
-    setCurrentMonth(
-      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
-    );
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
   };
 
   const handleNextMonth = () => {
     // 다음 달로 변경
-    setCurrentMonth(
-      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)
-    );
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
   };
 
   // 정렬 변경 핸들러
@@ -381,22 +360,14 @@ const GroupDetailPage = () => {
 
   return (
     <>
-      <SEO
-        title="그룹 | Dutymate"
-        description="동료 간호사들과 듀티표를 공유하는 공간입니다."
-      />
-      <GroupLayout
-        title="함께 보는 듀티표"
-        subtitle="모두의 스케줄을 한눈에 확인하세요"
-      >
+      <SEO title="그룹 | Dutymate" description="동료 간호사들과 듀티표를 공유하는 공간입니다." />
+      <GroupLayout title="함께 보는 듀티표" subtitle="모두의 스케줄을 한눈에 확인하세요">
         {/* 모바일: 그룹 정보 + 캘린더 카드 통합 */}
         <div className="block sm:hidden bg-white rounded-t-xl shadow pt-2 sm:px-4 sm:pb-0 sm:mb-4">
           {/* 상단: 그룹명, 설명, 친구초대 */}
           <div className="flex items-center justify-between gap-2 mb-2 px-2">
             <div className="min-w-0 flex flex-row items-center gap-1 truncate">
-              <span className="font-medium text-sm truncate max-w-[60%]">
-                {group.groupName}
-              </span>
+              <span className="font-medium text-sm truncate max-w-[60%]">{group.groupName}</span>
               <span className="text-xs text-gray-400 truncate max-w-[40%]">
                 {group.groupDescription || '그룹 설명이 없습니다.'}
               </span>
@@ -412,9 +383,7 @@ const GroupDetailPage = () => {
               type="button"
               onClick={handleInviteButton}
             >
-              <FaUserPlus
-                className={`${isMobile ? 'mr-0.5' : 'mr-1.5'} w-4 h-4`}
-              />
+              <FaUserPlus className={`${isMobile ? 'mr-0.5' : 'mr-1.5'} w-4 h-4`} />
               <span className="shrink-0">친구 초대</span>
             </button>
           </div>
@@ -563,9 +532,7 @@ const GroupDetailPage = () => {
                         <div className="flex flex-col gap-0 md:gap-0.5 items-start">
                           {day.duties.map((dutyInfo, index) => (
                             <div
-                              key={`${day.date}-${
-                                dutyInfo.member.memberId || index
-                              }`}
+                              key={`${day.date}-${dutyInfo.member.memberId || index}`}
                               className="flex items-center justify-between w-full"
                             >
                               {isMobile ? (
@@ -593,12 +560,8 @@ const GroupDetailPage = () => {
                                 </span>
                               )}
                               <div
-                                className={`flex-shrink-0 ${
-                                  dutyInfo.duty ? '' : 'invisible'
-                                } ${
-                                  day.isPrevMonth || day.isNextMonth
-                                    ? 'opacity-40'
-                                    : ''
+                                className={`flex-shrink-0 ${dutyInfo.duty ? '' : 'invisible'} ${
+                                  day.isPrevMonth || day.isNextMonth ? 'opacity-40' : ''
                                 } ${isMobile ? 'scale-75 origin-right' : ''}`}
                               >
                                 <DutyBadgeEng
@@ -708,9 +671,7 @@ const GroupDetailPage = () => {
                   type="button"
                   onClick={handleInviteButton}
                 >
-                  <FaUserPlus
-                    className={`${isMobile ? 'mr-0.5' : 'mr-1.5'} w-4 h-4`}
-                  />
+                  <FaUserPlus className={`${isMobile ? 'mr-0.5' : 'mr-1.5'} w-4 h-4`} />
                   <span className="shrink-0">친구 초대</span>
                 </button>
                 <button
@@ -799,9 +760,7 @@ const GroupDetailPage = () => {
                           <div className="flex flex-col gap-0 md:gap-0.5 items-start">
                             {day.duties.map((dutyInfo, index) => (
                               <div
-                                key={`${day.date}-${
-                                  dutyInfo.member.memberId || index
-                                }`}
+                                key={`${day.date}-${dutyInfo.member.memberId || index}`}
                                 className="flex items-center justify-between w-full"
                               >
                                 {isMobile ? (
@@ -829,12 +788,8 @@ const GroupDetailPage = () => {
                                   </span>
                                 )}
                                 <div
-                                  className={`flex-shrink-0 ${
-                                    dutyInfo.duty ? '' : 'invisible'
-                                  } ${
-                                    day.isPrevMonth || day.isNextMonth
-                                      ? 'opacity-40'
-                                      : ''
+                                  className={`flex-shrink-0 ${dutyInfo.duty ? '' : 'invisible'} ${
+                                    day.isPrevMonth || day.isNextMonth ? 'opacity-40' : ''
                                   } ${isMobile ? 'scale-75 origin-right' : ''}`}
                                 >
                                   <DutyBadgeEng
@@ -880,9 +835,7 @@ const GroupDetailPage = () => {
             onHighlightDates={handleHighlightDates}
           />
         )}
-        {modalStep === 'share' && (
-          <ShareDateModal open onClose={() => setModalStep('none')} />
-        )}
+        {modalStep === 'share' && <ShareDateModal open onClose={() => setModalStep('none')} />}
         <InviteMemberModal
           open={inviteModalOpen}
           onClose={() => setInviteModalOpen(false)}

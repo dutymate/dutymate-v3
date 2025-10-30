@@ -112,9 +112,7 @@ export const userService = {
    * @param success - 성공 시 콜백 함수
    * @param fail - 실패 시 콜백 함수
    */
-  submitAdditionalInfo: async (
-    data: AdditionalInfoRequest
-  ): Promise<AdditionalInfoResponse> => {
+  submitAdditionalInfo: async (data: AdditionalInfoRequest): Promise<AdditionalInfoResponse> => {
     try {
       const response = await axiosInstance.post('/member/info', data);
       return response.data;
@@ -200,13 +198,10 @@ export const userService = {
    */
   verifyEmailCode: async ({ email, code }: { email: string; code: string }) => {
     try {
-      const response = await axiosInstance.post(
-        '/member/email-verification/confirm',
-        {
-          email,
-          code,
-        }
-      );
+      const response = await axiosInstance.post('/member/email-verification/confirm', {
+        email,
+        code,
+      });
       return response;
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -244,10 +239,7 @@ export const userService = {
    * 비밀번호 재설정 API
    * @param data - 이메일, 비밀번호
    */
-  resetPassword: async ({
-    email,
-    password,
-  }: PasswordResetRequest): Promise<void> => {
+  resetPassword: async ({ email, password }: PasswordResetRequest): Promise<void> => {
     try {
       await axiosInstance.post('/member/password/reset', {
         email,

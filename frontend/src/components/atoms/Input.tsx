@@ -1,9 +1,8 @@
 import React from 'react';
-import { HiExclamationCircle, HiMagnifyingGlass } from 'react-icons/hi2';
 import { InputHTMLAttributes, ReactNode } from 'react';
+import { HiExclamationCircle, HiMagnifyingGlass } from 'react-icons/hi2';
 
-export interface InputProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'className'> {
+export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'className'> {
   id: string;
   name: string;
   type?: string;
@@ -68,32 +67,20 @@ export const Input = ({
   return (
     <div>
       <div className="flex justify-between items-center">
-        <label
-          htmlFor={id}
-          className="block text-base font-medium text-gray-900 sm:text-lg"
-        >
+        <label htmlFor={id} className="block text-base font-medium text-gray-900 sm:text-lg">
           {label}
         </label>
-        {error && (
-          <span className="text-sm text-red-600 sm:text-base">{error}</span>
-        )}
+        {error && <span className="text-sm text-red-600 sm:text-base">{error}</span>}
         {optional && (
-          <span
-            id={`${id}-optional`}
-            className="text-sm text-gray-500 sm:text-base"
-          >
+          <span id={`${id}-optional`} className="text-sm text-gray-500 sm:text-base">
             선택 사항
           </span>
         )}
         {status === 'success' && successText && (
-          <span className="text-sm text-green-600 sm:text-base">
-            {successText}
-          </span>
+          <span className="text-sm text-green-600 sm:text-base">{successText}</span>
         )}
       </div>
-      <div
-        className={`relative mt-1 sm:mt-2 ${error ? 'grid grid-cols-1' : ''}`}
-      >
+      <div className={`relative mt-1 sm:mt-2 ${error ? 'grid grid-cols-1' : ''}`}>
         <input
           className={inputClasses}
           id={id}
@@ -139,10 +126,7 @@ export const Input = ({
       </div>
 
       {helpText && !error && (
-        <p
-          id={`${id}-description`}
-          className="mt-2 text-base text-gray-500 sm:text-lg"
-        >
+        <p id={`${id}-description`} className="mt-2 text-base text-gray-500 sm:text-lg">
           {helpText}
         </p>
       )}
@@ -151,13 +135,7 @@ export const Input = ({
 };
 
 export const EmailInput = (props: Omit<InputProps, 'type'>) => {
-  return (
-    <Input
-      {...props}
-      type="email"
-      placeholder={props.placeholder || 'example@domain.com'}
-    />
-  );
+  return <Input {...props} type="email" placeholder={props.placeholder || 'example@domain.com'} />;
 };
 
 interface AuthCodeInputProps extends Omit<InputProps, 'type' | 'rightElement'> {
@@ -206,13 +184,7 @@ export const AuthCodeInput = ({
 };
 
 export const PasswordInput = (props: Omit<InputProps, 'type'>) => {
-  return (
-    <Input
-      {...props}
-      type="password"
-      placeholder={props.placeholder || '••••••••'}
-    />
-  );
+  return <Input {...props} type="password" placeholder={props.placeholder || '••••••••'} />;
 };
 
 interface NumberInputProps extends Omit<InputProps, 'type'> {
@@ -222,30 +194,18 @@ interface NumberInputProps extends Omit<InputProps, 'type'> {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const NumberInput = ({
-  min,
-  max,
-  value,
-  onChange,
-  ...props
-}: NumberInputProps) => {
+export const NumberInput = ({ min, max, value, onChange, ...props }: NumberInputProps) => {
   const numberInputClasses =
     'block w-full rounded-md bg-white px-3 py-2.5 text-base font-bold text-primary text-center outline outline-[0.125rem] outline-gray-300/50 placeholder:text-gray-400 placeholder:font-normal focus:text-gray-900 focus:font-normal focus:outline-[0.125rem] focus:outline-primary/50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 disabled:outline-gray-200/50 sm:py-3 sm:text-lg';
 
   return (
     <div>
       <div className="flex justify-between">
-        <label
-          htmlFor={props.id}
-          className="block text-base font-medium text-gray-900 sm:text-lg"
-        >
+        <label htmlFor={props.id} className="block text-base font-medium text-gray-900 sm:text-lg">
           {props.label}
         </label>
         {props.optional && (
-          <span
-            id={`${props.id}-optional`}
-            className="text-sm text-gray-500 sm:text-base"
-          >
+          <span id={`${props.id}-optional`} className="text-sm text-gray-500 sm:text-base">
             선택 사항
           </span>
         )}
@@ -275,18 +235,12 @@ export const NumberInput = ({
         />
       </div>
       {props.helpText && !props.error && (
-        <p
-          id={`${props.id}-description`}
-          className="mt-2 text-base text-gray-500 sm:text-lg"
-        >
+        <p id={`${props.id}-description`} className="mt-2 text-base text-gray-500 sm:text-lg">
           {props.helpText}
         </p>
       )}
       {props.error && (
-        <p
-          id={`${props.id}-error`}
-          className="mt-2 text-base text-red-600 sm:text-lg"
-        >
+        <p id={`${props.id}-error`} className="mt-2 text-base text-red-600 sm:text-lg">
           {props.error}
         </p>
       )}
@@ -336,16 +290,12 @@ export const TextArea = ({
     : 'block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-[0.125rem] outline-gray-300/50 placeholder:text-gray-400 focus:outline-[0.125rem] focus:outline-primary/50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 disabled:outline-gray-200/50 sm:text-sm/6';
 
   const currentLength = value?.length || 0;
-  const isMaxLengthReached =
-    maxLength !== undefined && currentLength >= maxLength;
+  const isMaxLengthReached = maxLength !== undefined && currentLength >= maxLength;
 
   return (
     <div>
       <div className="flex justify-between">
-        <label
-          htmlFor={id}
-          className="block text-sm/6 font-medium text-gray-900"
-        >
+        <label htmlFor={id} className="block text-sm/6 font-medium text-gray-900">
           {label}
         </label>
         {optional && (
@@ -409,10 +359,7 @@ export const SearchInput = (props: Omit<InputProps, 'type' | 'label'>) => {
     <div>
       <div className="relative">
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-          <HiMagnifyingGlass
-            className="size-5 text-gray-400 sm:size-6"
-            aria-hidden="true"
-          />
+          <HiMagnifyingGlass className="size-5 text-gray-400 sm:size-6" aria-hidden="true" />
         </div>
         <input
           id={props.id}
@@ -443,10 +390,7 @@ export const SmallSearchInput = (props: Omit<InputProps, 'type' | 'label'>) => {
   return (
     <div className="relative">
       <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-        <HiMagnifyingGlass
-          className="size-4 text-gray-400"
-          aria-hidden="true"
-        />
+        <HiMagnifyingGlass className="size-4 text-gray-400" aria-hidden="true" />
       </div>
       <input
         id={props.id}
@@ -491,18 +435,11 @@ export const Select = ({
   return (
     <div>
       <div className="flex justify-between items-center">
-        <label
-          htmlFor={id}
-          className="block text-base font-medium text-gray-900 sm:text-lg"
-        >
+        <label htmlFor={id} className="block text-base font-medium text-gray-900 sm:text-lg">
           {label}
         </label>
-        {error && (
-          <span className="text-sm text-red-600 sm:text-base">{error}</span>
-        )}
-        {optional && (
-          <span className="text-sm text-gray-500 sm:text-base">선택 사항</span>
-        )}
+        {error && <span className="text-sm text-red-600 sm:text-base">{error}</span>}
+        {optional && <span className="text-sm text-gray-500 sm:text-base">선택 사항</span>}
       </div>
       <div className="mt-2 sm:mt-3">
         <select
@@ -513,19 +450,11 @@ export const Select = ({
           disabled={disabled}
           className={selectClasses}
         >
-          <option
-            value=""
-            disabled
-            className="text-left font-normal text-gray-900"
-          >
+          <option value="" disabled className="text-left font-normal text-gray-900">
             {placeholder}
           </option>
           {options.map((option) => (
-            <option
-              key={option.value}
-              value={option.value}
-              className="text-center font-bold"
-            >
+            <option key={option.value} value={option.value} className="text-center font-bold">
               {option.label}
             </option>
           ))}
@@ -563,10 +492,7 @@ export const MypageInput = ({
 }: MypageInputProps) => {
   return (
     <div className="flex flex-col">
-      <label
-        htmlFor={id}
-        className={`text-xs font-medium text-gray-700 mb-1 ${labelClassName}`}
-      >
+      <label htmlFor={id} className={`text-xs font-medium text-gray-700 mb-1 ${labelClassName}`}>
         {label}
       </label>
       <input
@@ -618,10 +544,7 @@ export const MypageSelect = ({
 }: MypageSelectProps) => {
   return (
     <div className="flex flex-col">
-      <label
-        htmlFor={id}
-        className={`text-xs font-medium text-gray-700 mb-1 ${labelClassName}`}
-      >
+      <label htmlFor={id} className={`text-xs font-medium text-gray-700 mb-1 ${labelClassName}`}>
         {label}
       </label>
       <select

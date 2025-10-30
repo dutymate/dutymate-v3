@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import { SEO } from '@/components/SEO';
 import PageLoadingSpinner from '@/components/atoms/Loadingspinner';
 import CommunityDetail from '@/components/organisms/CommunityDetail';
 import CommunityLayout from '@/components/organisms/CommunityLayout';
-import { SEO } from '@/components/SEO';
 import boardService from '@/services/boardService';
 
 const CommunityDetailPage = () => {

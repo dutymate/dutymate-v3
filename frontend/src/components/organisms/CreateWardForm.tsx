@@ -5,7 +5,7 @@ import { Input } from '@/components/atoms/Input';
 import PageLoadingSpinner from '@/components/atoms/Loadingspinner';
 import { useKeyboardNavigation } from '@/hooks/useKeyboardNavigation';
 import { HospitalInfo } from '@/services/wardService';
-import { hasCompleteKoreanChars, debounce } from '@/utils/textUtils';
+import { debounce, hasCompleteKoreanChars } from '@/utils/textUtils';
 
 interface CreateWardFormProps {
   onSubmit: (hospitalName: string, wardName: string) => Promise<void>;
@@ -64,9 +64,7 @@ const DropdownContent = ({
   if (searchable && hospitals.length === 0 && !isSearching) {
     return (
       <div className="flex flex-col px-[0.5rem] py-[0.5rem] items-center">
-        <div className="text-center text-gray-500 text-sm mb-2">
-          검색 결과가 없습니다.
-        </div>
+        <div className="text-center text-gray-500 text-sm mb-2">검색 결과가 없습니다.</div>
         <Button
           type="button"
           color="off"
@@ -87,9 +85,7 @@ const DropdownContent = ({
         hospitals.length > 0 &&
         hospitals
           .filter((hospital) =>
-            hospital.hospitalName
-              .toLowerCase()
-              .includes(hospitalName.toLowerCase())
+            hospital.hospitalName.toLowerCase().includes(hospitalName.toLowerCase())
           )
           .map((hospital, index) => (
             <div
@@ -102,13 +98,9 @@ const DropdownContent = ({
               onMouseEnter={() => onItemMouseEnter(index)}
             >
               <div className="flex items-center gap-[0.25rem]">
-                <span className="text-sm font-medium">
-                  {hospital.hospitalName}
-                </span>
+                <span className="text-sm font-medium">{hospital.hospitalName}</span>
               </div>
-              <div className="text-[0.6rem] text-gray-500 mt-[0.125rem]">
-                {hospital.address}
-              </div>
+              <div className="text-[0.6rem] text-gray-500 mt-[0.125rem]">{hospital.address}</div>
             </div>
           ))}
     </>
@@ -132,9 +124,7 @@ const CreateWardForm = ({
   // 드롭다운 상태
   const [showDropdown, setShowDropdown] = useState(false);
   const [searchable, setSearchable] = useState(false);
-  const [searchType, setSearchType] = useState<'korean' | 'english' | 'none'>(
-    'none'
-  );
+  const [searchType, setSearchType] = useState<'korean' | 'english' | 'none'>('none');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // 드롭다운에서 병원 선택 시 호출되는 핸들러
@@ -163,32 +153,24 @@ const CreateWardForm = ({
   }, [errors.hospitalName]);
 
   // 키보드 내비게이션 훅 사용
-  const {
-    selectedIndex,
-    handleItemMouseEnter,
-    handleDropdownMouseLeave,
-    handleItemClick,
-  } = useKeyboardNavigation({
-    items: hospitals,
-    visible: showDropdown,
-    setVisible: setShowDropdown,
-    onSelect: handleHospitalSelect,
-    containerRef: dropdownRef,
-  });
+  const { selectedIndex, handleItemMouseEnter, handleDropdownMouseLeave, handleItemClick } =
+    useKeyboardNavigation({
+      items: hospitals,
+      visible: showDropdown,
+      setVisible: setShowDropdown,
+      onSelect: handleHospitalSelect,
+      containerRef: dropdownRef,
+    });
 
   // 디바운스 처리된 병원 검색 함수를 컴포넌트 마운트 시 한 번만 생성
-  const debouncedSearchHospitals = useCallback(
-    debounce(onSearchHospitals, 300),
-    [onSearchHospitals]
-  );
+  const debouncedSearchHospitals = useCallback(debounce(onSearchHospitals, 300), [
+    onSearchHospitals,
+  ]);
 
   // 드롭다운 외부 클릭 감지 이벤트 핸들러
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setShowDropdown(false);
       }
     };
@@ -277,9 +259,7 @@ const CreateWardForm = ({
    * - 영어 입력 시: 2자 이상 입력 필요
    * - 기존 에러 메시지가 있으면 초기화
    */
-  const handleHospitalNameChange = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleHospitalNameChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     // 입력값 추출 및 병원명 상태 업데이트
     const value = e.target.value;
     setHospitalName(value);
@@ -338,9 +318,7 @@ const CreateWardForm = ({
     return (
       <div className="bg-white rounded-[0.925rem] shadow-[0_0_0.9375rem_rgba(0,0,0,0.1)] px-[1.5em] py-[1.5rem] w-[20rem] sm:w-[25rem] sm:px-[2rem] sm:py-[2rem] lg:px-[3rem] lg:py-[3rem] flex flex-col items-center justify-center">
         <div className="flex flex-col items-center text-center w-full">
-          <h1 className="text-xl font-bold text-gray-800 mb-1">
-            성공적으로 병동을 생성했습니다.
-          </h1>
+          <h1 className="text-xl font-bold text-gray-800 mb-1">성공적으로 병동을 생성했습니다.</h1>
           <p className="text-gray-400 text-ms mb-8">
             듀티메이트와 함께 더 편리한 관리를 시작하세요!
           </p>
@@ -354,11 +332,7 @@ const CreateWardForm = ({
   return (
     <div className="bg-white rounded-[0.925rem] shadow-[0_0_0.9375rem_rgba(0,0,0,0.1)] px-[1.5em] py-[1.5rem] w-[20rem] sm:w-[25rem] sm:px-[2rem] sm:py-[2rem] lg:px-[3rem] lg:py-[3rem] flex flex-col items-center">
       {isSearching && <PageLoadingSpinner />}
-      <form
-        noValidate
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-[1.5rem] w-full"
-      >
+      <form noValidate onSubmit={handleSubmit} className="flex flex-col gap-[1.5rem] w-full">
         <div className="flex flex-col gap-[1rem]">
           <div className="relative">
             <Input

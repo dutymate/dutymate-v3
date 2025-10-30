@@ -1,7 +1,7 @@
-import { useNavigate } from 'react-router-dom';
-import { Icon } from '@/components/atoms/Icon';
 import { Button } from '@/components/atoms/Button';
+import { Icon } from '@/components/atoms/Icon';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // GA4 타입 선언 (전역 Window 타입에 gtag 추가)
 declare global {
@@ -16,10 +16,7 @@ interface NurseShortageAlertProps {
   onRuleButtonClick: () => void;
 }
 
-const NurseShortageAlert = ({
-  shortage,
-  onRuleButtonClick,
-}: NurseShortageAlertProps) => {
+const NurseShortageAlert = ({ shortage, onRuleButtonClick }: NurseShortageAlertProps) => {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
 
@@ -96,10 +93,7 @@ const NurseShortageAlert = ({
             <Icon name="alert" size={18} className="text-duty-evening-dark" />
             <span className="text-sm font-medium text-gray-800">
               현재 병동 규칙으로는 간호사{' '}
-              <span className="font-bold text-duty-evening-dark">
-                {shortage}명
-              </span>{' '}
-              부족
+              <span className="font-bold text-duty-evening-dark">{shortage}명</span> 부족
             </span>
           </div>
           <div className="flex items-center gap-2">

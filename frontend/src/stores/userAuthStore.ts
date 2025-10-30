@@ -79,9 +79,7 @@ export const useUserAuthStore = create<UserAuthState>()(
         const currentState = get();
         // userInfo가 없거나 인증되지 않은 상태라면 에러
         if (!currentState.isAuthenticated || !currentState.userInfo) {
-          throw new Error(
-            'User must be authenticated before setting additional info'
-          );
+          throw new Error('User must be authenticated before setting additional info');
         }
 
         set({
@@ -107,9 +105,7 @@ export const useUserAuthStore = create<UserAuthState>()(
         const currentState = get();
         // userInfo가 없거나 인증되지 않은 상태라면 에러
         if (!currentState.isAuthenticated || !currentState.userInfo) {
-          throw new Error(
-            'User must be authenticated before setting additional info'
-          );
+          throw new Error('User must be authenticated before setting additional info');
         }
         set({
           userInfo: {

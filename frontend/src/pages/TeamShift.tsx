@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { IoMdMenu } from 'react-icons/io';
 
+import { SEO } from '@/components/SEO';
 import DemoTimer from '@/components/atoms/DemoTimer';
 import Title from '@/components/atoms/Title';
 import MSidebar from '@/components/organisms/MSidebar';
-import Sidebar from '@/components/organisms/WSidebar';
 import TeamShiftTable from '@/components/organisms/TeamShiftTable';
-import { SEO } from '@/components/SEO';
+import Sidebar from '@/components/organisms/WSidebar';
 import useUserAuthStore from '@/stores/userAuthStore';
 
 const TeamShift = () => {
@@ -16,10 +16,7 @@ const TeamShift = () => {
 
   return (
     <>
-      <SEO
-        title="병동 듀티표 | Dutymate"
-        description="우리 병동의 전체 듀티표를 확인해보세요."
-      />
+      <SEO title="병동 듀티표 | Dutymate" description="우리 병동의 전체 듀티표를 확인해보세요." />
       <div className="w-full min-h-screen flex flex-row bg-[#F4F4F4]">
         {/* 데스크톱 Sidebar */}
         <div className="hidden lg:block w-[14.875rem] shrink-0">
@@ -44,19 +41,14 @@ const TeamShift = () => {
             </button>
             <div className="flex-1">
               <h1 className="text-lg font-bold">병동 듀티표</h1>
-              <p className="text-sm text-gray-500">
-                우리 병동의 전체 듀티표를 확인해보세요
-              </p>
+              <p className="text-sm text-gray-500">우리 병동의 전체 듀티표를 확인해보세요</p>
             </div>
             {isDemo && <DemoTimer />}
           </div>
 
           {/* 데스크톱 타이틀 */}
           <div className="hidden lg:block">
-            <Title
-              title="병동 듀티표"
-              subtitle="우리 병동의 전체 듀티표를 확인해보세요"
-            />
+            <Title title="병동 듀티표" subtitle="우리 병동의 전체 듀티표를 확인해보세요" />
           </div>
           <div className="mt-6 flex-1 min-h-[calc(100vh-12rem)]">
             <TeamShiftTable />

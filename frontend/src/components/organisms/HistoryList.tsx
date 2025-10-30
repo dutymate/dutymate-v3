@@ -8,15 +8,10 @@ import useShiftStore from '@/stores/shiftStore';
 const HistoryList = () => {
   const histories = useShiftStore((state) => state.dutyInfo?.histories || []);
   const fetchDutyInfo = useShiftStore((state) => state.fetchDutyInfo);
-  const [selectedHistoryIdx, setSelectedHistoryIdx] = useState<number | null>(
-    null
-  );
+  const [selectedHistoryIdx, setSelectedHistoryIdx] = useState<number | null>(null);
 
   // 최신 수정 기록이 위에 오도록 정렬
-  const sortedHistories = useMemo(
-    () => [...histories].sort((a, b) => b.idx - a.idx),
-    [histories]
-  );
+  const sortedHistories = useMemo(() => [...histories].sort((a, b) => b.idx - a.idx), [histories]);
 
   const handleRevert = useCallback(
     async (historyIdx: number) => {

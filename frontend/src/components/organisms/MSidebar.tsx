@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { BiSolidUserPin } from 'react-icons/bi';
-import { FaHospital, FaCoffee } from 'react-icons/fa';
+import { FaCoffee, FaHospital } from 'react-icons/fa';
 import { HiOutlineUsers } from 'react-icons/hi2';
 import { IoIosChatboxes } from 'react-icons/io';
 import { IoCloseOutline } from 'react-icons/io5';
@@ -48,29 +48,21 @@ const NavigationItem = React.memo(
   }: { item: NavigationItem; isDemo: boolean; userType: 'HN' | 'RN' }) => {
     const requestCount = useRequestCountStore((state) => state.count);
     const demoBlockedRoutes = ['/community', '/my-page', '/group'];
-    const handleClick = (
-      e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-    ) => {
+    const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
       if (item.name === '튜토리얼') {
         e.preventDefault();
         window.open(import.meta.env.VITE_TUTORIAL_URL, '_blank');
       }
 
-      if (
-        isDemo &&
-        userType === 'HN' &&
-        demoBlockedRoutes.includes(item.href)
-      ) {
+      if (isDemo && userType === 'HN' && demoBlockedRoutes.includes(item.href)) {
         e.preventDefault();
       }
     };
 
     const isActive =
       item.href === location.pathname ||
-      (location.pathname.startsWith('/community/') &&
-        item.href.startsWith('/community')) ||
-      (location.pathname.startsWith('/group/') &&
-        item.href.startsWith('/group'));
+      (location.pathname.startsWith('/community/') && item.href.startsWith('/community')) ||
+      (location.pathname.startsWith('/group/') && item.href.startsWith('/group'));
 
     return (
       <li className="flex justify-center px-[1.3rem]">
@@ -81,9 +73,7 @@ const NavigationItem = React.memo(
 						text-[0.85rem] lg:text-[0.9rem] group
 						font-['Pretendard Variable']
 						${
-              isDemo &&
-              userType === 'HN' &&
-              demoBlockedRoutes.includes(item.href)
+              isDemo && userType === 'HN' && demoBlockedRoutes.includes(item.href)
                 ? 'text-gray-400 cursor-not-allowed'
                 : isActive
                   ? 'text-primary-dark bg-primary-10'
@@ -94,9 +84,7 @@ const NavigationItem = React.memo(
         >
           {React.createElement(item.icon, {
             className: `w-4 h-4 min-w-4 ${
-              isDemo &&
-              userType === 'HN' &&
-              demoBlockedRoutes.includes(item.href)
+              isDemo && userType === 'HN' && demoBlockedRoutes.includes(item.href)
                 ? 'text-gray-400 cursor-not-allowed'
                 : isActive
                   ? 'text-primary-dark'
@@ -126,8 +114,7 @@ interface SidebarProps {
 
 const Sidebar = ({ userType, isDemo, isOpen, onClose }: SidebarProps) => {
   const navigate = useNavigate();
-  const navigation =
-    userType === 'HN' ? headNurseNavigation : staffNurseNavigation;
+  const navigation = userType === 'HN' ? headNurseNavigation : staffNurseNavigation;
 
   const handleLogoClick = () => {
     if (userType === 'HN') {
@@ -141,9 +128,7 @@ const Sidebar = ({ userType, isDemo, isOpen, onClose }: SidebarProps) => {
   return (
     <>
       {/* Backdrop */}
-      {isOpen && (
-        <div className="fixed inset-0 z-30 lg:hidden" onClick={onClose} />
-      )}
+      {isOpen && <div className="fixed inset-0 z-30 lg:hidden" onClick={onClose} />}
 
       {/* Sidebar */}
       <div
@@ -161,16 +146,9 @@ const Sidebar = ({ userType, isDemo, isOpen, onClose }: SidebarProps) => {
         {/* Logo와 닫기 버튼 */}
         <div className="flex items-center justify-between px-[1.875rem] pt-7">
           <div className="w-[140px] cursor-pointer" onClick={handleLogoClick}>
-            <img
-              alt="듀티메이트"
-              src="/images/text-logo.svg"
-              className="w-full"
-            />
+            <img alt="듀티메이트" src="/images/text-logo.svg" className="w-full" />
           </div>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
-          >
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
             <IoCloseOutline className="w-6 h-6" />
           </button>
         </div>
@@ -179,12 +157,7 @@ const Sidebar = ({ userType, isDemo, isOpen, onClose }: SidebarProps) => {
         <nav className="flex-1 py-4 mt-4">
           <div className="flex flex-col space-y-[0.325rem] mb-5">
             {navigation.map((item, index) => (
-              <NavigationItem
-                key={index}
-                item={item}
-                isDemo={isDemo}
-                userType={userType}
-              />
+              <NavigationItem key={index} item={item} isDemo={isDemo} userType={userType} />
             ))}
           </div>
         </nav>

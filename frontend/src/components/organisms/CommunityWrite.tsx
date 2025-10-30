@@ -1,8 +1,8 @@
+import heic2any from 'heic2any';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { BsImage, BsX } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import heic2any from 'heic2any';
 
 import { CommunityRegisterButton } from '@/components/atoms/Button';
 import boardService, { BoardRequest } from '@/services/boardService';
@@ -18,10 +18,7 @@ interface CommunityWriteProps {
   isEditMode?: boolean;
 }
 
-const CommunityWrite = ({
-  initialData,
-  isEditMode = false,
-}: CommunityWriteProps) => {
+const CommunityWrite = ({ initialData, isEditMode = false }: CommunityWriteProps) => {
   const categories = [
     { key: 'DAILY', value: '일상글' },
     { key: 'QNA', value: '간호지식 Q&A' },
@@ -42,8 +39,7 @@ const CommunityWrite = ({
   // 이미지 URL이 있으면 파일 이름 표시 및 미리보기 설정
   useEffect(() => {
     if (initialData?.boardImgUrl) {
-      const fileName =
-        initialData.boardImgUrl.split('/').pop() || '기존 이미지';
+      const fileName = initialData.boardImgUrl.split('/').pop() || '기존 이미지';
       setSelectedFileName(fileName);
       setPreviewImage(initialData.boardImgUrl);
     }
@@ -52,9 +48,7 @@ const CommunityWrite = ({
   // 폼 유효성 검사
   const isFormValid = useMemo(() => {
     return (
-      formData.category !== '' &&
-      formData.title.trim() !== '' &&
-      formData.content.trim() !== ''
+      formData.category !== '' && formData.title.trim() !== '' && formData.content.trim() !== ''
     );
   }, [formData.category, formData.title, formData.content]);
 
@@ -123,11 +117,9 @@ const CommunityWrite = ({
           toType: 'image/jpeg',
           quality: 0.9,
         });
-        file = new File(
-          [convertedBlob as Blob],
-          file.name.replace(/\.(heic|heif)$/i, '.jpg'),
-          { type: 'image/jpeg' }
-        );
+        file = new File([convertedBlob as Blob], file.name.replace(/\.(heic|heif)$/i, '.jpg'), {
+          type: 'image/jpeg',
+        });
       } catch (err) {
         toast.error('HEIC 이미지를 변환하는 데 실패했습니다.');
         setIsImageUploading(false);
@@ -267,9 +259,7 @@ const CommunityWrite = ({
 
         {/* 내용 입력 */}
         <div className="flex gap-2 sm:gap-4 mb-2 flex-col sm:flex-row sm:items-center">
-          <label className="w-20 text-gray-700 font-medium text-sm sm:text-base">
-            내용
-          </label>
+          <label className="w-20 text-gray-700 font-medium text-sm sm:text-base">내용</label>
           <textarea
             placeholder={`간호사 커뮤니티 이용 규칙 및 운영 정책\n
 	1. 홍보 및 상업적 활동 금지: 본 커뮤니티에서는 개인 또는 기업의 홍보 및 상업적 활동을 금지합니다. 제품 판매, 의료기관 및 특정 강의 홍보, 리크루팅 게시글, 영리 목적의 광고 등은 사전 경고 없이 삭제될 수 있으며, 반복적인 위반 시 계정 이용이 제한될 수 있습니다.\n
@@ -348,13 +338,7 @@ const CommunityWrite = ({
           <CommunityRegisterButton
             onClick={onRegister}
             disabled={!isFormValid || isImageUploading}
-            text={
-              isImageUploading
-                ? '이미지 업로드 중...'
-                : isEditMode
-                  ? '수정하기'
-                  : '등록하기'
-            }
+            text={isImageUploading ? '이미지 업로드 중...' : isEditMode ? '수정하기' : '등록하기'}
           />
         </div>
       </div>

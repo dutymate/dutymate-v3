@@ -1,10 +1,6 @@
+import { type DashboardStats, type WardSummary, adminService } from '@/services/adminService';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  adminService,
-  type WardSummary,
-  type DashboardStats,
-} from '@/services/adminService';
 
 const AdminWardList = () => {
   const navigate = useNavigate();
@@ -18,9 +14,7 @@ const AdminWardList = () => {
   const [maxNurseCount, setMaxNurseCount] = useState(0);
   const [maxTempNurseCount, setMaxTempNurseCount] = useState(0);
   const [updating, setUpdating] = useState(false);
-  const [dashboardStats, setDashboardStats] = useState<DashboardStats | null>(
-    null
-  );
+  const [dashboardStats, setDashboardStats] = useState<DashboardStats | null>(null);
 
   useEffect(() => {
     fetchWards(currentPage);
@@ -78,11 +72,7 @@ const AdminWardList = () => {
 
     try {
       setUpdating(true);
-      await adminService.updateWardCapacity(
-        editingWard.wardId,
-        maxNurseCount,
-        maxTempNurseCount
-      );
+      await adminService.updateWardCapacity(editingWard.wardId, maxNurseCount, maxTempNurseCount);
       // 성공 시 목록 새로고침
       await fetchWards(currentPage);
       handleCloseModal();
@@ -116,18 +106,14 @@ const AdminWardList = () => {
         <div className="mb-8 flex justify-between items-center">
           <h1 className="text-3xl font-bold text-gray-800">병동 관리</h1>
           <div className="text-sm text-gray-600">
-            총{' '}
-            <span className="font-semibold text-gray-800">{totalElements}</span>
-            개 병동
+            총 <span className="font-semibold text-gray-800">{totalElements}</span>개 병동
           </div>
         </div>
 
         {/* 서비스 운영 현황 대시보드 */}
         {dashboardStats && (
           <div className="mb-8">
-            <h2 className="text-lg font-semibold text-gray-700 mb-4">
-              서비스 운영 현황
-            </h2>
+            <h2 className="text-lg font-semibold text-gray-700 mb-4">서비스 운영 현황</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-5 text-white">
                 <div className="text-sm opacity-90 mb-1">실제 유저 수</div>
@@ -148,9 +134,7 @@ const AdminWardList = () => {
                 <div className="text-3xl font-bold">
                   {dashboardStats.yesterdayLoginCount.toLocaleString()}
                 </div>
-                <div className="text-xs opacity-75 mt-1">
-                  S3 로그 기반 (준비중)
-                </div>
+                <div className="text-xs opacity-75 mt-1">S3 로그 기반 (준비중)</div>
               </div>
             </div>
           </div>
@@ -190,10 +174,7 @@ const AdminWardList = () => {
               <tbody className="divide-y divide-gray-200">
                 {wards.length === 0 ? (
                   <tr>
-                    <td
-                      colSpan={8}
-                      className="px-6 py-12 text-center text-gray-500"
-                    >
+                    <td colSpan={8} className="px-6 py-12 text-center text-gray-500">
                       등록된 병동이 없습니다.
                     </td>
                   </tr>
@@ -204,20 +185,14 @@ const AdminWardList = () => {
                       onClick={() => handleWardClick(ward.wardId)}
                       className="hover:bg-gray-50 transition-colors cursor-pointer"
                     >
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        {ward.wardId}
-                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{ward.wardId}</td>
                       <td className="px-6 py-4 text-sm">
                         <span className="font-mono text-gray-800 bg-gray-100 px-2 py-1 rounded">
                           {ward.wardCode}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        {ward.hospitalName}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        {ward.wardName}
-                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{ward.hospitalName}</td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{ward.wardName}</td>
                       <td className="px-6 py-4 text-sm text-gray-700">
                         <span className="inline-flex items-center justify-center min-w-[32px] px-2 py-1 bg-blue-50 text-blue-700 rounded-full font-medium">
                           {ward.nursesCount}
@@ -290,16 +265,12 @@ const AdminWardList = () => {
         {editingWard && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-md">
-              <h2 className="text-xl font-bold text-gray-800 mb-4">
-                병동 정원 수정
-              </h2>
+              <h2 className="text-xl font-bold text-gray-800 mb-4">병동 정원 수정</h2>
               <div className="mb-4">
                 <p className="text-sm text-gray-600 mb-2">
                   병동: {editingWard.hospitalName} - {editingWard.wardName}
                 </p>
-                <p className="text-sm text-gray-500 mb-4">
-                  병동 코드: {editingWard.wardCode}
-                </p>
+                <p className="text-sm text-gray-500 mb-4">병동 코드: {editingWard.wardCode}</p>
               </div>
 
               <div className="space-y-4 mb-6">
@@ -324,9 +295,7 @@ const AdminWardList = () => {
                     type="number"
                     min="0"
                     value={maxTempNurseCount}
-                    onChange={(e) =>
-                      setMaxTempNurseCount(Number(e.target.value))
-                    }
+                    onChange={(e) => setMaxTempNurseCount(Number(e.target.value))}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>

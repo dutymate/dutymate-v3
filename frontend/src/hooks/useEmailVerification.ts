@@ -7,9 +7,7 @@ export const useEmailVerification = (mode: 'login' | 'signup' | 'reset') => {
   const [email, setEmail] = useState('');
   const [authCode, setAuthCode] = useState('');
   const [authCodeSent, setAuthCodeSent] = useState(false);
-  const [authCodeStatus, setAuthCodeStatus] = useState<
-    'idle' | 'success' | 'error'
-  >('idle');
+  const [authCodeStatus, setAuthCodeStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [isVerified, setIsVerified] = useState(false);
   const [timer, setTimer] = useState(300);
   const [authCodeExpired, setAuthCodeExpired] = useState(false);
@@ -24,10 +22,7 @@ export const useEmailVerification = (mode: 'login' | 'signup' | 'reset') => {
 
     const interval = setInterval(() => {
       const currentTime = Date.now();
-      const remainingTime = Math.max(
-        0,
-        Math.ceil((expectedEndTime - currentTime) / 1000)
-      );
+      const remainingTime = Math.max(0, Math.ceil((expectedEndTime - currentTime) / 1000));
 
       setTimer(remainingTime);
 
@@ -40,8 +35,7 @@ export const useEmailVerification = (mode: 'login' | 'signup' | 'reset') => {
     return () => clearInterval(interval);
   }, [authCodeSent, timer]); // timer 의존성 유지
 
-  const validateEmail = (email: string) =>
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const sendCode = async () => {
     if (!validateEmail(email.trim())) {

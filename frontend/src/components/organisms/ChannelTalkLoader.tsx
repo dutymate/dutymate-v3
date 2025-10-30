@@ -19,10 +19,7 @@ const ChannelTalkLoader = () => {
     // 외부 클릭 이벤트 핸들러
     const handleClickOutside = (event: MouseEvent) => {
       const channelTalkElement = document.querySelector('#ch-plugin');
-      if (
-        channelTalkElement &&
-        !channelTalkElement.contains(event.target as Node)
-      ) {
+      if (channelTalkElement && !channelTalkElement.contains(event.target as Node)) {
         channelService.hideMessenger();
       }
     };

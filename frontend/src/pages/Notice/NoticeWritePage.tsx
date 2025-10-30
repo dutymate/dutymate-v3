@@ -1,13 +1,13 @@
-// 공지사항 글쓰기
-import { useState, useEffect, forwardRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
+// 공지사항 글쓰기
+import { forwardRef, useEffect, useState } from 'react';
 import { FaChevronLeft } from 'react-icons/fa';
 import ReactQuill, { ReactQuillProps } from 'react-quill';
+import { useNavigate, useParams } from 'react-router-dom';
 import 'react-quill/dist/quill.snow.css';
-import { useUserAuthStore } from '../../stores/userAuthStore';
-import axiosInstance from '../../lib/axios';
 import { toast } from 'react-toastify';
+import axiosInstance from '../../lib/axios';
+import { useUserAuthStore } from '../../stores/userAuthStore';
 
 const NoticeWritePage = () => {
   const navigate = useNavigate();
@@ -112,9 +112,9 @@ const NoticeWritePage = () => {
       isPinned,
     };
 
-    const ReactQuillWrapper = forwardRef<ReactQuill, ReactQuillProps>(
-      (props, ref) => <ReactQuill {...props} ref={ref} />
-    );
+    const ReactQuillWrapper = forwardRef<ReactQuill, ReactQuillProps>((props, ref) => (
+      <ReactQuill {...props} ref={ref} />
+    ));
     ReactQuillWrapper.displayName = 'ReactQuillWrapper';
 
     setLoading(true);
@@ -131,31 +131,21 @@ const NoticeWritePage = () => {
       navigate('/notice');
     } catch (err) {
       console.error('공지사항 저장 실패:', err);
-      toast.error(
-        isEditMode
-          ? '공지사항 수정에 실패했습니다.'
-          : '공지사항 등록에 실패했습니다.'
-      );
+      toast.error(isEditMode ? '공지사항 수정에 실패했습니다.' : '공지사항 등록에 실패했습니다.');
     } finally {
       setLoading(false);
     }
   };
 
   if (loading) {
-    return (
-      <div className="container mx-auto px-4 py-8 text-center">로딩 중...</div>
-    );
+    return <div className="container mx-auto px-4 py-8 text-center">로딩 중...</div>;
   }
 
   return (
     <>
       <SEO
-        title={
-          isEditMode ? '공지사항 수정 | Dutymate' : '공지사항 작성 | Dutymate'
-        }
-        description={
-          isEditMode ? '공지사항을 수정하세요.' : '공지사항을 작성하세요.'
-        }
+        title={isEditMode ? '공지사항 수정 | Dutymate' : '공지사항 작성 | Dutymate'}
+        description={isEditMode ? '공지사항을 수정하세요.' : '공지사항을 작성하세요.'}
       />
       <div className="container mx-auto px-4 py-2 sm:py-8">
         <div className="max-w-3xl mx-auto">
@@ -179,10 +169,7 @@ const NoticeWritePage = () => {
           >
             <div className="mb-4">
               <div className="flex justify-between items-center mb-1">
-                <label
-                  htmlFor="notice-title"
-                  className="text-base font-semibold text-black"
-                >
+                <label htmlFor="notice-title" className="text-base font-semibold text-black">
                   제목
                 </label>
                 <span
@@ -212,10 +199,7 @@ const NoticeWritePage = () => {
 
             <div className="mb-4">
               <div className="flex justify-between items-center mb-1">
-                <label
-                  htmlFor="notice-content"
-                  className="text-base font-semibold text-black"
-                >
+                <label htmlFor="notice-content" className="text-base font-semibold text-black">
                   내용
                 </label>
                 <span
@@ -250,10 +234,7 @@ const NoticeWritePage = () => {
                   className="accent-primary w-4 h-4"
                   id="important-checkbox"
                 />
-                <label
-                  htmlFor="important-checkbox"
-                  className="text-base font-semibold text-black"
-                >
+                <label htmlFor="important-checkbox" className="text-base font-semibold text-black">
                   중요 공지사항으로 표시
                 </label>
               </div>

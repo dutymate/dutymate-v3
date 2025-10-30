@@ -7,10 +7,7 @@ const Error = () => {
 
   return (
     <>
-      <SEO
-        title="오류 | Dutymate"
-        description="오류가 발생했습니다. 다시 시도해주세요."
-      />
+      <SEO title="오류 | Dutymate" description="오류가 발생했습니다. 다시 시도해주세요." />
       <div className="min-h-screen bg-base-background flex flex-col items-center justify-center px-4">
         <div className="w-full max-w-md text-center space-y-8">
           {/* Error Icon */}
@@ -33,9 +30,7 @@ const Error = () => {
 
           {/* Error Message */}
           <div className="space-y-4">
-            <h1 className="text-2xl font-bold text-base-foreground">
-              페이지를 찾을 수 없습니다.
-            </h1>
+            <h1 className="text-2xl font-bold text-base-foreground">페이지를 찾을 수 없습니다.</h1>
             <p className="text-base-foreground/70">
               요청하신 페이지를 찾을 수 없거나 접근 권한이 없습니다.
             </p>

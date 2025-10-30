@@ -23,11 +23,7 @@ export interface ShiftState {
   selectedCell: { row: number; col: number } | null;
   updateQueue: UpdateQueueItem[];
   isProcessing: boolean;
-  fetchDutyInfo: (
-    year?: number,
-    month?: number,
-    historyIdx?: number
-  ) => Promise<void>;
+  fetchDutyInfo: (year?: number, month?: number, historyIdx?: number) => Promise<void>;
   updateShift: (params: UpdateQueueItem['params']) => Promise<void>;
   setSelectedCell: (cell: { row: number; col: number } | null) => void;
   setDutyInfo: (data: DutyInfo) => void;

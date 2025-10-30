@@ -52,8 +52,7 @@ const RemoveNurseConfirmModal = ({
     }
   };
 
-  const { title, message, cancelText, confirmText } =
-    getModalContent(removeTarget);
+  const { title, message, cancelText, confirmText } = getModalContent(removeTarget);
 
   return (
     <div
@@ -70,9 +69,7 @@ const RemoveNurseConfirmModal = ({
       >
         <div className="p-6">
           {/* 제목 */}
-          <h2 className="text-[0.9375rem] font-medium text-left mb-2">
-            {title}
-          </h2>
+          <h2 className="text-[0.9375rem] font-medium text-left mb-2">{title}</h2>
 
           {/* 메시지 표시 */}
           <p className="text-left mb-6 text-[0.9375rem]">{message}</p>
