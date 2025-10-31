@@ -8,10 +8,10 @@ import '@/styles/animations.css';
 
 import { SEO } from '@/components/SEO';
 import { Button } from '@/components/atoms/Button';
+import BuyMeACoffeeButton from '@/components/molecules/BuyMeACoffeeButton';
 import Footer from '@/components/organisms/Footer';
 // import UpdateNoticeModal from '@/components/organisms/UpdateNoticeModal';
 import LandingTemplate from '@/components/templates/LandingTemplate';
-import BuyMeACoffeeButton from '@/components/molecules/BuyMeACoffeeButton';
 import axiosInstance from '@/lib/axios';
 import useUserAuthStore from '@/stores/userAuthStore';
 
