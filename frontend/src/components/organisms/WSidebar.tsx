@@ -11,6 +11,7 @@ import { SlCalender } from 'react-icons/sl';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Profile from '@/components/atoms/Profile';
+import CoupangAd from '@/components/atoms/CoupangAd';
 import { useRequestCountStore } from '@/stores/requestCountStore';
 
 interface TooltipProps {
@@ -179,6 +180,21 @@ const Sidebar = ({ userType, isDemo }: SidebarProps) => {
           ))}
         </div>
       </nav>
+
+      {/* 쿠팡 배너 */}
+      <div className="px-[1.3rem] mb-4">
+        <CoupangAd
+          id={937614}
+          template="carousel"
+          trackingCode="AF7748427"
+          width={200}
+          height={220}
+          subId=""
+          tsource=""
+          className="rounded-lg overflow-hidden border border-gray-200 hover:border-primary transition-colors"
+        />
+      </div>
+
       <Profile />
     </div>
   );
