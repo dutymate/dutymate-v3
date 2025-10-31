@@ -11,6 +11,7 @@ import { Button } from '@/components/atoms/Button';
 import Footer from '@/components/organisms/Footer';
 // import UpdateNoticeModal from '@/components/organisms/UpdateNoticeModal';
 import LandingTemplate from '@/components/templates/LandingTemplate';
+import BuyMeACoffeeButton from '@/components/molecules/BuyMeACoffeeButton';
 import axiosInstance from '@/lib/axios';
 import useUserAuthStore from '@/stores/userAuthStore';
 
@@ -192,6 +193,8 @@ const Landing = () => {
             >
               <span className="text-[1rem]">시작하기</span>
             </Button>
+
+            <BuyMeACoffeeButton />
 
             <div className="w-full max-w-[23.2rem] mt-4 pt-4">
               <p className="text-center text-gray-600">
