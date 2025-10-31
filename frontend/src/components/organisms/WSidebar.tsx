@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AiFillSchedule } from 'react-icons/ai';
 import { BiSolidUserPin } from 'react-icons/bi';
 import { FaCoffee, FaHospital } from 'react-icons/fa';
@@ -10,8 +10,8 @@ import { IoIosChatboxes } from 'react-icons/io';
 import { SlCalender } from 'react-icons/sl';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-import Profile from '@/components/atoms/Profile';
 import CoupangAd from '@/components/atoms/CoupangAd';
+import Profile from '@/components/atoms/Profile';
 import { useRequestCountStore } from '@/stores/requestCountStore';
 
 interface TooltipProps {
@@ -143,6 +143,11 @@ const Sidebar = ({ userType, isDemo }: SidebarProps) => {
   const location = useLocation();
   const navigation = userType === 'HN' ? headNurseNavigation : staffNurseNavigation;
 
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const topSectionRef = useRef<HTMLDivElement>(null);
+  const profileRef = useRef<HTMLDivElement>(null);
+  const [adHeight, setAdHeight] = useState(220);
+
   useEffect(() => {
     if (
       isDemo &&
@@ -155,6 +160,35 @@ const Sidebar = ({ userType, isDemo }: SidebarProps) => {
     }
   }, [isDemo, location.pathname, navigate]);
 
+  useEffect(() => {
+    const calculateAdHeight = () => {
+      if (!sidebarRef.current || !topSectionRef.current || !profileRef.current) {
+        return;
+      }
+
+      const sidebarHeight = sidebarRef.current.clientHeight;
+      const topSectionHeight = topSectionRef.current.offsetHeight;
+      const profileHeight = profileRef.current.offsetHeight;
+      const padding = 16; // mb-4 (1rem = 16px)
+      const availableHeight = sidebarHeight - topSectionHeight - profileHeight - padding;
+
+      // 최소 높이 150px, 최대 높이 400px로 제한
+      const calculatedHeight = Math.max(150, Math.min(400, availableHeight));
+      setAdHeight(calculatedHeight);
+    };
+
+    calculateAdHeight();
+    window.addEventListener('resize', calculateAdHeight);
+
+    // 초기 계산을 위해 약간의 지연 추가
+    const timeoutId = setTimeout(calculateAdHeight, 100);
+
+    return () => {
+      window.removeEventListener('resize', calculateAdHeight);
+      clearTimeout(timeoutId);
+    };
+  }, [navigation.length, isDemo]);
+
   const handleLogoClick = () => {
     if (userType === 'HN') {
       navigate('/shift-admin');
@@ -164,38 +198,47 @@ const Sidebar = ({ userType, isDemo }: SidebarProps) => {
   };
 
   return (
-    <div className="fixed inset-y-0 left-0 z-40 flex flex-col bg-white w-[238px] border-r border-gray-200 rounded-tr-[18.47px] rounded-br-[18.47px] shadow-[0_4.62px_18.47px_rgba(0,0,0,0.05)]">
-      {/* Logo */}
-      <div className="flex items-center justify-center px-[1.875rem] pt-7">
-        <div className="w-[140px] cursor-pointer" onClick={handleLogoClick}>
-          <img alt="듀티메이트" src="/images/text-logo.svg" className="w-full" />
+    <div
+      ref={sidebarRef}
+      className="fixed inset-y-0 left-0 z-40 flex flex-col bg-white w-[238px] border-r border-gray-200 rounded-tr-[18.47px] rounded-br-[18.47px] shadow-[0_4.62px_18.47px_rgba(0,0,0,0.05)]"
+    >
+      {/* Logo + Navigation */}
+      <div ref={topSectionRef} className="flex-shrink-0">
+        {/* Logo */}
+        <div className="flex items-center justify-center px-[1.875rem] pt-7">
+          <div className="w-[140px] cursor-pointer" onClick={handleLogoClick}>
+            <img alt="듀티메이트" src="/images/text-logo.svg" className="w-full" />
+          </div>
         </div>
+
+        {/* Navigation */}
+        <nav className="py-4 mt-4">
+          <div className="flex flex-col space-y-[0.325rem] mb-5">
+            {navigation.map((item, index) => (
+              <NavigationItem key={index} item={item} isDemo={isDemo} />
+            ))}
+          </div>
+        </nav>
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 py-4 mt-4">
-        <div className="flex flex-col space-y-[0.325rem] mb-5">
-          {navigation.map((item, index) => (
-            <NavigationItem key={index} item={item} isDemo={isDemo} />
-          ))}
-        </div>
-      </nav>
-
-      {/* 쿠팡 배너 */}
-      <div className="px-[1.3rem] mb-4">
+      {/* 쿠팡 배너 - 동적 높이 */}
+      <div className="px-[1.3rem] mb-4 flex-shrink-0">
         <CoupangAd
           id={937614}
           template="carousel"
           trackingCode="AF7748427"
           width={200}
-          height={220}
+          height={adHeight}
           subId=""
           tsource=""
           className="rounded-lg overflow-hidden border border-gray-200 hover:border-primary transition-colors"
         />
       </div>
 
-      <Profile />
+      {/* Profile - 하단 고정 */}
+      <div ref={profileRef} className="flex-shrink-0 mt-auto">
+        <Profile />
+      </div>
     </div>
   );
 };

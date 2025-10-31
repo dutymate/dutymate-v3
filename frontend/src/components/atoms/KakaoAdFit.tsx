@@ -7,12 +7,7 @@ interface KakaoAdFitProps {
   className?: string;
 }
 
-const KakaoAdFit = ({
-  adUnit,
-  width = 728,
-  height = 90,
-  className = '',
-}: KakaoAdFitProps) => {
+const KakaoAdFit = ({ adUnit, width = 728, height = 90, className = '' }: KakaoAdFitProps) => {
   const adRef = useRef<HTMLModElement>(null);
   const scriptLoadedRef = useRef(false);
 
