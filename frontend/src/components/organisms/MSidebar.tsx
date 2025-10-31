@@ -7,10 +7,11 @@ import { HiOutlineUsers } from 'react-icons/hi2';
 import { IoIosChatboxes } from 'react-icons/io';
 import { IoCloseOutline } from 'react-icons/io5';
 // import { PiLightbulbFilamentFill } from 'react-icons/pi';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 // import { FaCoffee } from 'react-icons/fa';
 
 import Profile from '@/components/atoms/Profile';
+import CoupangAd from '@/components/atoms/CoupangAd';
 import { useRequestCountStore } from '@/stores/requestCountStore';
 
 interface NavigationItem {
@@ -46,6 +47,7 @@ const NavigationItem = React.memo(
     isDemo,
     userType,
   }: { item: NavigationItem; isDemo: boolean; userType: 'HN' | 'RN' }) => {
+    const location = useLocation();
     const requestCount = useRequestCountStore((state) => state.count);
     const demoBlockedRoutes = ['/community', '/my-page', '/group'];
     const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
@@ -161,6 +163,21 @@ const Sidebar = ({ userType, isDemo, isOpen, onClose }: SidebarProps) => {
             ))}
           </div>
         </nav>
+
+        {/* 쿠팡 배너 */}
+        <div className="px-[1.3rem] mb-4">
+          <CoupangAd
+            id={937614}
+            template="carousel"
+            trackingCode="AF7748427"
+            width={200}
+            height={220}
+            subId=""
+            tsource=""
+            className="rounded-lg overflow-hidden border border-gray-200 hover:border-primary transition-colors"
+          />
+        </div>
+
         <Profile />
       </div>
     </>
