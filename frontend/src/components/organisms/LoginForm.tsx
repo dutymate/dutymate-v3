@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { EmailInput, PasswordInput } from '@/components/atoms/Input';
 import userService from '@/services/userService';
 import useUserAuthStore from '@/stores/userAuthStore';
+import { useIsApp } from '@/hooks/useIsApp';
 
 interface LoginData {
   email: string;
@@ -23,6 +24,7 @@ const LoginForm = ({ onRequireVerification }: LoginFormProps) => {
   const navigate = useNavigate();
   const userAuthStore = useUserAuthStore();
   const { setTimeout } = userAuthStore;
+  const isApp = useIsApp();
 
   const [loginData, setLoginData] = useState<LoginData>({
     email: '',
@@ -36,7 +38,20 @@ const LoginForm = ({ onRequireVerification }: LoginFormProps) => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = import.meta.env.VITE_GOOGLE_LOGIN_URL;
+    // window.location.href = import.meta.env.VITE_GOOGLE_LOGIN_URL;
+
+    const loginUrl = import.meta.env.VITE_GOOGLE_LOGIN_URL;
+
+    if (isApp && (window as any).webkit?.messageHandlers?.dutymateiOSApp) {
+      // JSON payload로 액션 분기
+      (window as any).webkit.messageHandlers.dutymateiOSApp.postMessage({
+        type: 'OPEN_ASWEBAUTH',
+        url: loginUrl,
+      });
+    } else {
+      // 웹(브라우저)에서는 기존 플로우 유지
+      window.location.href = loginUrl;
+    }
   };
 
   const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {

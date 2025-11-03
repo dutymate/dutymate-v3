@@ -1,0 +1,625 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		119C966F2EB5F33F00F04DC7 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 119C966E2EB5F33F00F04DC7 /* GoogleSignIn */; };
+		119C96712EB5F33F00F04DC7 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 119C96702EB5F33F00F04DC7 /* GoogleSignInSwift */; };
+		11FF51642EB4AF1F00167C28 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 11FF51632EB4AF1F00167C28 /* FirebaseAnalytics */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C8F18C382EB3579F00DF2C04 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C8F18C192EB3579C00DF2C04 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C8F18C202EB3579C00DF2C04;
+			remoteInfo = "dutymate-ios-app";
+		};
+		C8F18C422EB3579F00DF2C04 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C8F18C192EB3579C00DF2C04 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C8F18C202EB3579C00DF2C04;
+			remoteInfo = "dutymate-ios-app";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		C8F18C212EB3579C00DF2C04 /* dutymate-ios-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "dutymate-ios-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8F18C372EB3579F00DF2C04 /* dutymate-ios-appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "dutymate-ios-appTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8F18C412EB3579F00DF2C04 /* dutymate-ios-appUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "dutymate-ios-appUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C8F18C492EB3579F00DF2C04 /* Exceptions for "dutymate-ios-app" folder in "dutymate-ios-app" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C8F18C202EB3579C00DF2C04 /* dutymate-ios-app */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		C8F18C232EB3579C00DF2C04 /* dutymate-ios-app */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C8F18C492EB3579F00DF2C04 /* Exceptions for "dutymate-ios-app" folder in "dutymate-ios-app" target */,
+			);
+			path = "dutymate-ios-app";
+			sourceTree = "<group>";
+		};
+		C8F18C3A2EB3579F00DF2C04 /* dutymate-ios-appTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "dutymate-ios-appTests";
+			sourceTree = "<group>";
+		};
+		C8F18C442EB3579F00DF2C04 /* dutymate-ios-appUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "dutymate-ios-appUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C8F18C1E2EB3579C00DF2C04 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				119C96712EB5F33F00F04DC7 /* GoogleSignInSwift in Frameworks */,
+				11FF51642EB4AF1F00167C28 /* FirebaseAnalytics in Frameworks */,
+				119C966F2EB5F33F00F04DC7 /* GoogleSignIn in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C8F18C342EB3579F00DF2C04 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C8F18C3E2EB3579F00DF2C04 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C8F18C182EB3579C00DF2C04 = {
+			isa = PBXGroup;
+			children = (
+				C8F18C232EB3579C00DF2C04 /* dutymate-ios-app */,
+				C8F18C3A2EB3579F00DF2C04 /* dutymate-ios-appTests */,
+				C8F18C442EB3579F00DF2C04 /* dutymate-ios-appUITests */,
+				C8F18C222EB3579C00DF2C04 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C8F18C222EB3579C00DF2C04 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C8F18C212EB3579C00DF2C04 /* dutymate-ios-app.app */,
+				C8F18C372EB3579F00DF2C04 /* dutymate-ios-appTests.xctest */,
+				C8F18C412EB3579F00DF2C04 /* dutymate-ios-appUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C8F18C202EB3579C00DF2C04 /* dutymate-ios-app */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C8F18C4A2EB3579F00DF2C04 /* Build configuration list for PBXNativeTarget "dutymate-ios-app" */;
+			buildPhases = (
+				C8F18C1D2EB3579C00DF2C04 /* Sources */,
+				C8F18C1E2EB3579C00DF2C04 /* Frameworks */,
+				C8F18C1F2EB3579C00DF2C04 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				C8F18C232EB3579C00DF2C04 /* dutymate-ios-app */,
+			);
+			name = "dutymate-ios-app";
+			packageProductDependencies = (
+				11FF51632EB4AF1F00167C28 /* FirebaseAnalytics */,
+				119C966E2EB5F33F00F04DC7 /* GoogleSignIn */,
+				119C96702EB5F33F00F04DC7 /* GoogleSignInSwift */,
+			);
+			productName = "dutymate-ios-app";
+			productReference = C8F18C212EB3579C00DF2C04 /* dutymate-ios-app.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C8F18C362EB3579F00DF2C04 /* dutymate-ios-appTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C8F18C4F2EB3579F00DF2C04 /* Build configuration list for PBXNativeTarget "dutymate-ios-appTests" */;
+			buildPhases = (
+				C8F18C332EB3579F00DF2C04 /* Sources */,
+				C8F18C342EB3579F00DF2C04 /* Frameworks */,
+				C8F18C352EB3579F00DF2C04 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C8F18C392EB3579F00DF2C04 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C8F18C3A2EB3579F00DF2C04 /* dutymate-ios-appTests */,
+			);
+			name = "dutymate-ios-appTests";
+			packageProductDependencies = (
+			);
+			productName = "dutymate-ios-appTests";
+			productReference = C8F18C372EB3579F00DF2C04 /* dutymate-ios-appTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C8F18C402EB3579F00DF2C04 /* dutymate-ios-appUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C8F18C522EB3579F00DF2C04 /* Build configuration list for PBXNativeTarget "dutymate-ios-appUITests" */;
+			buildPhases = (
+				C8F18C3D2EB3579F00DF2C04 /* Sources */,
+				C8F18C3E2EB3579F00DF2C04 /* Frameworks */,
+				C8F18C3F2EB3579F00DF2C04 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C8F18C432EB3579F00DF2C04 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C8F18C442EB3579F00DF2C04 /* dutymate-ios-appUITests */,
+			);
+			name = "dutymate-ios-appUITests";
+			packageProductDependencies = (
+			);
+			productName = "dutymate-ios-appUITests";
+			productReference = C8F18C412EB3579F00DF2C04 /* dutymate-ios-appUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C8F18C192EB3579C00DF2C04 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1640;
+				LastUpgradeCheck = 1640;
+				TargetAttributes = {
+					C8F18C202EB3579C00DF2C04 = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					C8F18C362EB3579F00DF2C04 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = C8F18C202EB3579C00DF2C04;
+					};
+					C8F18C402EB3579F00DF2C04 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = C8F18C202EB3579C00DF2C04;
+					};
+				};
+			};
+			buildConfigurationList = C8F18C1C2EB3579C00DF2C04 /* Build configuration list for PBXProject "dutymate-ios-app" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C8F18C182EB3579C00DF2C04;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				11FF51622EB4AF1F00167C28 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				119C966D2EB5F33F00F04DC7 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = C8F18C222EB3579C00DF2C04 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C8F18C202EB3579C00DF2C04 /* dutymate-ios-app */,
+				C8F18C362EB3579F00DF2C04 /* dutymate-ios-appTests */,
+				C8F18C402EB3579F00DF2C04 /* dutymate-ios-appUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C8F18C1F2EB3579C00DF2C04 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C8F18C352EB3579F00DF2C04 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C8F18C3F2EB3579F00DF2C04 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C8F18C1D2EB3579C00DF2C04 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C8F18C332EB3579F00DF2C04 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C8F18C3D2EB3579F00DF2C04 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C8F18C392EB3579F00DF2C04 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C8F18C202EB3579C00DF2C04 /* dutymate-ios-app */;
+			targetProxy = C8F18C382EB3579F00DF2C04 /* PBXContainerItemProxy */;
+		};
+		C8F18C432EB3579F00DF2C04 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C8F18C202EB3579C00DF2C04 /* dutymate-ios-app */;
+			targetProxy = C8F18C422EB3579F00DF2C04 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		C8F18C4B2EB3579F00DF2C04 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "dutymate-ios-app/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "듀티메이트";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "dutymate.dutymate-ios-app";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C8F18C4C2EB3579F00DF2C04 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "dutymate-ios-app/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "듀티메이트";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "dutymate.dutymate-ios-app";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C8F18C4D2EB3579F00DF2C04 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C8F18C4E2EB3579F00DF2C04 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C8F18C502EB3579F00DF2C04 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "dutymate.dutymate-ios-appTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/dutymate-ios-app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/dutymate-ios-app";
+			};
+			name = Debug;
+		};
+		C8F18C512EB3579F00DF2C04 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "dutymate.dutymate-ios-appTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/dutymate-ios-app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/dutymate-ios-app";
+			};
+			name = Release;
+		};
+		C8F18C532EB3579F00DF2C04 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "dutymate.dutymate-ios-appUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "dutymate-ios-app";
+			};
+			name = Debug;
+		};
+		C8F18C542EB3579F00DF2C04 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "dutymate.dutymate-ios-appUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "dutymate-ios-app";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C8F18C1C2EB3579C00DF2C04 /* Build configuration list for PBXProject "dutymate-ios-app" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C8F18C4D2EB3579F00DF2C04 /* Debug */,
+				C8F18C4E2EB3579F00DF2C04 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C8F18C4A2EB3579F00DF2C04 /* Build configuration list for PBXNativeTarget "dutymate-ios-app" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C8F18C4B2EB3579F00DF2C04 /* Debug */,
+				C8F18C4C2EB3579F00DF2C04 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C8F18C4F2EB3579F00DF2C04 /* Build configuration list for PBXNativeTarget "dutymate-ios-appTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C8F18C502EB3579F00DF2C04 /* Debug */,
+				C8F18C512EB3579F00DF2C04 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C8F18C522EB3579F00DF2C04 /* Build configuration list for PBXNativeTarget "dutymate-ios-appUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C8F18C532EB3579F00DF2C04 /* Debug */,
+				C8F18C542EB3579F00DF2C04 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		119C966D2EB5F33F00F04DC7 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+		11FF51622EB4AF1F00167C28 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		119C966E2EB5F33F00F04DC7 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 119C966D2EB5F33F00F04DC7 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		119C96702EB5F33F00F04DC7 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 119C966D2EB5F33F00F04DC7 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+		11FF51632EB4AF1F00167C28 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 11FF51622EB4AF1F00167C28 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = C8F18C192EB3579C00DF2C04 /* Project object */;
+}
