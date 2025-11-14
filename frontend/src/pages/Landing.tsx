@@ -14,6 +14,7 @@ import Footer from '@/components/organisms/Footer';
 import LandingTemplate from '@/components/templates/LandingTemplate';
 import axiosInstance from '@/lib/axios';
 import useUserAuthStore from '@/stores/userAuthStore';
+import LandingMain from '@/components/organisms/LandingMain';
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -216,6 +217,9 @@ const Landing = () => {
             </div>
           </div>
         </LandingTemplate>
+
+        <LandingMain />
+
         <div className="mt-auto">
           <Footer />
         </div>
