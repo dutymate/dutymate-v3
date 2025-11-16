@@ -1,5 +1,5 @@
-import React from 'react';
 import { motion, useAnimation } from 'framer-motion';
+import React from 'react';
 import { useInView } from 'react-intersection-observer';
 
 const features = [
@@ -80,7 +80,7 @@ const LandingSection = ({ feature }: any) => {
   }, [controls, inView]);
 
   // 들어오기 전 상태 (왼쪽 또는 오른쪽)
-  const initialX = feature.align === 'right' ? 80 : -80;
+  const initialX = feature.align === 'right' ? '5%' : '-5%';
 
   return (
     <motion.div

@@ -10,11 +10,11 @@ import { SEO } from '@/components/SEO';
 import { Button } from '@/components/atoms/Button';
 import BuyMeACoffeeButton from '@/components/molecules/BuyMeACoffeeButton';
 import Footer from '@/components/organisms/Footer';
+import LandingMain from '@/components/organisms/LandingMain';
 // import UpdateNoticeModal from '@/components/organisms/UpdateNoticeModal';
 import LandingTemplate from '@/components/templates/LandingTemplate';
 import axiosInstance from '@/lib/axios';
 import useUserAuthStore from '@/stores/userAuthStore';
-import LandingMain from '@/components/organisms/LandingMain';
 
 const Landing = () => {
   const navigate = useNavigate();
