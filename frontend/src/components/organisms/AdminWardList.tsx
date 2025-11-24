@@ -1,12 +1,13 @@
+//admin 병동 관리 컴포넌트
 import { type DashboardStats, type WardSummary, adminService } from '@/services/adminService';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const AdminWardList = () => {
+const AdminWardList = ({ initialPage }: { initialPage: number }) => {
   const navigate = useNavigate();
   const [wards, setWards] = useState<WardSummary[]>([]);
   const [totalElements, setTotalElements] = useState(0);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -24,7 +25,7 @@ const AdminWardList = () => {
   const fetchWards = async (page: number) => {
     try {
       setLoading(true);
-      const response = await adminService.getAllWards(page, 20);
+      const response = await adminService.getAllWards(page, 10);
       setWards(response.wards);
       setTotalElements(response.totalElements);
       setTotalPages(response.totalPages);
@@ -48,10 +49,14 @@ const AdminWardList = () => {
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
+
+    const params = new URLSearchParams(location.search);
+    params.set('page', String(newPage + 1));
+    window.history.replaceState({}, '', `${location.pathname}?${params.toString()}`);
   };
 
   const handleWardClick = (wardId: number) => {
-    navigate(`/admin/wards/${wardId}/shift`);
+    navigate(`/admin/wards/${wardId}/shift?page=${currentPage + 1}`);
   };
 
   const handleEditClick = (e: React.MouseEvent, ward: WardSummary) => {
@@ -87,7 +92,7 @@ const AdminWardList = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center">
-        <div className="text-lg text-gray-600">로딩중...</div>
+        <div className="text-base text-gray-600">로딩중...</div>
       </div>
     );
   }
@@ -101,10 +106,9 @@ const AdminWardList = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F5F5] p-8">
+    <div className="min-h-screen bg-[#F5F5F5] p-7">
       <div className="max-w-[1400px] mx-auto">
-        <div className="mb-8 flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-gray-800">병동 관리</h1>
+        <div className="mb-4 flex justify-between items-center">
           <div className="text-sm text-gray-600">
             총 <span className="font-semibold text-gray-800">{totalElements}</span>개 병동
           </div>
@@ -112,29 +116,29 @@ const AdminWardList = () => {
 
         {/* 서비스 운영 현황 대시보드 */}
         {dashboardStats && (
-          <div className="mb-8">
-            <h2 className="text-lg font-semibold text-gray-700 mb-4">서비스 운영 현황</h2>
+          <div className="mb-6">
+            {/* <h2 className="text-ms font-semibold text-gray-700 mb-2">서비스 운영 현황</h2> */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-5 text-white">
+              <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-3 text-white">
                 <div className="text-sm opacity-90 mb-1">실제 유저 수</div>
-                <div className="text-3xl font-bold">
+                <div className="text-2xl font-bold">
                   {dashboardStats.totalUsers.toLocaleString()}
                 </div>
-                <div className="text-xs opacity-75 mt-1">tempEmail 제외</div>
+                {/* <div className="text-xs opacity-75 mt-1">tempEmail 제외</div> */}
               </div>
-              <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-5 text-white">
+              <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-3 text-white">
                 <div className="text-sm opacity-90 mb-1">총 병동 수</div>
-                <div className="text-3xl font-bold">
+                <div className="text-2xl font-bold">
                   {dashboardStats.totalWards.toLocaleString()}
                 </div>
-                <div className="text-xs opacity-75 mt-1">운영 중인 병동</div>
+                {/* <div className="text-xs opacity-75 mt-1">운영 중인 병동</div> */}
               </div>
-              <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg p-5 text-white">
+              <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg p-3 text-white">
                 <div className="text-sm opacity-90 mb-1">어제 로그인 유저</div>
-                <div className="text-3xl font-bold">
+                <div className="text-2xl font-bold">
                   {dashboardStats.yesterdayLoginCount.toLocaleString()}
                 </div>
-                <div className="text-xs opacity-75 mt-1">S3 로그 기반 (준비중)</div>
+                {/* <div className="text-xs opacity-75 mt-1">S3 로그 기반 (준비중)</div> */}
               </div>
             </div>
           </div>
@@ -145,28 +149,28 @@ const AdminWardList = () => {
             <table className="w-full">
               <thead>
                 <tr className="bg-gray-50 border-b border-gray-200">
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  <th className="px-6 py-2.5 text-left text-[13px] font-semibold text-gray-700">
                     병동 ID
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  <th className="px-6 py-2.5 text-left text-[13px] font-semibold text-gray-700">
                     병동 코드
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  <th className="px-6 py-2.5 text-left text-[13px] font-semibold text-gray-700">
                     병원명
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  <th className="px-6 py-2.5 text-left text-[13px] font-semibold text-gray-700">
                     병동명
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  <th className="px-6 py-2.5 text-left text-[13px] font-semibold text-gray-700">
                     간호사 수
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  <th className="px-6 py-2.5 text-left text-[13px] font-semibold text-gray-700">
                     최대 간호사
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  <th className="px-6 py-2.5 text-left text-[13px] font-semibold text-gray-700">
                     최대 임시간호사
                   </th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-700">
+                  <th className="px-6 py-2.5 text-center text-[13px] font-semibold text-gray-700">
                     작업
                   </th>
                 </tr>
@@ -174,7 +178,7 @@ const AdminWardList = () => {
               <tbody className="divide-y divide-gray-200">
                 {wards.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="px-6 py-12 text-center text-gray-500">
+                    <td colSpan={8} className="px-6 py-6 text-center text-gray-500">
                       등록된 병동이 없습니다.
                     </td>
                   </tr>
@@ -185,33 +189,33 @@ const AdminWardList = () => {
                       onClick={() => handleWardClick(ward.wardId)}
                       className="hover:bg-gray-50 transition-colors cursor-pointer"
                     >
-                      <td className="px-6 py-4 text-sm text-gray-700">{ward.wardId}</td>
-                      <td className="px-6 py-4 text-sm">
+                      <td className="px-6 py-1.5 text-[13px] text-gray-700">{ward.wardId}</td>
+                      <td className="px-6 py-1.5 text-[13px]">
                         <span className="font-mono text-gray-800 bg-gray-100 px-2 py-1 rounded">
                           {ward.wardCode}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">{ward.hospitalName}</td>
-                      <td className="px-6 py-4 text-sm text-gray-700">{ward.wardName}</td>
-                      <td className="px-6 py-4 text-sm text-gray-700">
+                      <td className="px-6 py-1.5 text-[13px] text-gray-700">{ward.hospitalName}</td>
+                      <td className="px-6 py-1.5 text-[13px] text-gray-700">{ward.wardName}</td>
+                      <td className="px-6 py-1.5 text-[13px] text-gray-700">
                         <span className="inline-flex items-center justify-center min-w-[32px] px-2 py-1 bg-blue-50 text-blue-700 rounded-full font-medium">
                           {ward.nursesCount}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">
+                      <td className="px-6 py-1.5 text-[13px] text-gray-700">
                         <span className="inline-flex items-center justify-center min-w-[32px] px-2 py-1 bg-gray-100 text-gray-700 rounded-full font-medium">
                           {ward.maxNurseCount}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">
+                      <td className="px-6 py-1.5 text-[13px] text-gray-700">
                         <span className="inline-flex items-center justify-center min-w-[32px] px-2 py-1 bg-gray-100 text-gray-700 rounded-full font-medium">
                           {ward.maxTempNurseCount}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-center">
+                      <td className="px-6 py-1.5 text-center">
                         <button
                           onClick={(e) => handleEditClick(e, ward)}
-                          className="px-3 py-1 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
+                          className="px-3 py-1.5 text-[13px] font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
                         >
                           수정
                         </button>
@@ -224,7 +228,7 @@ const AdminWardList = () => {
           </div>
 
           {/* 페이지네이션 */}
-          <div className="px-6 py-4 border-t border-gray-200 bg-gray-50">
+          <div className="px-6 py-2 border-t border-gray-200 bg-gray-50">
             <div className="flex items-center justify-center gap-2">
               <button
                 onClick={() => handlePageChange(0)}
