@@ -1,9 +1,14 @@
 import { ReactElement, useEffect } from 'react';
 import { Navigate, Route, Routes, useParams } from 'react-router-dom';
 
-import AdminDashboard from '@/pages/AdminDashboard';
-import AdminWardList from '@/pages/AdminWardList';
-import AdminWardShift from '@/pages/AdminWardShift';
+import AdminDashboardPage from '@/pages/AdminDashboardPage';
+import AdminNursesPage from '@/pages/AdminNursesPage';
+// import { P } from 'node_modules/framer-motion/dist/types.d-BJcRxCew';
+import AdminWardPage from '@/pages/AdminWardPage';
+import AdminWardShiftPage from '@/pages/AdminWardShiftPage';
+// import AdminDashboard from '@/components/organisms/AdminDashboard';
+// import AdminWardList from '@/components/organisms/AdminWardList';
+// import AdminWardShift from '@/components/organisms/AdminWardShift';
 import Community from '@/pages/Community';
 import CommunityDetailPage from '@/pages/CommunityDetailPage';
 import CommunityWritePage from '@/pages/CommunityWritePage';
@@ -93,12 +98,17 @@ const Router = () => {
       />
 
       {/* 관리자 페이지 */}
-      <Route path="/admin/dashboard" element={<ProtectedRoute element={<AdminDashboard />} />} />
-      <Route path="/admin/wards" element={<ProtectedRoute element={<AdminWardList />} />} />
+      <Route path="/admin/wards" element={<ProtectedRoute element={<AdminWardPage />} />} />
+      <Route
+        path="/admin/dashboard"
+        element={<ProtectedRoute element={<AdminDashboardPage />} />}
+      />
+      {/* <Route path="/admin/wards" element={<ProtectedRoute element={<AdminWardList />} />} /> */}
       <Route
         path="/admin/wards/:wardId/shift"
-        element={<ProtectedRoute element={<AdminWardShift />} />}
+        element={<ProtectedRoute element={<AdminWardShiftPage />} />}
       />
+      <Route path="/admin/nurses" element={<ProtectedRoute element={<AdminNursesPage />} />} />
 
       {/* 그룹 초대 링크 - 로그인 필요 */}
       <Route path="/invite/:inviteToken" element={<InviteRoute element={<GroupInvitePage />} />} />
