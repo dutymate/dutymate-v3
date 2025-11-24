@@ -68,7 +68,7 @@ const AdminDashboard = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center">
-        <div className="text-lg text-gray-600">로딩중...</div>
+        <div className="text-base text-gray-600">로딩중...</div>
       </div>
     );
   }
@@ -76,7 +76,7 @@ const AdminDashboard = () => {
   if (error) {
     return (
       <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center">
-        <div className="text-lg text-red-500">{error}</div>
+        <div className="text-base text-red-500">{error}</div>
       </div>
     );
   }
@@ -84,7 +84,7 @@ const AdminDashboard = () => {
   if (!stats) {
     return (
       <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center">
-        <div className="text-lg text-gray-600">데이터가 없습니다.</div>
+        <div className="text-base text-gray-600">데이터가 없습니다.</div>
       </div>
     );
   }
