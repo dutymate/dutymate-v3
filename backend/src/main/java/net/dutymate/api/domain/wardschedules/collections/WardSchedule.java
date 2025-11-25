@@ -36,6 +36,10 @@ public class WardSchedule {
 	private int year;
 	private int month;
 
+	@Setter
+	@Field("nurse_order")
+	private List<Long> nurseOrder;
+
 	@Field("now_idx")
 	private int nowIdx;
 
