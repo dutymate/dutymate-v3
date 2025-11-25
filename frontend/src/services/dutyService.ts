@@ -70,6 +70,7 @@ export interface DutyInfo {
   }[];
   issues: DutyIssue[];
   histories: DutyHistory[];
+  nurseOrder: number[];
 }
 
 export interface DutyUpdateRequest {
@@ -114,8 +115,9 @@ export type SubscriptionPlan = 'monthly' | 'quarterly' | 'yearly';
 
 // 간호사 순서 업데이트 인터페이스 추가
 export interface NurseOrderUpdate {
-  memberId: number;
-  order: number;
+  year: number;
+  month: number;
+  nurseOrder: number[];
 }
 
 // API 서비스
@@ -295,7 +297,7 @@ export const dutyService = {
     return axiosInstance
       .get('/duty', { params })
       .then((response) => {
-        return response.data as DutyInfo;
+        return applyNurseOrder(response.data as DutyInfo); // 정렬 후 반환
       })
       .catch((error) => {
         if (error.code === 'ERR_NETWORK') {
@@ -449,11 +451,9 @@ export const dutyService = {
    * 간호사 표시 순서 업데이트
    * @param nurseOrders - 업데이트할 간호사 순서 배열
    */
-  updateNurseOrder: async (nurseOrders: NurseOrderUpdate[]) => {
+  updateNurseOrder: async (nurseOrder: NurseOrderUpdate) => {
     try {
-      const response = await axiosInstance.put('/duty/nurse-order', {
-        nurseOrders,
-      });
+      const response = await axiosInstance.put('/duty/nurse-order', nurseOrder);
       return response.data;
     } catch (error) {
       console.error('간호사 순서 업데이트 실패:', error);
@@ -464,3 +464,45 @@ export const dutyService = {
     }
   },
 };
+
+/**
+ * 간호사 순서(nurseOrder)를 기반으로 duty 배열을 정렬합니다.
+ *
+ * - nurseOrder에 포함된 ID 중 현재 duty 목록에 존재하는 ID만 유지합니다.
+ * - nurseOrder에 없는 새로운 간호사 ID는 맨 뒤에 추가합니다.
+ * - 최종적으로 정렬된 duty 배열을 포함한 새로운 DutyInfo 객체를 반환합니다.
+ *
+ * @param dutyInfo - 서버에서 내려온 전체 근무표 정보
+ * @returns duty 배열이 nurseOrder 기준으로 정렬된 DutyInfo 객체
+ */
+function applyNurseOrder(dutyInfo: DutyInfo): DutyInfo {
+  const orderData = dutyInfo.nurseOrder; // ex) [1, 2, 3, 4]
+  const dutyData = dutyInfo.duty; // 간호사 배열
+
+  // nurseOrder가 null, undefined, 빈 배열이면 정렬하지 않고 그대로 반환
+  if (!orderData || orderData.length === 0) {
+    return dutyInfo;
+  }
+
+  // 간호사 memberId 목록
+  const currentNurseIds = dutyData.map((n) => n.memberId);
+
+  // 순서 배열 중 실제 존재하는 ID만
+  const validOrderIds = orderData.filter((id) => currentNurseIds.includes(id));
+
+  // 새로 추가된 간호사 (order에 없음)
+  const newNurseIds = currentNurseIds.filter((id) => !validOrderIds.includes(id));
+
+  // 최종 순서 = 서버 제공 순서 + 신규 간호사
+  const finalOrder = [...validOrderIds, ...newNurseIds];
+
+  // 순서에 따라 duty 정렬
+  const orderedDuty = finalOrder
+    .map((id) => dutyData.find((n) => n.memberId === id))
+    .filter(Boolean) as typeof dutyData;
+
+  return {
+    ...dutyInfo,
+    duty: orderedDuty,
+  };
+}
