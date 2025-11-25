@@ -26,10 +26,11 @@ public class WardScheduleResponseDto {
 	private List<Issue> issues;
 	private List<History> histories;
 	private List<RequestDto> requests;
+	private List<Long> nurseOrder;
 
 	public static WardScheduleResponseDto of(
 		String id, YearMonth yearMonth, Integer invalidCnt, List<NurseShifts> duty, List<Issue> issues,
-		List<History> histories, List<RequestDto> requests) {
+		List<History> histories, List<RequestDto> requests, List<Long> nurseOrder) {
 		return WardScheduleResponseDto.builder()
 			.id(id)
 			.year(yearMonth.year())
@@ -39,6 +40,7 @@ public class WardScheduleResponseDto {
 			.issues(issues)
 			.histories(histories)
 			.requests(requests)
+			.nurseOrder(nurseOrder)
 			.build();
 	}
 

@@ -428,58 +428,58 @@ const ShiftAdminTable = memo(
     const [isSavingOrder, setIsSavingOrder] = useState(false);
 
     // Local Storage 키 생성 (사용자 ID + 병동 ID + 연월 기반)
-    const getLocalStorageKey = () => {
-      const userId = userInfo?.memberId || 'unknown';
-      const wardId = window.location.pathname.includes('shift-admin') ? 'admin' : 'team';
-      return `nurse-order-${userId}-${wardId}-${year}-${month}`;
-    };
+    // const getLocalStorageKey = () => {
+    //   const userId = userInfo?.memberId || 'unknown';
+    //   const wardId = window.location.pathname.includes('shift-admin') ? 'admin' : 'team';
+    //   return `nurse-order-${userId}-${wardId}-${year}-${month}`;
+    // };
 
     // localStorage에서 간호사 순서 불러오기
-    const loadNurseOrderFromStorage = useCallback(() => {
-      try {
-        const key = getLocalStorageKey();
-        const savedOrder = localStorage.getItem(key);
+    // const loadNurseOrderFromStorage = useCallback(() => {
+    //   try {
+    //     const key = getLocalStorageKey();
+    //     const savedOrder = localStorage.getItem(key);
 
-        if (savedOrder) {
-          const orderData = JSON.parse(savedOrder);
+    //     if (savedOrder) {
+    //       const orderData = JSON.parse(savedOrder);
 
-          // 저장된 순서 정보가 있으면 현재 간호사 목록에 적용
-          if (Array.isArray(orderData) && orderData.length > 0 && dutyData.length > 0) {
-            // 현재 간호사 ID 목록
-            const currentNurseIds = dutyData.map((nurse) => nurse.memberId);
+    //       // 저장된 순서 정보가 있으면 현재 간호사 목록에 적용
+    //       if (Array.isArray(orderData) && orderData.length > 0 && dutyData.length > 0) {
+    //         // 현재 간호사 ID 목록
+    //         const currentNurseIds = dutyData.map((nurse) => nurse.memberId);
 
-            // 저장된 순서에 있는 간호사 ID만 필터링
-            const validOrderIds = orderData.filter((id) => currentNurseIds.includes(id));
+    //         // 저장된 순서에 있는 간호사 ID만 필터링
+    //         const validOrderIds = orderData.filter((id) => currentNurseIds.includes(id));
 
-            // 저장된 순서에 없는 간호사 ID들 (새로 추가된 간호사들)
-            const newNurseIds = currentNurseIds.filter((id) => !validOrderIds.includes(id));
+    //         // 저장된 순서에 없는 간호사 ID들 (새로 추가된 간호사들)
+    //         const newNurseIds = currentNurseIds.filter((id) => !validOrderIds.includes(id));
 
-            // 최종 순서 = 저장된 순서 + 새로 추가된 간호사들
-            const finalOrder = [...validOrderIds, ...newNurseIds];
+    //         // 최종 순서 = 저장된 순서 + 새로 추가된 간호사들
+    //         const finalOrder = [...validOrderIds, ...newNurseIds];
 
-            // 최종 순서대로 간호사 데이터 정렬
-            const orderedNurses = finalOrder
-              .map((id) => dutyData.find((nurse) => nurse.memberId === id))
-              .filter(Boolean) as typeof dutyData;
+    //         // 최종 순서대로 간호사 데이터 정렬
+    //         const orderedNurses = finalOrder
+    //           .map((id) => dutyData.find((nurse) => nurse.memberId === id))
+    //           .filter(Boolean) as typeof dutyData;
 
-            if (orderedNurses.length === dutyData.length) {
-              setSortedDutyData(orderedNurses);
-            }
-          }
-        }
-      } catch (error) {
-        console.error('간호사 순서 불러오기 실패:', error);
-      }
-    }, [dutyData, year, month, userInfo]);
+    //         if (orderedNurses.length === dutyData.length) {
+    //           setSortedDutyData(orderedNurses);
+    //         }
+    //       }
+    //     }
+    //   } catch (error) {
+    //     console.error('간호사 순서 불러오기 실패:', error);
+    //   }
+    // }, [dutyData, year, month, userInfo]);
 
     // dutyData가 변경되면 로컬 스토리지에서 순서 불러오기
-    useEffect(() => {
-      if (dutyData.length > 0) {
-        loadNurseOrderFromStorage();
-      } else {
-        setSortedDutyData([]);
-      }
-    }, [dutyData, loadNurseOrderFromStorage]);
+    // useEffect(() => {
+    //   if (dutyData.length > 0) {
+    //     loadNurseOrderFromStorage();
+    //   } else {
+    //     setSortedDutyData([]);
+    //   }
+    // }, [dutyData, loadNurseOrderFromStorage]);
 
     // 초기화 또는 자동생성이 완료될 때 실행하는 핸들러
     // const handleDutyUpdate = useCallback(async () => {
@@ -527,13 +527,6 @@ const ShiftAdminTable = memo(
       }
     };
 
-    // dutyData, year, month 중 하나라도 변경되면 데이터를 다시 불러오도록 추가
-    useEffect(() => {
-      // 이 effect는 year나 month가 변경될 때 데이터를 새로 로드합니다.
-      // 변경될 때 이전 데이터가 잘못 표시되는 것을 방지
-      setSortedDutyData([...dutyData]);
-    }, [year, month, dutyData]);
-
     // 드래그 앤 드롭 센서 설정
     const sensors = useSensors(
       useSensor(TouchSensor, {
@@ -579,10 +572,9 @@ const ShiftAdminTable = memo(
         // 그 다음 sortedDutyData 업데이트
         setSortedDutyData(newSortedData);
 
-        // localStorage에 새 순서 저장
-        const key = getLocalStorageKey();
+        // 백엔드 DB에 새 순서 저장
         const nurseOrder = newSortedData.map((nurse) => nurse.memberId);
-        localStorage.setItem(key, JSON.stringify(nurseOrder));
+        await dutyService.updateNurseOrder({ year, month, nurseOrder });
 
         toast.success('간호사 순서가 저장되었습니다');
       } catch (error) {

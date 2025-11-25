@@ -17,6 +17,7 @@ import net.dutymate.api.domain.wardschedules.dto.AllWardDutyResponseDto;
 import net.dutymate.api.domain.wardschedules.dto.EditDutyRequestDto;
 import net.dutymate.api.domain.wardschedules.dto.EditMemberDutyRequestDto;
 import net.dutymate.api.domain.wardschedules.dto.MyDutyResponseDto;
+import net.dutymate.api.domain.wardschedules.dto.NurseOrderRequestDto;
 import net.dutymate.api.domain.wardschedules.dto.TodayDutyResponseDto;
 import net.dutymate.api.domain.wardschedules.dto.WardScheduleResponseDto;
 import net.dutymate.api.domain.wardschedules.service.WardScheduleService;
@@ -96,6 +97,15 @@ public class WardScheduleController {
 		@RequestBody EditMemberDutyRequestDto editMemberDutyRequestDto
 	) {
 		wardScheduleService.editMemberSchedule(member, editMemberDutyRequestDto);
+		return ResponseEntity.ok().build();
+	}
+
+	@PutMapping("/nurse-order")
+	public ResponseEntity<?> saveNurseOrder(
+		@Auth Member member,
+		@RequestBody NurseOrderRequestDto nurseOrderRequestDto
+	) {
+		wardScheduleService.saveNurseOrder(member, nurseOrderRequestDto);
 		return ResponseEntity.ok().build();
 	}
 }

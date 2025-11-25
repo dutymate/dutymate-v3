@@ -36,6 +36,7 @@ import net.dutymate.api.domain.wardschedules.dto.AllWardDutyResponseDto;
 import net.dutymate.api.domain.wardschedules.dto.EditDutyRequestDto;
 import net.dutymate.api.domain.wardschedules.dto.EditMemberDutyRequestDto;
 import net.dutymate.api.domain.wardschedules.dto.MyDutyResponseDto;
+import net.dutymate.api.domain.wardschedules.dto.NurseOrderRequestDto;
 import net.dutymate.api.domain.wardschedules.dto.TodayDutyResponseDto;
 import net.dutymate.api.domain.wardschedules.dto.WardScheduleResponseDto;
 import net.dutymate.api.domain.wardschedules.repository.MemberScheduleRepository;
@@ -198,8 +199,11 @@ public class WardScheduleService {
 		// 개인 듀티를 모아서 한 번에 저장
 		memberScheduleRepository.saveAll(memberSchedulesToSave);
 
+		// 간호사 순서 데이터 불러오기
+		List<Long> nurseOrder = wardSchedule.getNurseOrder();
+
 		return WardScheduleResponseDto.of(wardSchedule.getId(), yearMonth, 0, nurseShiftsDto, issues, histories,
-			requests);
+			requests, nurseOrder);
 	}
 
 	private boolean isWithinNextTwoMonths(YearMonth target) {
@@ -720,5 +724,16 @@ public class WardScheduleService {
 		// 저장
 		memberScheduleRepository.save(memberSchedule);
 	}
-}
 
+	public void saveNurseOrder(Member member, NurseOrderRequestDto nurseOrderRequestDto) {
+		Long wardId = member.getWardMember().getWard().getWardId();
+		Integer year = nurseOrderRequestDto.getYear();
+		Integer month = nurseOrderRequestDto.getMonth();
+
+		WardSchedule wardSchedule = wardScheduleRepository.findByWardIdAndYearAndMonth(wardId, year, month)
+			.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "아직 해당 월의 근무표가 생성되지 않았습니다."));
+
+		wardSchedule.setNurseOrder(nurseOrderRequestDto.getNurseOrder());
+		wardScheduleRepository.save(wardSchedule);
+	}
+}
