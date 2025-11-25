@@ -82,7 +82,11 @@ const NurseGroupPage = () => {
       <SEO title="그룹 | Dutymate" description="동료 간호사들과 듀티표를 공유하는 공간입니다." />
       <GroupLayout title="나의 모임" subtitle="그룹을 만들어 친구들끼리 듀티표를 공유해보세요">
         {/* 그룹 목록 화면 */}
-        <div className="space-y-3 px-4 lg:px-0">
+        <div
+          className="space-y-0 px-4 lg:px-0
+        flex flex-col gap-3
+        lg:grid lg:grid-cols-3 lg:gap-5"
+        >
           {loading ? (
             <div className="flex flex-col items-center justify-center py-10">
               <PageLoadingSpinner />
@@ -95,10 +99,13 @@ const NurseGroupPage = () => {
             groups.map((g) => (
               <div
                 key={g.groupId}
-                className="flex items-center bg-white rounded-xl p-3 shadow border cursor-pointer"
+                className="flex items-center bg-white rounded-xl p-3 shadow border cursor-pointer
+                lg:flex-col lg:items-start lg:p-4 lg:gap-3 lg:hover:shadow-md lg:transition
+                lg:min-h-[18rem]"
                 onClick={() => navigate(`/group/${g.groupId}`)}
               >
-                <div className="flex-1">
+                {/* 텍스트 영역 */}
+                <div className="flex-1 lg:w-full lg:text-left lg:order-2">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="font-bold text-base">{g.groupName}</span>
                     <span className="flex items-center text-gray-500 text-sm ml-2">
@@ -107,12 +114,26 @@ const NurseGroupPage = () => {
                   </div>
                   <div className="text-gray-500 text-sm">{g.groupDescription}</div>
                 </div>
+
+                {/* 이미지 영역 */}
+                {/*모바일 이미지 */}
                 {g.groupImg && (
                   <img
                     src={g.groupImg}
                     alt={g.groupName}
-                    className="w-16 h-16 rounded-lg object-cover ml-3"
+                    className="w-16 h-16 rounded-lg object-cover ml-3 lg:hidden"
                   />
+                )}
+
+                {/* 웹 이미지 */}
+                {g.groupImg && (
+                  <div className="hidden lg:block w-full aspect-[16/9] overflow-hidden rounded-lg mb-2 order-1">
+                    <img
+                      src={g.groupImg}
+                      alt={g.groupName}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 )}
               </div>
             ))

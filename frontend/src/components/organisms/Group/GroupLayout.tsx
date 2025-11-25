@@ -48,7 +48,7 @@ export default function GroupLayout({ children, title, subtitle }: GroupLayoutPr
             </p>
           </div>
         </div>
-        <div className="w-full max-w-[758px] ">{children}</div>
+        <div className="w-full  ">{children}</div>
       </div>
     </div>
   );
