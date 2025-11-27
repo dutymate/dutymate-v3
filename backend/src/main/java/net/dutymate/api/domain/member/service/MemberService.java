@@ -87,7 +87,7 @@ public class MemberService {
 	private static final String DEFAULT_PROFILE_IMAGE_NAME = "default_profile.jpg";
 	private static final Integer DEMO_TEMP_NURSE_CNT = 10;
 	private static final Integer DEMO_AUTO_GEN_CNT = 1;
-	private static final Integer DEFAULT_AUTO_GEN_CNT = 1;
+	private static final Integer DEFAULT_AUTO_GEN_CNT = 100;
 	private static final Integer DEMO_EMAIL_NAME_LENGTH = 15;
 	private static final Integer AUTO_GEN_CNT_PER_MONTH = 100;
 	private final MemberRepository memberRepository;
