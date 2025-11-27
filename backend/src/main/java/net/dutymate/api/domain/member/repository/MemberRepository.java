@@ -25,21 +25,22 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
 	List<Member> findByEmailEndingWith(String suffix);
 
-	@Query("SELECT COUNT(m) FROM Member m WHERE m.email NOT LIKE '%tempEmail@temp.com%' AND m.email NOT LIKE '%dutymate.demo%'")
+	@Query("SELECT COUNT(m) FROM Member m WHERE m.email NOT LIKE '%tempEmail@temp.com%' "
+		+ "AND m.email NOT LIKE '%dutymate.demo%'")
 	long countRealUsers();
 
 	@Modifying
 	@Query("update Member m set m.autoGenCnt = :cnt where m.role = :role and m.email not like :suffix")
 	int updateAutoCnt(@Param("cnt") int cnt, @Param("role") Role role, @Param("suffix") String suffix);
 
-	@Query(value = "SELECT DISTINCT m FROM Member m " +
-		"LEFT JOIN m.wardMember wm " +
-		"LEFT JOIN wm.ward w " +
-		"WHERE m.email NOT LIKE '%tempEmail@temp.com%' " +
-		"AND m.email NOT LIKE '%dutymate.demo%'",
-		countQuery = "SELECT COUNT(DISTINCT m) FROM Member m " +
-			"WHERE m.email NOT LIKE '%tempEmail@temp.com%' " +
-			"AND m.email NOT LIKE '%dutymate.demo%'")
+	@Query(value = "SELECT DISTINCT m FROM Member m "
+		+ "LEFT JOIN m.wardMember wm "
+		+ "LEFT JOIN wm.ward w "
+		+ "WHERE m.email NOT LIKE '%tempEmail@temp.com%' "
+		+ "AND m.email NOT LIKE '%dutymate.demo%'",
+		countQuery = "SELECT COUNT(DISTINCT m) FROM Member m "
+		+ "WHERE m.email NOT LIKE '%tempEmail@temp.com%' "
+		+ "AND m.email NOT LIKE '%dutymate.demo%'")
 	Page<Member> findAllForAdminPage(Pageable pageable);
 
 }

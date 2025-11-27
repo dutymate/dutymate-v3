@@ -32,9 +32,9 @@ public class AdminNurseListResponseDto {
 				.totalAutoGenCnt(member.getTotalAutoGenCnt())
 				.autoGenCnt(member.getAutoGenCnt())
 				.myGroupCnt(groupCountMap.getOrDefault(member.getMemberId(), 0L))
-				.wardName(member.getWardMember() != null &&
-					member.getWardMember().getWard() != null ?
-					member.getWardMember().getWard().getWardName() : null)
+				.wardName(member.getWardMember() != null
+					&&					member.getWardMember().getWard() != null
+					?					member.getWardMember().getWard().getWardName() : null)
 				.lastLoginAt(null)  // TODO
 				.build())
 			.collect(Collectors.toList());

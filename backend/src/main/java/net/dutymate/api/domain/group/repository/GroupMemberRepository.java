@@ -19,9 +19,9 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
 
 	Optional<GroupMember> findByGroup_GroupIdAndMember_MemberId(Long groupId, Long memberId);
 
-	@Query("SELECT gm.member.memberId, COUNT(gm) " +
-		"FROM GroupMember gm " +
-		"WHERE gm.member.memberId IN :memberIds " +
-		"GROUP BY gm.member.memberId")
+	@Query("SELECT gm.member.memberId, COUNT(gm) "
+		+ "FROM GroupMember gm "
+		+ "WHERE gm.member.memberId IN :memberIds "
+		+ "GROUP BY gm.member.memberId")
 	List<Object[]> countGroupMembersByMemberIds(@Param("memberIds") List<Long> memberIds);
 }
