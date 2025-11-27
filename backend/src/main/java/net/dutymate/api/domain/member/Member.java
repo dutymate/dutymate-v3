@@ -110,6 +110,7 @@ public class Member {
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Calendar> calendarList;
 
+	private int totalAutoGenCnt = 0;
 
 	// 멤버 초기값 설정 (닉네임, 생성시각, 활성화여부)
 	@PrePersist
@@ -188,5 +189,9 @@ public class Member {
 
 	public YearMonth enterYearMonth() {
 		return new YearMonth(this.enterYear, this.enterMonth);
+	}
+
+	public void addTotalAutoGenCnt() {
+		this.totalAutoGenCnt++;
 	}
 }
