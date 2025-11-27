@@ -175,6 +175,7 @@ public class AutoScheduleService {
 		}
 
 		member.updateAutoGenCnt(-1);
+		member.addTotalAutoGenCnt();
 
 		requestRepository.findAllWardRequestsByYearMonth(member.getWardMember().getWard(),
 			yearMonth.year(),
