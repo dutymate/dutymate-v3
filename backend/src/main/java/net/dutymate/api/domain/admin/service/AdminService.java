@@ -1,5 +1,10 @@
 package net.dutymate.api.domain.admin.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -7,10 +12,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import net.dutymate.api.domain.admin.dto.AdminNurseListResponseDto;
 import net.dutymate.api.domain.admin.dto.DashboardStatsResponseDto;
 import net.dutymate.api.domain.admin.dto.UpdateWardCapacityRequestDto;
 import net.dutymate.api.domain.admin.dto.WardListResponseDto;
 import net.dutymate.api.domain.common.utils.YearMonth;
+import net.dutymate.api.domain.group.repository.GroupMemberRepository;
+import net.dutymate.api.domain.member.Member;
 import net.dutymate.api.domain.member.repository.MemberRepository;
 import net.dutymate.api.domain.ward.Ward;
 import net.dutymate.api.domain.ward.repository.WardRepository;
@@ -30,6 +38,7 @@ public class AdminService {
 	private final WardMemberRepository wardMemberRepository;
 	private final WardScheduleService wardScheduleService;
 	private final MemberRepository memberRepository;
+	private final GroupMemberRepository groupMemberRepository;
 
 	public WardListResponseDto getAllWards(Pageable pageable) {
 		Page<Ward> wardPage = wardRepository.findAll(pageable);
@@ -71,6 +80,33 @@ public class AdminService {
 			.totalWards(totalWards)
 			.yesterdayLoginCount(yesterdayLoginCount)
 			.build();
+	}
+
+	public AdminNurseListResponseDto getNurseList(Pageable pageable) {
+		Page<Member> memberPage = memberRepository.findAllForAdminPage(pageable);
+
+		if (memberPage.isEmpty()) {
+			return AdminNurseListResponseDto.builder()
+				.nurses(new ArrayList<>())
+				.totalElements(0)
+				.currentPage(pageable.getPageNumber())
+				.totalPages(0)
+				.build();
+		}
+
+		List<Long> memberIds = memberPage.getContent().stream()
+			.map(Member::getMemberId)
+			.collect(Collectors.toList());
+
+		Map<Long, Long> groupCountMap = groupMemberRepository
+			.countGroupMembersByMemberIds(memberIds)
+			.stream()
+			.collect(Collectors.toMap(
+				arr -> (Long)arr[0],
+				arr -> (Long)arr[1]
+			));
+
+		return AdminNurseListResponseDto.of(memberPage, groupCountMap);
 	}
 
 }

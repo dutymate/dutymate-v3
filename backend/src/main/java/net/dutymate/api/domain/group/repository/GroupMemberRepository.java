@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import net.dutymate.api.domain.group.GroupMember;
@@ -16,4 +18,10 @@ public interface GroupMemberRepository extends JpaRepository<GroupMember, Long> 
 	List<GroupMember> findByMember(Member member);
 
 	Optional<GroupMember> findByGroup_GroupIdAndMember_MemberId(Long groupId, Long memberId);
+
+	@Query("SELECT gm.member.memberId, COUNT(gm) " +
+		"FROM GroupMember gm " +
+		"WHERE gm.member.memberId IN :memberIds " +
+		"GROUP BY gm.member.memberId")
+	List<Object[]> countGroupMembersByMemberIds(@Param("memberIds") List<Long> memberIds);
 }
