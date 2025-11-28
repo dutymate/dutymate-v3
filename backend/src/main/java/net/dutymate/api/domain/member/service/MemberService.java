@@ -364,6 +364,7 @@ public class MemberService {
 	// KAKAO 계정으로 회원가입
 	private Member signUp(KakaoUserResponseDto.KakaoAccount kakaoAccount) {
 		Member newMember = kakaoAccount.toMember(s3Service.addBasicProfileImgUrl());
+		newMember.setAutoGenCnt(DEFAULT_AUTO_GEN_CNT);
 		memberRepository.save(newMember);
 		return newMember;
 	}
@@ -371,6 +372,7 @@ public class MemberService {
 	// GOOGLE 계정으로 회원가입
 	private Member signUp(GoogleUserResponseDto googleUserInfo) {
 		Member newMember = googleUserInfo.toMember(s3Service.addBasicProfileImgUrl());
+		newMember.setAutoGenCnt(DEFAULT_AUTO_GEN_CNT);
 		memberRepository.save(newMember);
 		return newMember;
 	}
@@ -674,12 +676,12 @@ public class MemberService {
 			.password(DEMO_PASSWORD)
 			.passwordConfirm(DEMO_PASSWORD)
 			.name(DEMO_NAME)
-			.autoGenCnt(DEMO_AUTO_GEN_CNT)
 			.build();
 
 		// 1. 데모 계정 회원가입
 		checkEmail(signUpRequestDto.getEmail());
 		Member newMember = signUpRequestDto.toMember(s3Service.addBasicProfileImgUrl());
+		newMember.setAutoGenCnt(DEMO_AUTO_GEN_CNT);
 		memberRepository.save(newMember);
 
 		// 2. 데모 계정 부가정보 기입
@@ -818,8 +820,11 @@ public class MemberService {
 				continue;
 			}
 
-			Ward ward = demoMember.getWardMember().getWard();
-			wardIdsToDelete.add(ward.getWardId());
+			// NPE 방지
+			if (demoMember.getWardMember() != null) {
+				Ward ward = demoMember.getWardMember().getWard();
+				wardIdsToDelete.add(ward.getWardId());
+			}
 		}
 
 		if (wardIdsToDelete.isEmpty()) {

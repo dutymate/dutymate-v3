@@ -19,8 +19,6 @@ public class KakaoUserResponseDto {
 	private Properties properties;
 	private KakaoAccount kakaoAccount;
 
-	private static final Integer DEFAULT_AUTO_GEN_CNT = 1;
-
 	@Data
 	@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 	public static class Properties {
@@ -51,8 +49,6 @@ public class KakaoUserResponseDto {
 				.name(profile.getNickname())
 				.profileImg(Optional.ofNullable(profile.getProfileImageUrl()).orElse(defaultProfileImageUrl))
 				.provider(Provider.KAKAO)
-				.isVerified(true)
-				.autoGenCnt(DEFAULT_AUTO_GEN_CNT)
 				.build();
 		}
 
