@@ -43,8 +43,6 @@ public class SignUpRequestDto {
 	@NamePolicy // ← 커스텀 제약 (아래 2) 참조)
 	private String name;
 
-	private Integer autoGenCnt;
-
 	// cross-field 유효성 (비밀번호=비밀번호확인)
 	@AssertTrue(message = "비밀번호와 비밀번호 확인이 일치하지 않습니다.")
 	public boolean isPasswordConfirmed() {
@@ -61,7 +59,6 @@ public class SignUpRequestDto {
 			.name(name)
 			.provider(Provider.NONE)
 			.profileImg(defaultProfileImg)
-			.autoGenCnt(autoGenCnt)
 			.build();
 	}
 
