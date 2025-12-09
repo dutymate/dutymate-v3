@@ -29,7 +29,6 @@ public class AdminNurseListResponseDto {
 				.name(member.getName())
 				.createdAt(member.getCreatedAt())
 				.gender(member.getGender())
-				.totalAutoGenCnt(member.getTotalAutoGenCnt())
 				.autoGenCnt(member.getAutoGenCnt())
 				.myGroupCnt(groupCountMap.getOrDefault(member.getMemberId(), 0L))
 				.wardName(member.getWardMember() != null
@@ -54,7 +53,6 @@ public class AdminNurseListResponseDto {
 		private String name;
 		private Timestamp createdAt;
 		private Gender gender;
-		private Integer totalAutoGenCnt;
 		private Long myGroupCnt;
 		private String wardName;
 		private Timestamp lastLoginAt;
