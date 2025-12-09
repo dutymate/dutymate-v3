@@ -110,8 +110,6 @@ public class Member {
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Calendar> calendarList;
 
-	private Integer totalAutoGenCnt;
-
 	// 멤버 초기값 설정 (닉네임, 생성시각, 활성화여부)
 	@PrePersist
 	public void prePersist() {
@@ -119,7 +117,6 @@ public class Member {
 		this.createdAt = new Timestamp(System.currentTimeMillis());
 		this.isActive = true;
 		this.isVerified = true;        // 신규 회원은 이메일 인증된 상태로 간주
-		this.totalAutoGenCnt = 0;
 	}
 
 	public void changeAdditionalInfo(Integer grade, Gender gender, Role role) {
@@ -190,9 +187,5 @@ public class Member {
 
 	public YearMonth enterYearMonth() {
 		return new YearMonth(this.enterYear, this.enterMonth);
-	}
-
-	public void addTotalAutoGenCnt() {
-		this.totalAutoGenCnt++;
 	}
 }
