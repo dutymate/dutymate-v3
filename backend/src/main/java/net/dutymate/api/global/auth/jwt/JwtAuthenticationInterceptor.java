@@ -26,6 +26,11 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
 		String uri = request.getRequestURI();
 		String method = request.getMethod();
 
+		// Health Check 요청은 인증 제외
+		if (uri.equals("/actuator/health") && HttpMethod.GET.matches(method)) {
+			return true;
+		}
+
 		// 회원가입 요청은 인증 제외
 		if (uri.equals("/api/member") && HttpMethod.POST.matches(method)) {
 			return true;
