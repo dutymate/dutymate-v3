@@ -171,8 +171,10 @@ public class EmailService {
 		redisTemplate.delete(key);
 
 		// 인증 완료 상태를 Redis에 저장 -> 회원가입 버튼 클릭 시, Redis에서 인증되었는지 안 되었는지 확인
-		String verfiedEmail = "email:verified:" + verifyCodeRequestDto.email();
-		redisTemplate.opsForValue().set(verfiedEmail, "true", 30, TimeUnit.MINUTES);
+		String verifiedEmail = new StringBuilder().append("email:verified:")
+			.append(verifyCodeRequestDto.email())
+			.toString();
+		redisTemplate.opsForValue().set(verifiedEmail, "true", 30, TimeUnit.MINUTES);
 
 		return EmailVerificationResult.SUCCESS;
 	}

@@ -65,23 +65,25 @@ public class HolidayService {
 		String solMonth = String.format("%02d", month);
 
 		// API 호출 URL 생성
-		String urlBuilder = "http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo" + "?"
-			+ URLEncoder.encode("serviceKey", StandardCharsets.UTF_8)
-			+ "="
-			+ apiKey
-			+ "&"
-			+ URLEncoder.encode("solYear", StandardCharsets.UTF_8)
-			+ "="
-			+ URLEncoder.encode(solYear, StandardCharsets.UTF_8)
-			+ "&"
-			+ URLEncoder.encode("solMonth", StandardCharsets.UTF_8)
-			+ "="
-			+ URLEncoder.encode(solMonth, StandardCharsets.UTF_8)
-			+ "&"
-			+ URLEncoder.encode("_type", StandardCharsets.UTF_8)
-			+ "="
-			+ URLEncoder.encode("json", StandardCharsets.UTF_8)
-			+ "&_type=json";
+		String urlBuilder = new StringBuilder()
+			.append("http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?")
+			.append(URLEncoder.encode("serviceKey", StandardCharsets.UTF_8))
+			.append("=")
+			.append(apiKey)
+			.append("&")
+			.append(URLEncoder.encode("solYear", StandardCharsets.UTF_8))
+			.append("=")
+			.append(URLEncoder.encode(solYear, StandardCharsets.UTF_8))
+			.append("&")
+			.append(URLEncoder.encode("solMonth", StandardCharsets.UTF_8))
+			.append("=")
+			.append(URLEncoder.encode(solMonth, StandardCharsets.UTF_8))
+			.append("&")
+			.append(URLEncoder.encode("_type", StandardCharsets.UTF_8))
+			.append("=")
+			.append(URLEncoder.encode("json", StandardCharsets.UTF_8))
+			.append("&_type=json")
+			.toString();
 		// API 호출
 		URL url = new URL(urlBuilder);
 		HttpURLConnection conn = (HttpURLConnection)url.openConnection();
