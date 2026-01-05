@@ -93,7 +93,20 @@ jib {
     }
     container {
         creationTime = 'USE_CURRENT_TIMESTAMP'
-        jvmFlags = ['-XX:+UseContainerSupport', '-Xmx512m', '-Dserver.port=8080', '-Duser.timezone=Asia/Seoul', '-Dfile.encoding=UTF-8']
+        jvmFlags = [
+                '-XX:+UseContainerSupport',
+                '-Xms512m',
+                '-Xmx512m',
+                '-XX:MetaspaceSize=256m',
+                '-XX:+UseG1GC',
+                '-XX:MaxGCPauseMillis=200',
+                '-XX:InitiatingHeapOccupancyPercent=30',
+                '-XX:ParallelGCThreads=1',
+                '-XX:ConcGCThreads=1',
+                '-Dserver.port=8080',
+                '-Duser.timezone=Asia/Seoul',
+                '-Dfile.encoding=UTF-8'
+        ]
         ports = ['8080']
     }
 }
