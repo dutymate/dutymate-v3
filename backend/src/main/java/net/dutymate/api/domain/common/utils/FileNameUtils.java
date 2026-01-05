@@ -18,7 +18,12 @@ public class FileNameUtils {
 	// 파일명을 난수화하기 위해 UUID 활용
 	public static String createFileName(String dirName, String fileExtension) {
 		String uuid = UUID.randomUUID().toString().replace("-", "");
-		return dirName + "/" + uuid + "." + fileExtension;
+		return new StringBuilder().append(dirName)
+			.append("/")
+			.append(uuid)
+			.append(".")
+			.append(fileExtension)
+			.toString();
 	}
 
 	public static String getFileExtension(String fileName) {

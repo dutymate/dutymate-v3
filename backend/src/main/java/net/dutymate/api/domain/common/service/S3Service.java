@@ -50,14 +50,23 @@ public class S3Service {
 
 			s3Client.putObject(putObjectRequest, RequestBody.fromBytes(imageBytes));
 
-			return "https://" + bucket + ".s3." + region + ".amazonaws.com/" + fileName;
+			return new StringBuilder().append("https://")
+				.append(bucket)
+				.append(".s3.")
+				.append(region)
+				.append(".amazonaws.com/")
+				.append(fileName)
+				.toString();
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "파일 업로드 중 오류가 발생했습니다.");
 		}
 	}
 
 	public void deleteFile(String dirName, String fileName) {
-		String key = dirName + "/" + fileName;
+		String key = new StringBuilder().append(dirName)
+			.append("/")
+			.append(fileName)
+			.toString();
 
 		try {
 			DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
@@ -71,12 +80,24 @@ public class S3Service {
 	}
 
 	public String extractFileNameFromUrl(String fileUrl, String dirName) {
-		String baseUrl = "https://" + bucket + ".s3." + region + ".amazonaws.com/" + dirName + "/";
+		String baseUrl = new StringBuilder().append("https://")
+			.append(bucket)
+			.append(".s3.")
+			.append(region)
+			.append(".amazonaws.com/")
+			.append(dirName)
+			.append("/")
+			.toString();
 		return fileUrl.replace(baseUrl, "");
 	}
 
 	// 기본 프로필 이미지 URL 생성
 	public String addBasicProfileImgUrl() {
-		return "https://" + bucket + ".s3." + region + ".amazonaws.com/profile/default_profile.png";
+		return new StringBuilder().append("https://")
+			.append(bucket)
+			.append(".s3.")
+			.append(region)
+			.append(".amazonaws.com/profile/default_profile.png")
+			.toString();
 	}
 }

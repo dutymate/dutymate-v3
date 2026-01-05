@@ -70,7 +70,10 @@ public record YearMonth(Integer year, Integer month) {
 
 	// 캐시 키 생성 메서드
 	private String getCacheKey() {
-		return year + "-" + month;
+		return new StringBuilder().append(year)
+			.append("-")
+			.append(month)
+			.toString();
 	}
 
 	// 공휴일 정보 가져오기 (캐싱 적용)
