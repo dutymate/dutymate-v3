@@ -124,7 +124,13 @@ public class LoginLogService {
 
 		s3Client.putObject(request, RequestBody.fromInputStream(inputStream, outputStream.size()));
 
-		return "https://" + bucket + ".s3." + region + ".amazonaws.com/" + fileName;
+		return new StringBuilder().append("https://")
+			.append(bucket)
+			.append(".s3.")
+			.append(region)
+			.append(".amazonaws.com/")
+			.append(fileName)
+			.toString();
 	}
 
 	private String nullToEmpty(String input) {

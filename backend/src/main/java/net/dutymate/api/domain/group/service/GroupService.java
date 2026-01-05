@@ -239,7 +239,12 @@ public class GroupService {
 			for (LocalDate date : dates) {
 				YearMonth ym = new YearMonth(date.getYear(), date.getMonthValue());
 				int day = date.getDayOfMonth();
-				String key = memberId + "-" + ym.year() + "-" + ym.month();
+				String key = new StringBuilder().append(memberId)
+					.append("-")
+					.append(ym.year())
+					.append("-")
+					.append(ym.month())
+					.toString();
 
 				MemberSchedule schedule = scheduleMap.get(key);
 				String shiftStr = (schedule != null && schedule.getShifts() != null) ? schedule.getShifts() :
@@ -341,7 +346,10 @@ public class GroupService {
 
 		redisTemplate.opsForValue().set("invite:" + token, groupId.toString(), Duration.ofHours(24));
 
-		String inviteLink = baseUrl + "/invite/" + token;
+		String inviteLink = new StringBuilder().append(baseUrl)
+			.append("/invite/")
+			.append(token)
+			.toString();
 		return GroupInviteResponseDto.from(inviteLink, group);
 	}
 
@@ -500,7 +508,13 @@ public class GroupService {
 
 	private String getRandomImage() {
 		int randomIndex = new Random().nextInt(3) + 1; // 1 ~ 3
-
-		return "https://" + bucket + ".s3." + region + ".amazonaws.com/group/random-image-" + randomIndex + ".png";
+		return new StringBuilder().append("https://")
+			.append(bucket)
+			.append(".s3.")
+			.append(region)
+			.append(".amazonaws.com/group/random-image-")
+			.append(randomIndex)
+			.append(".png")
+			.toString();
 	}
 }
