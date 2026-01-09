@@ -3,8 +3,6 @@ package net.dutymate.api.domain.community.collections;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import net.dutymate.api.domain.community.dto.GptApiResponseDto;
 
 import jakarta.persistence.Id;
@@ -17,7 +15,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Document(collection = "news")
 public class News {
 
 	@Id
