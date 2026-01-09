@@ -21,18 +21,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LoggingAspect {
 
-	private static final String LINE_SEPARATOR = "--------------------------------------------------";
-	private static final String LOG_START = "[ START ] Method: {}";
-	private static final String LOG_END = "[ END ] Method: {}";
-	private static final String CLASS_NAME_FORMAT = "Class: {}";
-	private static final String THREAD_NAME_FORMAT = "Thread: {}";
-	private static final String HTTP_METHOD_FORMAT = "HTTP Method: {}";
-	private static final String REQUEST_URI_FORMAT = "Request URI: {}";
-	private static final String QUERY_STRING_FORMAT = "Query String: {}";
-	private static final String EXECUTION_TIME_FORMAT = "Execution Time: {} ms";
-	private static final String RETURN_TYPE_FORMAT = "Return Type: {}";
-	private static final String RETURN_VALUE_FORMAT = "Return Value: {}";
+	private static final String LOG_TYPE_REQUEST = "REQUEST";
+	private static final String LOG_TYPE_RESPONSE = "RESPONSE";
 	private static final int NANO_TO_MILLI = 1_000_000;
+	private static final int MAX_RETURN_VALUE_LENGTH = 200;
 
 	@Pointcut("execution(* net.dutymate.api..controller..*(..))")
 	private void cut() {
@@ -44,48 +36,41 @@ public class LoggingAspect {
 		final Method method = getMethod(proceedingJoinPoint);
 		final String methodName = method.getName();
 		final String className = method.getDeclaringClass().getSimpleName();
-		final String threadName = Thread.currentThread().getName();
 		final HttpServletRequest request = getCurrentHttpRequest();
 
-		log.info(LINE_SEPARATOR);
-		log.info(LOG_START, methodName);
-		log.info(CLASS_NAME_FORMAT, className);
-		log.info(THREAD_NAME_FORMAT, threadName);
+		String httpMethod = null;
+		String requestUri = null;
+		String queryString = null;
+		String clientIp = null;
+		String userAgent = null;
 
 		if (request != null) {
-			final String httpMethod = request.getMethod();
-			final String requestUri = request.getRequestURI();
-			String queryString = request.getQueryString();
-			if (queryString != null) {
-				queryString = URLDecoder.decode(queryString, StandardCharsets.UTF_8);
+			httpMethod = request.getMethod();
+			requestUri = request.getRequestURI();
+			String rawQueryString = request.getQueryString();
+			if (rawQueryString != null) {
+				queryString = URLDecoder.decode(rawQueryString, StandardCharsets.UTF_8);
 			}
-
-			log.info(HTTP_METHOD_FORMAT, httpMethod);
-			log.info(REQUEST_URI_FORMAT, requestUri);
-
-			if (queryString != null) {
-				log.info(QUERY_STRING_FORMAT, queryString);
-			}
+			clientIp = getClientIp(request);
+			userAgent = request.getHeader("User-Agent");
 		}
+
+		logRequest(className, methodName, httpMethod, requestUri, queryString, clientIp, userAgent);
 
 		final long startTime = System.nanoTime();
-		Object returnObj = proceedingJoinPoint.proceed();
-		final long endTime = System.nanoTime();
-		final long executionTime = (endTime - startTime) / NANO_TO_MILLI;
-
-		log.info(LINE_SEPARATOR);
-		log.info(LOG_END, methodName);
-		log.info(EXECUTION_TIME_FORMAT, executionTime);
-
-		if (returnObj != null) {
-			log.info(RETURN_TYPE_FORMAT, returnObj.getClass().getSimpleName());
-			log.info(RETURN_VALUE_FORMAT, returnObj);
-		} else {
-			log.info(RETURN_TYPE_FORMAT, "null");
-			log.info(RETURN_VALUE_FORMAT, "null");
+		Object returnObj;
+		try {
+			returnObj = proceedingJoinPoint.proceed();
+			final long endTime = System.nanoTime();
+			final long executionTime = (endTime - startTime) / NANO_TO_MILLI;
+			logResponse(className, methodName, executionTime, returnObj, null);
+			return returnObj;
+		} catch (Throwable throwable) {
+			final long endTime = System.nanoTime();
+			final long executionTime = (endTime - startTime) / NANO_TO_MILLI;
+			logResponse(className, methodName, executionTime, null, throwable);
+			throw throwable;
 		}
-
-		return returnObj;
 	}
 
 	private Method getMethod(final ProceedingJoinPoint proceedingJoinPoint) {
@@ -99,5 +84,111 @@ public class LoggingAspect {
 			return attr.getRequest();
 		}
 		return null;
+	}
+
+	private String getClientIp(HttpServletRequest request) {
+		if (request == null) {
+			return null;
+		}
+		String ip = request.getHeader("X-Forwarded-For");
+		if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("Proxy-Client-IP");
+		}
+		if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getRemoteAddr();
+		}
+		if (ip != null && ip.contains(",")) {
+			ip = ip.split(",")[0].trim();
+		}
+		return ip;
+	}
+
+	private void logRequest(String className, String methodName, String httpMethod, String requestUri,
+		String queryString, String clientIp, String userAgent) {
+		StringBuilder logMessage = new StringBuilder();
+		logMessage.append("type=").append(LOG_TYPE_REQUEST);
+		logMessage.append(" class=").append(className);
+		logMessage.append(" method=").append(methodName);
+
+		if (httpMethod != null) {
+			logMessage.append(" httpMethod=").append(httpMethod);
+		}
+		if (requestUri != null) {
+			logMessage.append(" path=").append(requestUri);
+		}
+		if (queryString != null && !queryString.isEmpty()) {
+			logMessage.append(" query=").append(queryString);
+		}
+		if (clientIp != null) {
+			logMessage.append(" clientIp=").append(clientIp);
+		}
+		if (userAgent != null) {
+			String truncatedUserAgent = userAgent.length() > 100
+				? userAgent.substring(0, 100) + "..."
+				: userAgent;
+			logMessage.append(" userAgent=").append(truncatedUserAgent);
+		}
+
+		log.info(logMessage.toString());
+	}
+
+	private void logResponse(String className, String methodName, long executionTime, Object returnObj,
+		Throwable throwable) {
+		StringBuilder logMessage = new StringBuilder();
+		logMessage.append("type=").append(LOG_TYPE_RESPONSE);
+		logMessage.append(" class=").append(className);
+		logMessage.append(" method=").append(methodName);
+		logMessage.append(" duration=").append(executionTime).append("ms");
+
+		if (throwable != null) {
+			logMessage.append(" status=ERROR");
+			logMessage.append(" error=").append(throwable.getClass().getSimpleName());
+			logMessage.append(" errorMessage=").append(throwable.getMessage());
+			log.error(logMessage.toString(), throwable);
+		} else {
+			logMessage.append(" status=SUCCESS");
+			if (returnObj != null) {
+				String returnType = returnObj.getClass().getSimpleName();
+				logMessage.append(" returnType=").append(returnType);
+				String returnSummary = getReturnValueSummary(returnObj);
+				if (!returnSummary.isEmpty()) {
+					logMessage.append(" returnValue=").append(returnSummary);
+				}
+			} else {
+				logMessage.append(" returnType=void");
+			}
+			log.info(logMessage.toString());
+		}
+	}
+
+	private String getReturnValueSummary(Object returnObj) {
+		if (returnObj == null) {
+			return "";
+		}
+
+		if (returnObj instanceof java.util.Collection) {
+			java.util.Collection<?> collection = (java.util.Collection<?>)returnObj;
+			return String.format("Collection[%s,size=%d]", returnObj.getClass().getSimpleName(), collection.size());
+		}
+
+		if (returnObj.getClass().isArray()) {
+			return String.format("Array[%s,length=%d]", returnObj.getClass().getComponentType().getSimpleName(),
+				java.lang.reflect.Array.getLength(returnObj));
+		}
+
+		if (returnObj instanceof java.util.Map) {
+			java.util.Map<?, ?> map = (java.util.Map<?, ?>)returnObj;
+			return String.format("Map[%s,size=%d]", returnObj.getClass().getSimpleName(), map.size());
+		}
+
+		String toString = returnObj.toString();
+		if (toString.length() > MAX_RETURN_VALUE_LENGTH) {
+			return toString.substring(0, MAX_RETURN_VALUE_LENGTH) + "...(truncated)";
+		}
+
+		return toString;
 	}
 }
