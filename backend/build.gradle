@@ -40,7 +40,6 @@ dependencies {
 
     // Database & Persistence
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'com.mysql:mysql-connector-j'
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.2'
@@ -56,12 +55,14 @@ dependencies {
 
     // AWS SDK
     implementation 'software.amazon.awssdk:s3:2.29.52'
+    implementation 'software.amazon.awssdk:dynamodb:2.29.52'
+    implementation 'software.amazon.awssdk:dynamodb-enhanced:2.29.52'
 
     // XSS 방지
     implementation 'org.jsoup:jsoup:1.20.1'
 
     // 개발 편의성
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    // developmentOnly 'org.springframework.boot:spring-boot-devtools'  // DynamoDB Enhanced Client와 충돌로 비활성화
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 

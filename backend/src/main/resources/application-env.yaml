@@ -15,11 +15,6 @@ spring:
     driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME}
 
   data:
-    # MongoDB 설정
-    mongodb:
-      uri: ${SPRING_DATA_MONGODB_URI}
-      database: ${SPRING_DATA_MONGODB_DATABASE}  # 사용할 MongoDB 데이터베이스
-
     # Redis 설정
     redis:
       host: ${SPRING_DATA_REDIS_HOST}
@@ -88,6 +83,16 @@ cloud:
       bucket: ${CLOUD_AWS_S3_BUCKET}   # 버킷 이름
     stack:
       auto: ${CLOUD_AWS_STACK_AUTO}
+    dynamodb:
+      endpoint: ${CLOUD_AWS_DYNAMODB_ENDPOINT:}
+
+# DynamoDB 설정
+dynamodb:
+  auto-create: ${DYNAMODB_AUTO_CREATE:true}
+  tables:
+    ward-schedules: ${DYNAMODB_TABLES_WARD_SCHEDULES}
+    member-schedules: ${DYNAMODB_TABLES_MEMBER_SCHEDULES}
+    news: ${DYNAMODB_TABLES_NEWS}
 
 # NAVER 환경변수
 naver:

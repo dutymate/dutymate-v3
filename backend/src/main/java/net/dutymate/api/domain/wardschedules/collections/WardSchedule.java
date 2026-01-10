@@ -2,11 +2,6 @@ package net.dutymate.api.domain.wardschedules.collections;
 
 import java.util.List;
 
-import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.CompoundIndexes;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-
 import net.dutymate.api.domain.common.utils.YearMonth;
 
 import jakarta.persistence.Id;
@@ -22,25 +17,18 @@ import lombok.extern.jackson.Jacksonized;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Document(collection = "ward_schedules")
-@CompoundIndexes({
-	@CompoundIndex(name = "ward_year_month_idx", def = "{'wardId' : 1, 'year' : 1, 'month' : 1}", unique = true)
-})
 public class WardSchedule {
 
 	@Id
-	private String id; // MongoDB에서 기본적으로 생성하는 ObjectId
+	private String id;
 
-	@Field("ward_id")
 	private Long wardId;
 	private int year;
 	private int month;
 
 	@Setter
-	@Field("nurse_order")
 	private List<Long> nurseOrder;
 
-	@Field("now_idx")
 	private int nowIdx;
 
 	// 듀티표 리스트
@@ -77,7 +65,6 @@ public class WardSchedule {
 	@Builder
 	public static class NurseShift {
 		@Setter
-		@Field("member_id")
 		private Long memberId;
 		private String shifts;
 
@@ -94,16 +81,13 @@ public class WardSchedule {
 	public static class History {
 
 		@Setter
-		@Field("member_id")
 		private Long memberId;
 
 		private String name;
 		private String before;
 		private String after;
 
-		@Field("modified_day")
 		private Integer modifiedDay;
-		@Field("is_auto_created")
 		private Boolean isAutoCreated;
 	}
 
