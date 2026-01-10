@@ -62,7 +62,7 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.20.1'
 
     // 개발 편의성
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    // developmentOnly 'org.springframework.boot:spring-boot-devtools'  // DynamoDB Enhanced Client와 충돌로 비활성화
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
