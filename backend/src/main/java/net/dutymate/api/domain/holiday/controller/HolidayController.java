@@ -25,9 +25,6 @@ public class HolidayController {
 
 	private final HolidayService holidayService;
 
-	@Value("${api.secret.key}")
-	private String apiHolidaySecret;
-
 	@GetMapping
 	public ResponseEntity<?> getHolidaysByYearAndMonth(
 		@RequestParam(required = false) Integer year,
@@ -41,16 +38,5 @@ public class HolidayController {
 		} catch (Exception e) {
 			return ResponseEntity.internalServerError().body(null);
 		}
-	}
-
-	@PutMapping("/update")
-	public ResponseEntity<?> updateHolidays(@RequestHeader(value = "X-API-KEY", required = false) String apiKey) {
-		if (apiKey == null || !apiKey.equals(apiHolidaySecret)) {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid API Key");
-		}
-		final int currentYear = LocalDate.now().getYear();
-		holidayService.updateYearHolidays(currentYear);
-		holidayService.updateYearHolidays(currentYear + 1);
-		return ResponseEntity.ok().build();
 	}
 }

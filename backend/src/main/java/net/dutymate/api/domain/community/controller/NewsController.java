@@ -23,21 +23,8 @@ public class NewsController {
 
 	private final NewsService newsService;
 
-	@Value("${api.secret.key}")
-	private String apiNewsSecret;
-
 	@GetMapping
 	public ResponseEntity<?> getNews() throws JsonProcessingException {
 		return ResponseEntity.ok(newsService.getNews());
-	}
-
-	@PutMapping
-	public ResponseEntity<?> refreshRecentNews(
-		@RequestHeader(value = "X-API-KEY", required = false) String apiKey) throws JsonProcessingException {
-		if (apiKey == null || !apiKey.equals(apiNewsSecret)) {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid API Key");
-		}
-		newsService.refreshRecentNews();
-		return ResponseEntity.ok().build();
 	}
 }
