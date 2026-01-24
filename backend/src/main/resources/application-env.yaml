@@ -103,11 +103,8 @@ openai:
   model: ${OPENAI_MODEL}
   secret-key: ${OPENAI_SECRET_KEY}
 
-# API 요청 비밀키
+# API 설정
 api:
-  secret:
-    key: ${API_SECRET_KEY}
-
   #공공데이터 포털 키
   data:
     go:
