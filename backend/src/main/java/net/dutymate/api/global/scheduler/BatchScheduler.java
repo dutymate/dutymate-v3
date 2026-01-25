@@ -25,8 +25,7 @@ public class BatchScheduler {
 
 	/**
 	 * 데모 회원 삭제
-	 * 실행 주기: 매시간 정각 (0분)
-	 * EventBridge cron: 0 * * * ? *
+	 * 실행 주기: 매시간 정각 (KST)
 	 */
 	@Scheduled(cron = "0 0 * * * *")
 	public void deleteDemoMembers() {
@@ -40,10 +39,9 @@ public class BatchScheduler {
 
 	/**
 	 * 전체 회원의 자동 생성 카운트 증가
-	 * 실행 주기: 매월 마지막 날 15시
-	 * EventBridge cron: 0 15 L * ? *
+	 * 실행 주기: 매월 1일 0시 (KST)
 	 */
-	@Scheduled(cron = "0 0 15 L * ?")
+	@Scheduled(cron = "0 0 0 1 * ?")
 	public void increaseAutoGenCount() {
 		try {
 			log.info("[Scheduler] Increase auto gen count started");
@@ -55,10 +53,9 @@ public class BatchScheduler {
 
 	/**
 	 * 로그인 로그를 S3에 배치 저장
-	 * 실행 주기: 매일 15시 5분
-	 * EventBridge cron: 5 15 * * ? *
+	 * 실행 주기: 매일 0시 5분 (KST)
 	 */
-	@Scheduled(cron = "0 5 15 * * *")
+	@Scheduled(cron = "0 5 0 * * *")
 	public void batchLoginLogs() {
 		try {
 			log.info("[Scheduler] Batch login logs started");
@@ -70,10 +67,9 @@ public class BatchScheduler {
 
 	/**
 	 * 공휴일 정보 업데이트
-	 * 실행 주기: 매일 15시
-	 * EventBridge cron: 0 15 * * ? *
+	 * 실행 주기: 매일 0시 10분 (KST)
 	 */
-	@Scheduled(cron = "0 0 15 * * *")
+	@Scheduled(cron = "0 10 0 * * *")
 	public void updateHolidays() {
 		try {
 			log.info("[Scheduler] Update holidays started");
@@ -89,10 +85,9 @@ public class BatchScheduler {
 
 	/**
 	 * 최신 뉴스 갱신
-	 * 실행 주기: 매일 5시, 12시, 21시
-	 * EventBridge cron: 0 21,5,12 * * ? *
+	 * 실행 주기: 매일 6시, 14시, 21시(KST)
 	 */
-	@Scheduled(cron = "0 0 5,12,21 * * *")
+	@Scheduled(cron = "0 0 6,14,21 * * *")
 	public void refreshNews() {
 		try {
 			log.info("[Scheduler] Refresh News started");
