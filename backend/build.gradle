@@ -45,6 +45,10 @@ dependencies {
     implementation 'com.mysql:mysql-connector-j'
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.2'
 
+    // ShedLock
+    implementation 'net.javacrumbs.shedlock:shedlock-spring:7.6.0'
+    implementation 'net.javacrumbs.shedlock:shedlock-provider-redis-spring:7.6.0'
+
     // Security & Auth
     implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'

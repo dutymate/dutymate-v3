@@ -9,6 +9,7 @@ import net.dutymate.api.domain.community.service.NewsService;
 import net.dutymate.api.domain.holiday.service.HolidayService;
 import net.dutymate.api.domain.member.service.LoginLogService;
 import net.dutymate.api.domain.member.service.MemberService;
+import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,11 @@ public class BatchScheduler {
 	 * 실행 주기: 매시간 정각 (KST)
 	 */
 	@Scheduled(cron = "0 0 * * * *")
+	@SchedulerLock(
+		name = "deleteDemoMembers",
+		lockAtMostFor = "5m",
+		lockAtLeastFor = "1m"
+	)
 	public void deleteDemoMembers() {
 		try {
 			log.info("[Scheduler] Delete demo members started");
@@ -42,6 +48,11 @@ public class BatchScheduler {
 	 * 실행 주기: 매월 1일 0시 (KST)
 	 */
 	@Scheduled(cron = "0 0 0 1 * ?")
+	@SchedulerLock(
+		name = "increaseAutoGenCount",
+		lockAtMostFor = "5m",
+		lockAtLeastFor = "1m"
+	)
 	public void increaseAutoGenCount() {
 		try {
 			log.info("[Scheduler] Increase auto gen count started");
@@ -56,6 +67,11 @@ public class BatchScheduler {
 	 * 실행 주기: 매일 0시 5분 (KST)
 	 */
 	@Scheduled(cron = "0 5 0 * * *")
+	@SchedulerLock(
+		name = "batchLoginLogs",
+		lockAtMostFor = "5m",
+		lockAtLeastFor = "1m"
+	)
 	public void batchLoginLogs() {
 		try {
 			log.info("[Scheduler] Batch login logs started");
@@ -70,6 +86,11 @@ public class BatchScheduler {
 	 * 실행 주기: 매일 0시 10분 (KST)
 	 */
 	@Scheduled(cron = "0 10 0 * * *")
+	@SchedulerLock(
+		name = "updateHolidays",
+		lockAtMostFor = "10m",
+		lockAtLeastFor = "5m"
+	)
 	public void updateHolidays() {
 		try {
 			log.info("[Scheduler] Update holidays started");
@@ -88,6 +109,11 @@ public class BatchScheduler {
 	 * 실행 주기: 매일 6시, 14시, 21시(KST)
 	 */
 	@Scheduled(cron = "0 0 6,14,21 * * *")
+	@SchedulerLock(
+		name = "refreshNews",
+		lockAtMostFor = "5m",
+		lockAtLeastFor = "1m"
+	)
 	public void refreshNews() {
 		try {
 			log.info("[Scheduler] Refresh News started");
@@ -96,4 +122,5 @@ public class BatchScheduler {
 			log.error("[Scheduler] Failed to refresh news", e);
 		}
 	}
+
 }
