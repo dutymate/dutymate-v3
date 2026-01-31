@@ -61,6 +61,20 @@ const ProtectedRoute = ({ element }: ProtectedRouteProps) => {
   return element;
 };
 
+// 시스템 관리자(개발자) 전용 라우트 보호
+const AdminProtectedRoute = ({ element }: ProtectedRouteProps) => {
+  const token = sessionStorage.getItem('user-auth-storage');
+  const { userInfo } = useUserAuthStore();
+  const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
+
+  // 로그인하지 않았거나 관리자 이메일이 아닌 경우 에러 페이지로 리다이렉트
+  if (!token || userInfo?.email !== adminEmail) {
+    return <Navigate to="/error" replace />;
+  }
+
+  return element;
+};
+
 const InviteRoute = ({ element }: ProtectedRouteProps) => {
   const { inviteToken } = useParams();
   const token = sessionStorage.getItem('user-auth-storage');
@@ -97,18 +111,17 @@ const Router = () => {
         element={<ProtectedRoute element={<NoticeWritePage />} />}
       />
 
-      {/* 관리자 페이지 */}
-      <Route path="/admin/wards" element={<ProtectedRoute element={<AdminWardPage />} />} />
+      {/* 시스템 관리자(개발자) 전용 페이지 */}
+      <Route path="/admin/wards" element={<AdminProtectedRoute element={<AdminWardPage />} />} />
       <Route
         path="/admin/dashboard"
-        element={<ProtectedRoute element={<AdminDashboardPage />} />}
+        element={<AdminProtectedRoute element={<AdminDashboardPage />} />}
       />
-      {/* <Route path="/admin/wards" element={<ProtectedRoute element={<AdminWardList />} />} /> */}
       <Route
         path="/admin/wards/:wardId/shift"
-        element={<ProtectedRoute element={<AdminWardShiftPage />} />}
+        element={<AdminProtectedRoute element={<AdminWardShiftPage />} />}
       />
-      <Route path="/admin/nurses" element={<ProtectedRoute element={<AdminNursesPage />} />} />
+      <Route path="/admin/nurses" element={<AdminProtectedRoute element={<AdminNursesPage />} />} />
 
       {/* 그룹 초대 링크 - 로그인 필요 */}
       <Route path="/invite/:inviteToken" element={<InviteRoute element={<GroupInvitePage />} />} />
