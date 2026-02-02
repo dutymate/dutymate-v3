@@ -5,3 +5,4 @@ certbot/
 db/
 dumps/
 .env
+.cursorrules
