@@ -40,6 +40,10 @@ const Footer = () => {
     navigate('/notice');
   };
 
+  const handleInquiryClick = () => {
+    channelService.showMessenger();
+  };
+
   return (
     <footer className="w-full bg-white py-6 sm:py-8 mt-4 sm:mt-12">
       <div className="container mx-auto px-4">
@@ -105,9 +109,62 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* 저작권 정보 */}
+        {/* 로고 및 사업자 정보 */}
         <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200">
-          <p className="text-xs text-center text-gray-500">© 2025 Dutymate. All rights reserved.</p>
+          <div className="flex flex-col sm:flex-row gap-4 items-start">
+            {/* 로고 */}
+            <div className="flex-shrink-0">
+              <img
+                src="/images/text-logo.svg"
+                alt="Dutymate"
+                className="h-6 sm:h-8"
+              />
+            </div>
+
+            {/* 사업자 정보 */}
+            <address className="not-italic text-xs text-gray-500 space-y-2 flex-1">
+              <div className="flex flex-wrap gap-x-2 gap-y-1">
+                <span>사업자등록번호: 623-50-01087</span>
+                <span className="hidden sm:inline">|</span>
+                <span>통신판매업신고번호: 준비중</span>
+                <span className="hidden sm:inline">|</span>
+                <span>대표자: 이재현</span>
+                <span className="hidden sm:inline">|</span>
+                <a
+                  href="http://www.ftc.go.kr/bizCommPop.do?wrkr_no=6235001087"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-500 hover:text-primary transition-colors underline"
+                >
+                  사업자등록정보확인
+                </a>
+                <span className="hidden sm:inline">|</span>
+                <span>
+                  이메일:{' '}
+                  <a
+                    href="mailto:biz@dutymate.net"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-500 hover:text-primary transition-colors underline"
+                  >
+                    biz@dutymate.net
+                  </a>
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-x-2 gap-y-1">
+                <span>전화번호: 010-9697-4860</span>
+                <span className="hidden sm:inline">|</span>
+                <button
+                  onClick={handleInquiryClick}
+                  className="text-gray-500 hover:text-primary transition-colors underline cursor-pointer"
+                >
+                  <strong>1:1 문의하기</strong>
+                </button>
+                <span className="hidden sm:inline">|</span>
+                <span>© 2025 BeProfound. All rights reserved.</span>
+              </div>
+            </address>
+          </div>
         </div>
       </div>
     </footer>
