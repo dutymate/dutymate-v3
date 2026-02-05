@@ -114,19 +114,17 @@ const Footer = () => {
           <div className="flex flex-col sm:flex-row gap-4 items-start">
             {/* 로고 */}
             <div className="flex-shrink-0">
-              <img
-                src="/images/text-logo.svg"
-                alt="Dutymate"
-                className="h-6 sm:h-8"
-              />
+              <img src="/images/text-logo.svg" alt="Dutymate" className="h-6 sm:h-8" />
             </div>
 
             {/* 사업자 정보 */}
             <address className="not-italic text-xs text-gray-500 space-y-2 flex-1">
               <div className="flex flex-wrap gap-x-2 gap-y-1">
+                <span>상호: 비프로파운드(BeProfound)</span>
+                <span className="hidden sm:inline">|</span>
                 <span>사업자등록번호: 623-50-01087</span>
                 <span className="hidden sm:inline">|</span>
-                <span>통신판매업신고번호: 준비중</span>
+                <span>통신판매업신고번호: 제2026-서울강남-00848호</span>
                 <span className="hidden sm:inline">|</span>
                 <span>대표자: 이재현</span>
                 <span className="hidden sm:inline">|</span>
@@ -161,7 +159,7 @@ const Footer = () => {
                   <strong>1:1 문의하기</strong>
                 </button>
                 <span className="hidden sm:inline">|</span>
-                <span>© 2025 BeProfound. All rights reserved.</span>
+                <span>© {new Date().getFullYear()} BeProfound. All rights reserved.</span>
               </div>
             </address>
           </div>
