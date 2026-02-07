@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -63,6 +65,9 @@ public class WardService {
 
 	private final ShiftUtil shiftUtil;
 	private final S3Service s3Service;
+
+	@Value("${temp.nurse.password}")
+	private String tempNursePassword;
 
 	@Transactional
 	public void createWard(WardRequestDto requestWardDto, Member member) {
@@ -488,7 +493,7 @@ public class WardService {
 			Member virtualMember = Member.builder()
 				.email(MemberService.TEMP_NURSE_EMAIL)
 				.name(virtualNurseName)
-				.password("tempPassword123!!")
+				.password(BCrypt.hashpw(tempNursePassword, BCrypt.gensalt()))
 				.grade(1)
 				.role(Role.RN)
 				.gender(Gender.F)

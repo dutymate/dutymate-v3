@@ -117,3 +117,8 @@ app:
 
 admin:
   email: ${ADMIN_EMAIL}
+
+# 템프(가상 간호사) 계정 비밀번호 (로그인 불가, 신규 생성 시에만 사용). .env에 TEMP_NURSE_PASSWORD 설정 필수.
+temp:
+  nurse:
+    password: ${TEMP_NURSE_PASSWORD}

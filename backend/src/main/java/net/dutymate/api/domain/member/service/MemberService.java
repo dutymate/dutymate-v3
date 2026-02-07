@@ -128,6 +128,9 @@ public class MemberService {
 	@Value("${jwt.demo-expiration}")
 	private long demoExpiration;
 
+	@Value("${temp.nurse.password}")
+	private String tempNursePassword;
+
 	@Transactional
 	public LoginResponseDto signUp(SignUpRequestDto signUpRequestDto, boolean isMobile) {
 		// 이메일이 @dutymate.demo로 끝나는지 확인
@@ -170,6 +173,12 @@ public class MemberService {
 		// 이메일이 @dutymate.demo로 끝나는지 확인
 		if (loginRequestDto.getEmail().toLowerCase().endsWith(MemberService.DEMO_EMAIL_SUFFIX)) {
 			loginLogService.pushLoginLog(LoginLog.of(null, false, "데모 계정으로 로그인 시도"));
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "아이디 또는 비밀번호 오류입니다.");
+		}
+
+		// 템프 계정(tempEmail@temp.com) 로그인 차단 — 동일 이메일 다수 건으로 쿼리 실패 방지
+		if (TEMP_NURSE_EMAIL.equalsIgnoreCase(loginRequestDto.getEmail().trim())) {
+			loginLogService.pushLoginLog(LoginLog.of(null, false, "템프 계정 로그인 시도"));
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "아이디 또는 비밀번호 오류입니다.");
 		}
 
@@ -769,7 +778,7 @@ public class MemberService {
 		return Member.builder()
 			.email(TEMP_NURSE_EMAIL)
 			.name(tempNurseName)
-			.password("tempPassword123!!")
+			.password(BCrypt.hashpw(tempNursePassword, BCrypt.gensalt()))
 			.grade(1)
 			.role(Role.RN)
 			.gender(Gender.F)
