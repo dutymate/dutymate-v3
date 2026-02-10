@@ -47,6 +47,11 @@ services:
       - "8080"
     env_file:
       - .env
+    healthcheck:
+      test: curl -k https://localhost/actuator/health
+      interval: 10s
+      timeout: 10s
+      retries: 3
     depends_on:
       - mysql
       - mongodb
